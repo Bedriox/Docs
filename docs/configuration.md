@@ -1,0 +1,128 @@
+# Configuration
+
+The private-alpha executable accepts configuration through
+`bedriox.settings` and `serve` command options.
+
+```shell
+php bin/bedriox serve --bind=0.0.0.0 --port=19132 --name="Bedriox Server" --max-players=20 --auth=FULL
+```
+
+| Option | Default | Contract |
+| --- | --- | --- |
+| `--bind` | `0.0.0.0` | Literal IPv4 address. Host names and IPv6 addresses are rejected. |
+| `--port` | `19132` | Decimal integer from 1 through 65535. |
+| `--name` | `Bedriox Server` | Valid UTF-8, 1 through 128 bytes. |
+| `--max-players` | `20` | Decimal integer from 1 through 1024. |
+| `--auth` | `FULL` | Exactly `FULL` or `SELF_SIGNED`, including case. |
+
+Every option must use `--name=value`. Duplicate options, unknown options, empty values, and out-of-range numeric values fail startup rather than being ignored.
+
+## Authentication modes
+
+`FULL` validates the client identity chain against Microsoft-published Xbox keys. Key discovery happens before the UDP socket is bound; missing cURL support, discovery failure, invalid discovery data, or unusable keys stop startup.
+
+`SELF_SIGNED` is restricted to isolated development. It permits self-signed identity chains but retains the remaining login and input validation. It is never selected automatically.
+
+Neither mode changes the [compatibility contract](compatibility.md). A successful bind or login test does not imply that a retail client version is supported.
+
+## `bedriox.settings`
+
+The first `php bin/bedriox serve` run creates a UTF-8 `bedriox.settings` file in
+the current working directory. It uses one `key=value` entry per line. Blank
+lines and lines beginning with `#` are ignored. Effective values are resolved
+in this order:
+
+```text
+built-in defaults -> bedriox.settings -> explicit CLI overrides
+```
+
+Unknown keys, duplicates, malformed entries, invalid UTF-8, partial grouped
+values, and out-of-range values stop startup before the UDP socket is bound.
+Bedriox does not silently rewrite invalid values.
+
+The generated defaults are:
+
+```properties
+# Server
+server.name=Bedriox Server
+server.motd=Powered by Bedriox
+server.max-players=20
+
+# Network
+network.bind-address=0.0.0.0
+network.port=19132
+network.authentication=FULL
+
+# Level
+level.name=world
+level.generator=flat
+level.seed=0
+level.default-gamemode=survival
+level.difficulty=normal
+
+# Chunk streaming
+chunks.view-distance=4
+chunks.spawn-radius=4
+chunks.send-per-tick=4
+chunks.generate-per-tick=4
+chunks.cache-limit=2048
+
+# Runtime
+runtime.ticks-per-second=20
+logging.protocol-trace=false
+
+# Optional spawn override. Leave all three empty to use the level default.
+# level.spawn-x=
+# level.spawn-y=
+# level.spawn-z=
+```
+
+| Setting | Accepted value or range |
+| --- | --- |
+| `server.name` | Valid UTF-8, 1 through 128 bytes. |
+| `server.motd` | Non-control UTF-8, 1 through 128 bytes. |
+| `server.max-players` | 1 through 1024. |
+| `network.bind-address` | Literal IPv4 address. |
+| `network.port` | 1 through 65535. |
+| `network.authentication` | Exactly `FULL` or `SELF_SIGNED`. |
+| `level.name` | Non-control UTF-8, 1 through 64 bytes. |
+| `level.generator` | Exactly `flat` for this milestone. |
+| `level.seed` | -2147483648 through 2147483647. |
+| `level.default-gamemode` | Exactly `survival`. |
+| `level.difficulty` | `peaceful`, `easy`, `normal`, or `hard`. |
+| `chunks.view-distance` | 1 through 32 chunks. |
+| `chunks.spawn-radius` | 1 through the configured view distance. |
+| `chunks.send-per-tick` | 1 through 64 per world tick. |
+| `chunks.generate-per-tick` | 1 through 64 per world tick. |
+| `chunks.cache-limit` | Required view capacity through 65536 chunks. |
+| `runtime.ticks-per-second` | 1 through 100. |
+| `logging.protocol-trace` | Exactly `true` or `false`. |
+| `level.spawn-x`, `level.spawn-z` | -30000000 through 30000000. |
+| `level.spawn-y` | -64 through 319. |
+
+Spawn overrides are all-or-none. When all three values are absent or empty,
+the level calculates its default spawn; the initial flat generator uses
+`(0, 64, 0)`. Supplying all three bounded integer coordinates overrides that
+position. Supplying only one or two is an error.
+
+The flat-world settings generate chunks as players need them, cap the
+negotiated client radius at `chunks.view-distance`, and apply separate
+generation and send budgets on each world tick. Generated packets wait in a
+bounded staging queue, so generation cannot create unbounded pending network
+work.
+
+The cache must cover every maximum-size simultaneous player view. Bedriox
+requires:
+
+```text
+required chunks = server.max-players * (2 * chunks.view-distance + 1)^2
+required chunks <= chunks.cache-limit <= 65536
+```
+
+Invalid combinations fail startup. Active player views remain leased until no
+player needs them, and inactive chunks are least-recently-used eviction
+candidates.
+
+There is deliberately no `query.port`. Minecraft server-list discovery uses
+the configured game port. A separate query setting is deferred until Bedriox
+implements and tests a separate query service.

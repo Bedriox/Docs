@@ -1,0 +1,192 @@
+# Ecosystem milestone roadmap
+
+This roadmap describes the dependency order and exit criteria for building a
+small but production-minded Minecraft: Bedrock Edition server in modern PHP. It
+is intentionally independent of dates, release numbers, and current completion
+status. Release notes and the compatibility policy are the authority for what a
+particular Bedriox release supports.
+
+Each milestone builds on the previous milestone. A feature is not complete
+because packets can be exchanged once: its tests, limits, failure behavior,
+documentation, and provenance must also satisfy the milestone gate.
+
+## 1. Foundation and repository contracts
+
+Establish the project boundaries, engineering rules, and reproducible toolchain
+before protocol behavior grows.
+
+Planned outcomes include:
+
+- separate ownership for the main runtime, RakNet transport, Bedrock protocol,
+  reviewed protocol data, public documentation, and RFC decisions;
+- supported PHP and dependency constraints, deterministic dependency locks, and
+  automated formatting, static analysis, unit tests, license checks, and
+  vulnerability audits;
+- bounded configuration types, structured errors, monotonic time abstractions,
+  logging contracts, and clean shutdown behavior; and
+- GPL-3.0-only code and tooling, GPL-3.0-only documentation, focused commit
+  history without required personal-email trailers, and auditable third-party
+  provenance.
+
+The gate requires every repository to pass its local checks and the ecosystem
+workspace verifier, with documented ownership, security reporting, contribution
+workflow, and release responsibilities. No library may depend on another
+repository's unversioned default branch for a release.
+
+## 2. UDP discovery
+
+Provide the smallest observable Bedrock server behavior: safe handling of an
+unconnected status ping and a bounded pong response.
+
+The implementation must parse exact wire fields and integer byte order, reject
+wrong identifiers, magic, lengths, and unsupported values, sanitize advertised
+status fields, cap response amplification, surface socket failures, and close
+idempotently. Golden vectors must be implemented independently of production
+encoders. Loopback tests must cover repeated requests, malformed datagrams,
+status updates, bind failures, and lifecycle cleanup.
+
+The gate requires deterministic unit and raw-UDP integration tests, repeated
+loopback stability, documented status configuration, and a successful discovery
+probe from each retail client platform claimed by the compatibility policy.
+
+## 3. Offline connection negotiation
+
+Negotiate RakNet protocol version, observed client endpoint, client identity,
+and a safe maximum transmission unit before allocating a connected session.
+
+The server must implement the Request 1/Reply 1 and Request 2/Reply 2 exchange,
+including the incompatible-version response. Pending handshakes must be bounded
+and expire on a monotonic clock. Request 2 may not raise the negotiated MTU, a
+client GUID may not own multiple endpoints, retransmission must be idempotent,
+and state becomes established only after a reply is sent successfully. Session
+removal and server shutdown must release every related index and capacity slot.
+
+The gate requires exact wire vectors, truncation and malformed-field matrices,
+MTU boundary tests, capacity and timeout tests, raw-UDP retransmission tests,
+clean lifecycle tests, fuzz seeds, and successful negotiation by every claimed
+retail client. Internet-facing deployment remains out of scope until abuse
+controls appropriate to connection setup are defined and verified.
+
+## 4. Reliable RakNet transport
+
+Turn negotiated endpoints into bounded reliable message channels without
+embedding game rules in the transport library.
+
+Required areas include datagram sequence tracking, ACK and NACK ranges,
+retransmission timing, reliable message indexes, ordered and sequenced channels,
+split-packet reassembly, duplicate suppression, congestion and send-window
+limits, disconnect handling, and wraparound-safe integer arithmetic. Queues,
+fragments, retransmission work, and per-peer memory must all have explicit
+limits.
+
+The gate requires property and wraparound tests, deterministic virtual-network
+tests under loss, duplication, delay, jitter, and reordering, malformed and
+resource-exhaustion fuzzing, multi-session isolation, soak tests, and packet
+capture comparison against independently sourced wire expectations. A stalled
+or hostile peer must not exhaust global memory or starve healthy sessions.
+
+## 5. Bedrock login and session security
+
+Layer versioned Bedrock packet codecs and an explicit login state machine over
+the transport without allowing network callbacks to mutate world state.
+
+This milestone covers packet framing, compression negotiation, protocol-version
+selection, login chain and skin-data validation, proof-of-possession checks,
+encryption setup where required, resource-pack negotiation, timeouts, and
+disconnect reasons. Size, nesting, decompression ratio, CPU, and state-transition
+limits must be enforced before expensive work. Authentication modes and their
+security consequences must be explicit configuration, not silent fallback.
+
+The gate requires cryptographic known-answer tests, invalid and expired chain
+tests, decompression-bomb and malformed-input tests, state-machine transition
+coverage, replay and downgrade checks, secret-safe logging review, independent
+client tests, and retail-client login qualification for every advertised
+protocol version.
+
+## 6. Minimal spawn, movement, and chat
+
+Deliver a deliberately narrow playable slice: clients join a fixed world,
+spawn, see peers, move, chat, disconnect, and reconnect. Inventory, crafting,
+combat, persistence, advanced terrain, and broad gameplay rules may remain out
+of scope.
+
+The authoritative world loop consumes validated immutable commands from session
+queues at a fixed tick rate. It owns player state and emits snapshots or events
+for packet encoding. Movement validation must reject non-finite coordinates,
+invalid rotations, stale or impossible state, and abusive rates. Chat must be
+length- and rate-limited, preserve ordering and attribution, and follow the
+configured moderation and logging policy.
+
+The functional gate requires two retail clients to spawn in a fixed flat world,
+see each other, exchange 100 ordered attributed chat messages, and move for ten
+minutes without accumulating drift or server errors. A supported client must
+complete 20 consecutive joins, and the server must complete 100 sequential
+join/spawn/disconnect cycles without a ghost session. Twenty-five synthetic
+clients must spawn, move, and chat for 30 minutes. After disconnect, memory must
+return to within 10% or 32 MiB, whichever is greater, of the post-warmup
+baseline. Under simulated 50 ms round-trip latency, 10 ms jitter, and 2% packet
+loss, sessions must remain usable for 15 minutes; normal LAN movement
+replication must remain below 150 ms at p95.
+
+The fixed-world slice includes an on-demand flat generator, complete chunk
+serialization, a bounded generated-chunk cache, and a per-player view manager.
+The view manager caps the negotiated radius, prioritizes nearby chunks, and
+schedules only newly visible chunks when a player crosses a chunk boundary.
+Generation and delivery have separate per-tick budgets so initial spawn or
+movement cannot monopolize the world loop. Bedriox-owned block-state IDs remain
+inside world state and are translated to Bedrock runtime IDs only at the
+protocol boundary.
+
+## 7. Hardening and performance qualification
+
+Convert functional success into repeatable operational confidence. Threat
+models and limits must cover discovery amplification, handshake floods, parser
+complexity, decompression, queues, fragments, chat, authentication, plugins,
+and shutdown. Failures should isolate a client where possible and preserve
+enough structured telemetry to diagnose the cause without exposing secrets or
+personal data.
+
+Benchmark methodology must publish hardware, operating system, PHP version,
+configuration, workload, warmup, duration, client model, and raw results. Track
+tick latency, join latency, movement latency, throughput, CPU, memory, queue
+depth, retransmissions, and disconnect causes. Performance regressions require
+an explicit reviewed exception, never a silent baseline reset.
+
+The public-alpha gate requires 100 synthetic players for 60 minutes on the
+documented reference system, with p95 tick duration below 25 ms, p99 below 40
+ms, no sustained tick above the 50 ms budget, no crash or protocol corruption,
+bounded queues, and post-warmup memory growth no greater than 5% per hour.
+Security review, dependency audit, fuzzing, clean install/upgrade/rollback, and
+graceful shutdown tests must also pass.
+
+## 8. Extensions and public release
+
+Expose a small, versioned extension surface only after the runtime boundaries
+are stable enough to defend. Plugins should receive capability-oriented APIs
+and immutable events rather than internal mutable objects. Lifecycle,
+permissions, scheduling, resource budgets, dependency constraints, failure
+isolation, and API compatibility policy must be documented before third-party
+code is encouraged.
+
+Release artifacts must be reproducible, checksummed, provenance-bearing,
+installable without a source checkout, and paired with configuration examples,
+upgrade and rollback instructions, compatibility declarations, known
+limitations, and a security contact. A release candidate must pass all local
+and cross-repository gates from a clean checkout, plus retail-client smoke tests
+for each claimed platform and version.
+
+The public-release gate requires a documented support window, semantic version
+policy, deprecation process, plugin compatibility rules, signed or otherwise
+verifiable artifacts, incident and disclosure procedures, and a completed
+release checklist. Experimental interfaces remain clearly marked and outside
+compatibility guarantees until promoted through an accepted RFC.
+
+## Applying the roadmap
+
+Milestone scope or gates may change through the
+[RFC process](https://github.com/Bedriox/RFCs/blob/main/PROCESS.md).
+When that happens, update this roadmap, the relevant testing and compatibility
+pages, and the owning implementation documentation together. The
+[testing guide](testing.md) contains the shared client-journey and performance
+expectations, while the [compatibility policy](compatibility.md) defines how
+support claims are made.

@@ -1,0 +1,27 @@
+# Changelog
+
+All notable documentation changes will be recorded here.
+
+## Unreleased
+
+- Documented the authoritative player registry, ordered multiplayer actor
+  lifecycle, absolute peer movement and posture, disconnect/reconnect cleanup,
+  causal-session failure isolation, and the still-open two-client retail gate.
+- Corrected the active wire target to protocol 2193 / Bedrock 1.26.50 and
+  recorded the bounded same-protocol 1.26.51 qualification without claiming a
+  completed public support gate.
+- Added repository ownership, cumulative client-journey, and change-safety
+  guides so working behavior cannot be redefined incidentally.
+- Synchronized the documented component baseline after the typed Bedrock
+  advertisement and transport-agnostic RakNet discovery boundary landed.
+- Documented the executable `serve` command, validated options, authentication modes, and startup behavior.
+- Documented the runtime/data flow and the experimental protocol-975 initialization and gameplay slice.
+- Documented the experimental Minecraft 1.26.45 / protocol-2169 target and updated component release pins.
+- Added explicit current gameplay and retail-qualification limitations.
+- Documented the implemented strict `bedriox.settings` contract and bounded,
+  movement-driven flat-world generation and chunk-streaming architecture.
+- Replaced mandatory DCO identity trailers with privacy-conscious focused
+  commit guidance while preserving licensing and provenance requirements.
+- Recorded automated component evidence separately from outstanding retail, soak, loss, and performance qualification.
+- Kept supported Bedrock client and protocol arrays explicitly empty pending retail qualification.
+- Added the released component provenance baseline and corrected Veno Ninja LLC website links.
