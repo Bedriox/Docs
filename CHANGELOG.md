@@ -4,6 +4,10 @@ All notable documentation changes will be recorded here.
 
 ## Unreleased
 
+- Recorded the planned dependency order and qualification gates for relocatable
+  Runtime artifacts, default terrain, player persistence, survival,
+  administration, broader gameplay, advanced generation, entities, and
+  measurement-driven scaling.
 - Documented the sender-based plugin command API, bounded non-blocking console
   dispatch, command events, cleanup, and current console-only input boundary.
 - Documented PluginTools-owned source loading and the primary `makeplugin`

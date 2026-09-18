@@ -181,6 +181,85 @@ verifiable artifacts, incident and disclosure procedures, and a completed
 release checklist. Experimental interfaces remain clearly marked and outside
 compatibility guarantees until promoted through an accepted RFC.
 
+## Planned gameplay expansion sequence
+
+After the minimal multiplayer and extension foundations satisfy their gates,
+gameplay expansion follows this dependency order. This section records future
+direction and does not claim that any listed behavior is currently supported.
+
+### Runtime distribution reliability
+
+Every supported Runtime target must package its OpenSSL provider configuration,
+qualify the P-384/ES384 operations used by Bedrock login, and start reliably
+from a relocated installation. Windows launchers must provide an external
+OPcache file-cache fallback without writing mutable files into the immutable
+runtime package. All artifacts must come from one Runtime commit and pass native
+qualification before their hashes are recorded in Bedriox.
+
+### Default world generation
+
+Introduce a stable generator contract and retain the existing flat generator as
+`FLAT`. New worlds use `DEFAULT` unless configured otherwise. The resolved
+generator identifier and 64-bit seed are persisted in world metadata; an
+existing world is never silently converted to another generator or seed.
+
+The first `DEFAULT` implementation provides deterministic seamless hills and
+valleys using canonical bedrock, stone, dirt, grass, and air states, correct
+height and biome data, negative-coordinate coverage, and terrain-derived safe
+spawn selection. Saved LevelDB chunks take precedence and only missing chunks
+are generated. Water, caves, ores, vegetation, structures, and closer vanilla
+parity remain later expansions so fluid metadata cannot reintroduce false
+underwater state during the baseline gate.
+
+The gate requires seed determinism, generation-order independence, chunk-edge
+continuity, unchanged flat output, bounded generation work, save/reload tests,
+and retail travel across multiple chunks followed by a restart that preserves
+both terrain and player block changes.
+
+### Player persistence
+
+Store one bounded gzip-compressed big-endian NBT record per authenticated player
+UUID. Persist canonical inventory, selected slot, cursor, position, rotation,
+world, game mode, timestamps, authenticated XUID, and last-known name. Names,
+network runtime IDs, stack-network IDs, login tokens, skins, and cryptographic
+material are never storage authority.
+
+Loading occurs after authentication and before authoritative admission. Missing
+records create a new player; invalid positions fall back to the world's safe
+spawn; corrupt records are quarantined instead of overwritten. Dirty revisions
+are saved through bounded autosave, atomic replacement, quit flush, and complete
+graceful-shutdown flush. Save failures remain dirty for retry and do not affect
+unrelated players. The gate includes malicious and corrupt inputs, identity
+mismatch, backup recovery, write failure, revision races, two-player isolation,
+and retail restart checks for position and inventory.
+
+### Survival and administration
+
+Implement health, damage causes, fall damage, invulnerability, death, drops,
+respawn, and their plugin events on top of durable player records. Then add
+player command input, operators, permission nodes, command feedback, and the
+same sender-aware command API already used by the console. Neither plugins nor
+clients may bypass authoritative validation.
+
+### Broader gameplay
+
+Expand canonical blocks and items, partial collision shapes, drops, placement
+rules, crafting, and transactional containers. Add multiple independently
+persisted worlds, per-world safe spawn, loading and unloading, teleportation,
+and bounded plugin APIs before advanced terrain depends on world lifecycle.
+
+Advanced generation then adds qualified water and breathing behavior,
+biome-specific surfaces, caves, ores, vegetation, and structures. Entities,
+mobs, AI, spawning, combat, and entity persistence follow after world,
+inventory, damage, and plugin-event contracts are stable.
+
+### Measurement-driven scaling
+
+Profile realistic joins, movement, generation, persistence, plugins, and entity
+loads before introducing workers or new caches. Optimization must preserve
+determinism, authority, cleanup, and failure isolation and must pass the
+hardening and performance gates above with published reproducible evidence.
+
 ## Applying the roadmap
 
 Milestone scope or gates may change through the
