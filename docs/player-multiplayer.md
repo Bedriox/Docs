@@ -150,8 +150,10 @@ cross-platform, memory-recovery, or performance gates in the
 
 The lifecycle slice provides only the narrow grass inventory and interaction
 behavior described above. It does not provide crafting, general item use,
-containers, combat, mobs, commands, permissions, persistence, or general block
-behavior. Experimental plugin API 0.1 is documented separately in
+containers, combat, mobs, Bedrock slash-command input, persistent player
+permissions, persistence, or general block behavior. Console-dispatched plugin
+commands are documented separately in [commands](commands.md). Experimental
+plugin API 0.1 is documented in
 [plugins and API 0.1](plugins.md). The world remains an in-memory fixed-flat generator. See
 [known limitations](known-limitations.md) and [compatibility](compatibility.md)
 for the public support boundary.

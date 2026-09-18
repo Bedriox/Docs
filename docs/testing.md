@@ -23,6 +23,16 @@ cleanup, authoritative inventory transfers, block breaking and placement,
 prediction correction, causal-session failure isolation, and disconnect
 handling.
 
+Plugin and command tests additionally cover PHAR validation, source-definition
+admission, dependency and lifecycle cleanup, sender and permission policy,
+aliases and qualified fallback names, quoted parsing, command events, handler
+failure containment, non-blocking console input, queue limits, and cooperative
+job cancellation. PluginTools tests source discovery, namespace containment,
+unsafe path rejection, `makeplugin`, overwrite protection, child-process
+limits, signatures, checksums, and preservation of previous output on failure.
+ExamplePlugin tests both console and player sender branches against the public
+API without enabling Bedrock command packets.
+
 ## Run the gates
 
 In each PHP repository:

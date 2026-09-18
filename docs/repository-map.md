@@ -13,7 +13,7 @@ in the repository that owns its state and invariants.
 | Docs | Supported operator and ecosystem-developer behavior | Unimplemented promises or architectural decisions |
 | RFCs | Decisions, alternatives, consequences, and acceptance criteria | Claims that a feature is already supported |
 | ExamplePlugin | Tested first-party API 0.1 examples | Server internals or unreleased APIs |
-| PluginTools | Development-only bounded PHAR packaging | Runtime plugin loading or server commands |
+| PluginTools | Development source discovery and loading, `makeplugin`, and bounded standalone PHAR packaging | Native PHAR admission, plugin lifecycle, or server command dispatch |
 
 The dependency direction is one-way: the Bedriox executable consumes RakNet,
 Protocol, and Data through pinned public contracts. Components never reach back

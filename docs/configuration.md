@@ -70,6 +70,9 @@ chunks.cache-limit=2048
 # Runtime
 runtime.ticks-per-second=20
 
+# Console
+console.enabled=true
+
 # Plugins
 plugins.enabled=true
 plugins.maximum=64
@@ -109,8 +112,9 @@ crash-report.include-player-identifiers=true
 | `chunks.generate-per-tick` | 1 through 64 per world tick. |
 | `chunks.cache-limit` | Required view capacity through 65536 chunks. |
 | `runtime.ticks-per-second` | 1 through 100. |
+| `console.enabled` | Exactly `true` or `false`; disables standard-input command reading when false. |
 | `plugins.enabled` | Exactly `true` or `false`. |
-| `plugins.maximum` | 0 through 256 PHAR archives. |
+| `plugins.maximum` | 0 through 256 total admitted plugins. |
 | `logging.level` | `DEBUG`, `INFO`, `NOTICE`, `WARNING`, `ERROR`, or `CRITICAL`. |
 | `logging.console` | Exactly `true` or `false`. |
 | `logging.console-colors` | Exactly `auto`, `true`, or `false`. |

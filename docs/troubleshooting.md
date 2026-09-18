@@ -51,6 +51,32 @@ per-tick budget. A white or empty area beyond loaded grass normally indicates a
 streaming or serialization failure, not a need to raise an unbounded radius.
 Never attach authentication chains or encryption material to a report.
 
+## Console commands do not run
+
+Confirm that `console.enabled=true` and the server process has an open standard
+input stream. Detached service managers may close input; use
+`console.enabled=false` when no interactive console is expected. An unknown
+command, denied permission, unsupported sender, malformed quoted argument, or
+disabled owner produces bounded feedback in the console and `logs/server.log`.
+
+Bedriox does not currently accept slash commands from a Bedrock player. A
+plugin may define player-capable commands for the stable sender contract, but
+only console input reaches the dispatcher in this release.
+
+## PluginTools does not load or package a source plugin
+
+Confirm that `PluginTools.phar` is directly inside `plugins/` and the source
+project is a direct child with `plugin.json` and its namespaced entry point
+under `src/`. Restart after adding or changing source. Do not install a PHAR
+and source project with the same plugin name.
+
+`makeplugin` accepts the discovered manifest name, not a path. Its output is
+under `plugin_data/PluginTools/`. If output exists, run
+`makeplugin MyPlugin --overwrite` only when replacement is intentional. Check
+the PluginTools warnings for unsafe paths, links, limits, manifest errors,
+dependency failures, or a missing packaging child process. A failed overwrite
+should preserve the previous archive and checksum.
+
 ## Reporting a problem
 
 Include the Bedriox version, PHP version, operating system, exact sanitized command, authentication mode, reproduction steps, and relevant bounded log excerpts. Use the private process in the owning repository's `SECURITY.md` for suspected vulnerabilities.

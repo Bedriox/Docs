@@ -26,6 +26,26 @@ UDP datagram
 
 Transport, protocol, and simulation queues have explicit limits. Invalid input is rejected at the owning boundary before it can affect state.
 
+Console commands follow a separate non-network path:
+
+```text
+bounded non-blocking console input
+  -> command parse and lookup
+  -> sender and permission policy
+  -> cancellable pre-dispatch event
+  -> plugin-owned handler
+  -> immutable post-dispatch event
+```
+
+Commands, aliases, and cooperative jobs remain owned by their plugin and are
+released when it disables. The API models both console and player senders, but
+this release does not route Bedrock slash-command packets into the dispatcher.
+See [commands](commands.md).
+
+Bedriox natively discovers signed PHAR plugins only. PluginTools may discover
+development source projects and submit one bounded definition batch through
+the public admission boundary; Bedriox never scans those directories itself.
+
 ## Login and play initialization
 
 The runtime first establishes RakNet, then performs the Bedrock request-network-settings, login, encryption, resource-pack, and play-status sequence. Successful login enters an initialization stage rather than immediately publishing a player.

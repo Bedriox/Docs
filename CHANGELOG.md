@@ -4,6 +4,10 @@ All notable documentation changes will be recorded here.
 
 ## Unreleased
 
+- Documented the sender-based plugin command API, bounded non-blocking console
+  dispatch, command events, cleanup, and current console-only input boundary.
+- Documented PluginTools-owned source loading and the primary `makeplugin`
+  console workflow, with protected overwrite and standalone CLI alternatives.
 - Documented PHAR-only plugin installation and building, API 0.1 lifecycle and
   events, safe public views, ExamplePlugin, and PluginTools.
 - Documented the console format, rotating `server.log`, local crash reports,
