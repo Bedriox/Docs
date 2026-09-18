@@ -4,6 +4,10 @@ All notable documentation changes will be recorded here.
 
 ## Unreleased
 
+- Documented PHAR-only plugin installation and building, API 0.1 lifecycle and
+  events, safe public views, ExamplePlugin, and PluginTools.
+- Documented the console format, rotating `server.log`, local crash reports,
+  redaction, and default-on configurable player identifiers.
 - Aligned the public gameplay boundary with the implemented server-authoritative
   inventory, grass breaking and placement, collision, and multiplayer behavior.
 - Documented the authoritative player registry, ordered multiplayer actor

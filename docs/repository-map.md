@@ -12,6 +12,8 @@ in the repository that owns its state and invariants.
 | Data | Immutable admitted artifacts, canonical states, palettes, hashes, offline generators | Runtime downloads or mutable server state |
 | Docs | Supported operator and ecosystem-developer behavior | Unimplemented promises or architectural decisions |
 | RFCs | Decisions, alternatives, consequences, and acceptance criteria | Claims that a feature is already supported |
+| ExamplePlugin | Tested first-party API 0.1 examples | Server internals or unreleased APIs |
+| PluginTools | Development-only bounded PHAR packaging | Runtime plugin loading or server commands |
 
 The dependency direction is one-way: the Bedriox executable consumes RakNet,
 Protocol, and Data through pinned public contracts. Components never reach back

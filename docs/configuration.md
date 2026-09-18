@@ -69,7 +69,20 @@ chunks.cache-limit=2048
 
 # Runtime
 runtime.ticks-per-second=20
+
+# Plugins
+plugins.enabled=true
+plugins.maximum=64
+
+# Logging and crash reports
+logging.level=INFO
+logging.console=true
+logging.console-colors=auto
+logging.file=true
+logging.file-max-size=16777216
+logging.file-history=10
 logging.protocol-trace=false
+crash-report.include-player-identifiers=true
 
 # Optional spawn override. Leave all three empty to use the level default.
 # level.spawn-x=
@@ -96,7 +109,16 @@ logging.protocol-trace=false
 | `chunks.generate-per-tick` | 1 through 64 per world tick. |
 | `chunks.cache-limit` | Required view capacity through 65536 chunks. |
 | `runtime.ticks-per-second` | 1 through 100. |
+| `plugins.enabled` | Exactly `true` or `false`. |
+| `plugins.maximum` | 0 through 256 PHAR archives. |
+| `logging.level` | `DEBUG`, `INFO`, `NOTICE`, `WARNING`, `ERROR`, or `CRITICAL`. |
+| `logging.console` | Exactly `true` or `false`. |
+| `logging.console-colors` | Exactly `auto`, `true`, or `false`. |
+| `logging.file` | Exactly `true` or `false`. |
+| `logging.file-max-size` | 65536 through 1073741824 bytes. |
+| `logging.file-history` | 0 through 100 archives. |
 | `logging.protocol-trace` | Exactly `true` or `false`. |
+| `crash-report.include-player-identifiers` | Exactly `true` or `false`; defaults to `true`. |
 | `level.spawn-x`, `level.spawn-z` | -30000000 through 30000000. |
 | `level.spawn-y` | -64 through 319. |
 

@@ -18,8 +18,10 @@ The current executable is a narrow experimental server foundation, not a general
   reach, collision, selected inventory state, and authoritative world state.
   Block drops, tools, hardness by tool, and broader block behavior are not
   implemented.
-- Combat, mobs, commands, permissions, and plugin APIs are outside the
-  implemented gameplay slice.
+- Combat, mobs, commands, permissions, scheduling, and persistent plugin data
+  are outside the implemented gameplay slice. Experimental plugin API 0.1 is
+  available for the lifecycle, events, views, and safe operations documented
+  in [plugins and API 0.1](plugins.md).
 - Multiplayer actor join, movement, posture, chat, departure, and reconnect
   have automated coverage, but the repeatable two-client retail checklist,
   longer soak, loss, scale, and memory-recovery gates remain open.

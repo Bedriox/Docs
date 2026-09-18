@@ -15,8 +15,10 @@ The initial playable scope is intentionally narrow:
 This scope is a development boundary, not a retail compatibility claim. The authoritative supported client and protocol arrays remain empty until the qualification described in [compatibility](compatibility.md) and [testing](testing.md) is complete.
 
 Persistence, general world generation, expanded blocks and items, crafting,
-container inventories, entities, combat, commands, permissions, plugins, and
-broad version compatibility are later capabilities. They should be added
+container inventories, entities, combat, commands, permissions, and broad
+version compatibility are later capabilities. Experimental plugin API 0.1 now
+provides the bounded surface documented in [plugins and API 0.1](plugins.md).
+Future capabilities should be added
 behind owned interfaces and measured needs rather than coupled to transport
 callbacks or unchecked packet data.
 
