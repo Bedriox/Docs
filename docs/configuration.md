@@ -59,6 +59,7 @@ level.generator=default
 level.seed=0
 level.default-gamemode=survival
 level.difficulty=normal
+level.autosave-interval-ticks=6000
 
 # Chunk streaming
 chunks.view-distance=4
@@ -66,6 +67,11 @@ chunks.spawn-radius=4
 chunks.send-per-tick=4
 chunks.generate-per-tick=1
 chunks.cache-limit=2048
+chunks.save-per-tick=8
+
+# Player persistence
+players.autosave-interval-ticks=6000
+players.save-per-tick=8
 
 # Runtime
 runtime.ticks-per-second=20
@@ -106,11 +112,15 @@ crash-report.include-player-identifiers=true
 | `level.seed` | -2147483648 through 2147483647; deterministic for `default`. |
 | `level.default-gamemode` | Exactly `survival`. |
 | `level.difficulty` | `peaceful`, `easy`, `normal`, or `hard`. |
+| `level.autosave-interval-ticks` | 20 through 72000 ticks. |
 | `chunks.view-distance` | 1 through 32 chunks. |
 | `chunks.spawn-radius` | 1 through the configured view distance. |
 | `chunks.send-per-tick` | 1 through 64 per world tick. |
 | `chunks.generate-per-tick` | 1 through 64 per world tick. |
 | `chunks.cache-limit` | Required view capacity through 65536 chunks. |
+| `chunks.save-per-tick` | 1 through 64 dirty chunks per scheduled save tick. |
+| `players.autosave-interval-ticks` | 20 through 72000 ticks. |
+| `players.save-per-tick` | 1 through 64 dirty player profiles per autosave tick. |
 | `runtime.ticks-per-second` | 1 through 100. |
 | `console.enabled` | Exactly `true` or `false`; disables standard-input command reading when false. |
 | `plugins.enabled` | Exactly `true` or `false`. |
@@ -143,6 +153,10 @@ and spawn metadata remain authoritative on reopen. An unsupported stored
 generator version fails before missing chunks can be generated. A new world creates the native `level.dat`,
 `levelname.txt`, and `db/` layout; saved chunks and player block changes are
 loaded before any missing coordinate is generated.
+
+Player profiles are stored separately under `player_data/`. Player autosave
+uses its own interval and per-tick budget so it does not borrow the chunk save
+budget. See [player persistence](player-persistence.md).
 
 The cache must cover every maximum-size simultaneous player view. Bedriox
 requires:
