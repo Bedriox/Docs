@@ -77,7 +77,7 @@ smoke test before qualification advances. The two-client procedure is
 documented in [player and multiplayer lifecycle](player-multiplayer.md). See
 [client journey](client-journey.md) for the cumulative contract.
 
-## Flat-world streaming evidence
+## World generation and streaming evidence
 
 The settings and streaming milestone's automated tests cover configuration
 defaults and precedence, malformed and duplicate entries, unknown keys,
@@ -85,10 +85,14 @@ numeric bounds, and all-or-none optional spawn coordinates. Startup-failure
 tests prove that invalid configuration is rejected before a UDP socket is
 bound.
 
-World tests inspect the complete bedrock, dirt, grass, air, and biome layout at
-positive and negative chunk coordinates. Independent decoding proves that
-internal block-state IDs are translated to current Bedrock runtime IDs and
-that complete chunk columns have valid palettes and framing.
+World tests inspect the fixed-flat profile and version-one default overworld at
+positive and negative chunk coordinates. Default-generator tests cover smooth
+noise continuity, regional biome/elevation distribution, safe spawn,
+generation-order independence, chunk edges, and generator-version rejection.
+Independent decoding proves that internal block-state IDs are translated to
+current Bedrock runtime IDs and that complete chunk columns have valid palettes
+and framing. The repository terrain-map tool emits bounded height, biome, and
+distribution diagnostics for visual tuning.
 
 View-manager tests cover radius calculations through the configured cap,
 nearest-first ordering, deterministic ties, movement across every
@@ -99,12 +103,12 @@ tests also reject cache limits smaller than
 `server.max-players * (2 * chunks.view-distance + 1)^2` and products above
 65536.
 
-Retail qualification still requires recorded grass streaming across positive
-and negative chunk boundaries, reconnection rebuilding the view, and no
-unbounded queue or server crash. Automated evidence covers the narrow inventory,
-emote, and grass-interaction slices, but does not by itself qualify them for a
-public support claim. Persistence and terrain generators other than flat remain
-unimplemented.
+Retail qualification still requires recorded travel through plains, coast,
+river, forest, mountain, cave, positive-coordinate, and negative-coordinate
+terrain; reconnection rebuilding the view; restart persistence; and no
+unbounded queue or server crash. Automated evidence covers world persistence
+and the narrow inventory, emote, and grass-interaction slices, but does not by
+itself qualify them for a public support claim.
 
 ## Inventory and block-interaction evidence
 

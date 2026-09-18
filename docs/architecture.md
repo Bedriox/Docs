@@ -69,7 +69,7 @@ Data admits pinned artifacts through deterministic generation, hashes every outp
 
 See [known limitations](known-limitations.md) for intentionally incomplete gameplay behavior.
 
-## Flat-world pipeline
+## World-generation pipeline
 
 The world runtime replaces the fixed spawn packet loop with these separate
 responsibilities:
@@ -77,7 +77,7 @@ responsibilities:
 ```text
 bedriox.settings
   -> validated level and chunk limits
-  -> deterministic FlatWorldGenerator
+  -> selected deterministic default or flat generator
   -> bounded generated-chunk repository and cache
   -> per-player nearest-first view queue
   -> Bedrock chunk serialization
@@ -94,8 +94,12 @@ Each player view tracks requested, queued, and sent chunk coordinates. Crossing
 a chunk boundary schedules only newly visible chunks. Generation, delivery,
 queue size, radius, and cache residency remain bounded, and nearby chunks are
 sent first. Generation and sending consume separate per-world-tick budgets,
-with completed generation held in a bounded staging queue. Persistence,
-multiple generators, and worker processes remain outside this milestone.
+with completed generation held in a bounded staging queue. The default
+generator stages continental/climate sampling, biome resolution, surface rules,
+cave carving, regional ores, and vegetation before serialization. Persistent
+generator-version metadata prevents unsupported algorithms from extending an
+established world. Multiple loaded worlds and worker processes remain outside
+this milestone.
 
 This is private-alpha behavior and does not establish retail compatibility.
 The cross-repository decision is tracked in

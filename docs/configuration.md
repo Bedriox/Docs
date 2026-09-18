@@ -64,7 +64,7 @@ level.difficulty=normal
 chunks.view-distance=4
 chunks.spawn-radius=4
 chunks.send-per-tick=4
-chunks.generate-per-tick=4
+chunks.generate-per-tick=1
 chunks.cache-limit=2048
 
 # Runtime
@@ -102,7 +102,7 @@ crash-report.include-player-identifiers=true
 | `network.port` | 1 through 65535. |
 | `network.authentication` | Exactly `FULL` or `SELF_SIGNED`. |
 | `level.name` | Non-control UTF-8, 1 through 64 bytes. |
-| `level.generator` | `default` for seeded terrain or `flat` for the fixed classic profile. |
+| `level.generator` | `default` for the version-one continental overworld or `flat` for the fixed classic profile. |
 | `level.seed` | -2147483648 through 2147483647; deterministic for `default`. |
 | `level.default-gamemode` | Exactly `survival`. |
 | `level.difficulty` | `peaceful`, `easy`, `normal`, or `hard`. |
@@ -138,8 +138,9 @@ generation and send budgets on each world tick. Generated packets wait in a
 bounded staging queue, so generation cannot create unbounded pending network
 work.
 
-Existing `level.dat` generator, seed, display name, and spawn metadata remain
-authoritative on reopen. A new world creates the native `level.dat`,
+Existing `level.dat` generator, Bedriox generator version, seed, display name,
+and spawn metadata remain authoritative on reopen. An unsupported stored
+generator version fails before missing chunks can be generated. A new world creates the native `level.dat`,
 `levelname.txt`, and `db/` layout; saved chunks and player block changes are
 loaded before any missing coordinate is generated.
 

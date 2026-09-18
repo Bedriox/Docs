@@ -4,7 +4,7 @@ All notable documentation changes will be recorded here.
 
 ## Unreleased
 
-- Documented the implemented deterministic default overworld, retained flat profile, native LevelDB layout and `levelname.txt` mirror, terrain-derived spawn, biome/water/cave/ore/tree behavior, and remaining vanilla-parity limits.
+- Documented the version-one continental overworld, climate biomes, rivers, mountain and cave shaping, regional features, generator-version persistence, retained flat profile, diagnostic maps, and remaining structure and seed-parity limits.
 - Recorded the planned dependency order and qualification gates for relocatable
   Runtime artifacts, default terrain, player persistence, survival,
   administration, broader gameplay, advanced generation, entities, and

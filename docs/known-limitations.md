@@ -8,8 +8,9 @@ The current executable is a narrow experimental server foundation, not a general
   qualification gate remains open.
 - The server supports one persistent LevelDB overworld with bounded
   movement-driven chunk streaming. New worlds default to deterministic seeded
-  terrain with hills, five biome profiles, water, caves, ores, and oak trees;
-  the fixed flat profile remains selectable. Vanilla seed parity, structures,
+  continents with climate-driven biomes, mountain ranges, rivers, oceans,
+  caves, regional ore veins, snow, and biome-specific forests; the fixed flat
+  profile remains selectable. Vanilla seed parity, generated structures,
   additional dimensions, and multiple loaded worlds are unavailable.
 - Inventory is limited to the server-owned 36-slot main inventory, hotbar, and
   cursor. It supports opening and closing the main window, selection, Take,

@@ -198,24 +198,26 @@ qualification before their hashes are recorded in Bedriox.
 
 ### Default world generation
 
-Introduce a stable generator contract and retain the existing flat generator as
-`FLAT`. New worlds use `DEFAULT` unless configured otherwise. The resolved
-generator identifier and 64-bit seed are persisted in world metadata; an
-existing world is never silently converted to another generator or seed.
+The stable generator contract retains the flat generator as `flat`. New worlds
+use `default` unless configured otherwise. The resolved generator identifier,
+Bedriox algorithm version, and seed are persisted in world metadata; an
+existing world is never silently converted to another generator, version, or seed.
 
-The first `DEFAULT` implementation provides deterministic seamless hills and
-valleys using canonical block states, five biome profiles, biome-specific
-surfaces, source-water oceans, bounded caves and ores, cross-chunk oak trees,
-negative-coordinate coverage, and terrain-derived safe spawn selection. Saved
-LevelDB chunks take precedence and only missing chunks are generated. Water is
-stored only in the primary block layer and is non-solid; dry spawn selection
-prevents the earlier false-underwater presentation. Structures and closer
-vanilla seed parity remain later expansions.
+The version-one `default` implementation provides domain-warped continents,
+erosion-shaped mountains and valleys, climate-driven biomes, rivers, deep
+oceans, slope-aware surfaces, snow and ice, bounded cross-chunk caves, regional
+ore veins, boulders, biome-specific forests, negative-coordinate coverage, and
+terrain-derived safe spawn selection. Saved LevelDB chunks take precedence and
+only missing chunks are generated. Water and deep lava use non-solid collision
+while dry spawn selection prevents false-underwater presentation. Generated
+structures and Minecraft seed parity remain later expansions.
 
-The gate requires seed determinism, generation-order independence, chunk-edge
-continuity, unchanged flat output, bounded generation work, save/reload tests,
-and retail travel across multiple chunks followed by a restart that preserves
-both terrain and player block changes.
+The automated gate covers seed determinism, generation-order independence,
+negative-coordinate and unit-scale continuity, regional biome and elevation
+distribution, unchanged flat output, bounded generation work, generator-version
+rejection, and save/reload behavior. Final qualification requires retail travel
+across multiple chunks followed by a restart that preserves both terrain and
+player block changes.
 
 ### Player persistence
 
