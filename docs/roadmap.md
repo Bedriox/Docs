@@ -204,12 +204,13 @@ generator identifier and 64-bit seed are persisted in world metadata; an
 existing world is never silently converted to another generator or seed.
 
 The first `DEFAULT` implementation provides deterministic seamless hills and
-valleys using canonical bedrock, stone, dirt, grass, and air states, correct
-height and biome data, negative-coordinate coverage, and terrain-derived safe
-spawn selection. Saved LevelDB chunks take precedence and only missing chunks
-are generated. Water, caves, ores, vegetation, structures, and closer vanilla
-parity remain later expansions so fluid metadata cannot reintroduce false
-underwater state during the baseline gate.
+valleys using canonical block states, five biome profiles, biome-specific
+surfaces, source-water oceans, bounded caves and ores, cross-chunk oak trees,
+negative-coordinate coverage, and terrain-derived safe spawn selection. Saved
+LevelDB chunks take precedence and only missing chunks are generated. Water is
+stored only in the primary block layer and is non-solid; dry spawn selection
+prevents the earlier false-underwater presentation. Structures and closer
+vanilla seed parity remain later expansions.
 
 The gate requires seed determinism, generation-order independence, chunk-edge
 continuity, unchanged flat output, bounded generation work, save/reload tests,
@@ -248,9 +249,8 @@ rules, crafting, and transactional containers. Add multiple independently
 persisted worlds, per-world safe spawn, loading and unloading, teleportation,
 and bounded plugin APIs before advanced terrain depends on world lifecycle.
 
-Advanced generation then adds qualified water and breathing behavior,
-biome-specific surfaces, caves, ores, vegetation, and structures. Entities,
-mobs, AI, spawning, combat, and entity persistence follow after world,
+Advanced generation then adds structures, richer decoration, and complete
+breathing/swimming authority. Entities, mobs, AI, spawning, combat, and entity persistence follow after world,
 inventory, damage, and plugin-event contracts are stable.
 
 ### Measurement-driven scaling

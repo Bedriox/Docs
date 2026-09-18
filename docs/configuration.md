@@ -55,7 +55,7 @@ network.authentication=FULL
 
 # Level
 level.name=world
-level.generator=flat
+level.generator=default
 level.seed=0
 level.default-gamemode=survival
 level.difficulty=normal
@@ -102,8 +102,8 @@ crash-report.include-player-identifiers=true
 | `network.port` | 1 through 65535. |
 | `network.authentication` | Exactly `FULL` or `SELF_SIGNED`. |
 | `level.name` | Non-control UTF-8, 1 through 64 bytes. |
-| `level.generator` | Exactly `flat` for this milestone. |
-| `level.seed` | -2147483648 through 2147483647. |
+| `level.generator` | `default` for seeded terrain or `flat` for the fixed classic profile. |
+| `level.seed` | -2147483648 through 2147483647; deterministic for `default`. |
 | `level.default-gamemode` | Exactly `survival`. |
 | `level.difficulty` | `peaceful`, `easy`, `normal`, or `hard`. |
 | `chunks.view-distance` | 1 through 32 chunks. |
@@ -127,15 +127,21 @@ crash-report.include-player-identifiers=true
 | `level.spawn-y` | -64 through 319. |
 
 Spawn overrides are all-or-none. When all three values are absent or empty,
-the level calculates its default spawn; the initial flat generator uses
-`(0, 64, 0)`. Supplying all three bounded integer coordinates overrides that
-position. Supplying only one or two is an error.
+the level calculates its default spawn. The default generator performs a
+bounded dry-land search over its terrain; the flat generator uses `(0, 64, 0)`.
+Supplying all three bounded integer coordinates overrides that position.
+Supplying only one or two is an error.
 
-The flat-world settings generate chunks as players need them, cap the
+World settings generate chunks as players need them, cap the
 negotiated client radius at `chunks.view-distance`, and apply separate
 generation and send budgets on each world tick. Generated packets wait in a
 bounded staging queue, so generation cannot create unbounded pending network
 work.
+
+Existing `level.dat` generator, seed, display name, and spawn metadata remain
+authoritative on reopen. A new world creates the native `level.dat`,
+`levelname.txt`, and `db/` layout; saved chunks and player block changes are
+loaded before any missing coordinate is generated.
 
 The cache must cover every maximum-size simultaneous player view. Bedriox
 requires:

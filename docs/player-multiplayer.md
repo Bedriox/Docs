@@ -154,6 +154,7 @@ containers, combat, mobs, Bedrock slash-command input, persistent player
 permissions, persistence, or general block behavior. Console-dispatched plugin
 commands are documented separately in [commands](commands.md). Experimental
 plugin API 0.1 is documented in
-[plugins and API 0.1](plugins.md). The world remains an in-memory fixed-flat generator. See
+[plugins and API 0.1](plugins.md). The server owns one persistent LevelDB world
+using the selected deterministic `default` or `flat` generator. See
 [known limitations](known-limitations.md) and [compatibility](compatibility.md)
 for the public support boundary.
