@@ -32,7 +32,7 @@ The runtime first establishes RakNet, then performs the Bedrock request-network-
 
 For the protocol-2193 path, the server sends StartGame; item, actor, and biome registries; the local player-list entry; chunk radius and publisher state; the fixed-flat spawn area; and `PLAYER_SPAWN` last. A matching serverbound local-player-initialized acknowledgement gates the authoritative join event.
 
-Normal movement is accepted through the bounded PlayerAuthInput projection. Simulation positions are feet-based; the protocol adapter applies the Bedrock eye-height offset at the wire boundary. Text packets become bounded chat commands. Simulation results are broadcast as protocol packets without giving network code ownership of player state.
+Normal movement is accepted through the bounded PlayerAuthInput projection. Simulation positions are feet-based; the protocol adapter applies the Bedrock eye-height offset at the wire boundary. Text packets become bounded chat commands. Inventory stack requests and block intents become immutable commands; the simulation alone owns inventory transfers, prediction reconciliation, block mutation, and placement consumption. Simulation results are broadcast as protocol packets without giving network code ownership of player or world state.
 
 The simulation owns a capacity-bounded player registry indexed by session,
 authenticated identity, and runtime actor ID. Multiplayer projection publishes

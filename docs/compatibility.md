@@ -14,9 +14,11 @@ Bedriox does not currently claim support for any retail Minecraft Bedrock client
 Protocol 2193, associated with Bedrock 1.26.50, is the sole implementation
 target. Bedrock 1.26.51 has completed an initial same-protocol retail
 qualification for discovery, login, spawn, flat-world chunk streaming,
-movement, and chat. This evidence does not yet satisfy the complete support
-gate, so the public support arrays remain empty. Older packet paths are not
-compatibility aliases and may not be selected by a client version string.
+movement, collision, multiplayer visibility, chat, emotes, the narrow
+authoritative inventory slice, and grass breaking and placement. This evidence
+does not yet satisfy the complete support gate, so the public support arrays
+remain empty. Older packet paths are not compatibility aliases and may not be
+selected by a client version string.
 
 The empty arrays are deliberate. They prevent an implemented packet slice, a successful unit test, or an isolated login from being presented as end-to-end compatibility.
 

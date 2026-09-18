@@ -14,6 +14,8 @@ player combines:
 - a server-assigned runtime actor ID;
 - validated feet position, body yaw, head yaw, pitch, grounded state, predicted
   vertical velocity, sneaking, and sprinting state; and
+- a server-owned fixed-size survival inventory, selected hotbar slot, cursor
+  stack, and stack-request lineage; and
 - bounded chat and emote rate-limit state.
 
 `PlayerRegistry` indexes the same aggregate by session ID, authenticated UUID,
@@ -65,6 +67,27 @@ Chat uses the authenticated display name and deterministic simulation order.
 The bounded emote path relays a validated UUID intent to peers without trusting
 client-supplied duration, account identity, platform identity, or flags.
 
+## Inventory and block interaction
+
+The implemented inventory slice owns 36 main-inventory slots, the selected
+hotbar slot, and one cursor stack. A joining player receives one stack of 64
+grass blocks. The main inventory can be opened and closed repeatedly, and
+bounded Take, Place, and Swap requests can move or split stacks between the
+main inventory, hotbar, and cursor. Successful requests receive authoritative
+slot results; stale stack IDs, invalid counts, unsupported containers, and
+failed merges receive a bounded correction without disconnecting the player.
+
+Grass breaking and placement mutate the in-memory fixed-flat world. The server
+revalidates reach, the current block, player collision, the selected slot, and
+the server-owned held stack before committing a change. Placement consumes one
+item. Rejected client predictions are repaired from authoritative world and
+inventory state. Accepted block changes and held-item changes are synchronized
+only to peers that can currently see the affected chunk or actor.
+
+This is not a general inventory or item system. Crafting, armor manipulation,
+containers, item drops, tools, durability, block drops, and items or placeable
+blocks other than the starter grass stack remain unavailable.
+
 ## Disconnect, reconnect, and failure containment
 
 Disconnect processing removes the player from every authoritative registry
@@ -106,11 +129,17 @@ or raw personal packet captures.
 4. Exchange attributed chat in both directions and verify order.
 5. Cross positive and negative chunk boundaries while both sessions remain
    responsive and terrain continues loading.
-6. Disconnect client A and verify that client B loses both the actor and
+6. Open and close the main inventory repeatedly. Split the grass stack between
+   hotbar slots, move it through the cursor, select the resulting stack, and
+   place from it without losing the remaining items.
+7. Break and place grass from each client. Verify both clients observe the same
+   world mutation, held stack, and block-break progress, and that placement
+   consumes exactly one server-owned item.
+8. Disconnect client A and verify that client B loses both the actor and
    player-list entry immediately.
-7. Rejoin client A and verify one fresh actor, one list entry, current movement,
+9. Rejoin client A and verify one fresh actor, one list entry, current movement,
    and no ghost from the earlier session.
-8. Repeat with client B as the departing player and inspect sanitized server
+10. Repeat with client B as the departing player and inspect sanitized server
    diagnostics for unexpected disconnects or runtime failures.
 
 This manual pass does not by itself complete the broader soak, packet-loss,
@@ -119,8 +148,9 @@ cross-platform, memory-recovery, or performance gates in the
 
 ## Current boundary
 
-The lifecycle slice does not provide authoritative inventory contents, item
-use, crafting, combat, mobs, permissions, plugins, persistence, or block
-mutation. The world remains an in-memory fixed-flat generator. See
+The lifecycle slice provides only the narrow grass inventory and interaction
+behavior described above. It does not provide crafting, general item use,
+containers, combat, mobs, commands, permissions, plugins, persistence, or
+general block behavior. The world remains an in-memory fixed-flat generator. See
 [known limitations](known-limitations.md) and [compatibility](compatibility.md)
 for the public support boundary.

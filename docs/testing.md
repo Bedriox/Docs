@@ -19,7 +19,9 @@ login/authentication state transitions, command queues, a deterministic 20 TPS
 simulation, spawn synchronization, movement projection, chat, chunk streaming,
 player registry cleanup, ordered multiplayer actor publication, absolute peer
 movement, posture transitions, chunk-gated visibility, actor removal, reconnect
-cleanup, causal-session failure isolation, and disconnect handling.
+cleanup, authoritative inventory transfers, block breaking and placement,
+prediction correction, causal-session failure isolation, and disconnect
+handling.
 
 ## Run the gates
 
@@ -55,10 +57,9 @@ Failures and skipped tests must remain visible in release evidence. Never conver
 Every gameplay milestone must preserve discovery, RakNet negotiation,
 authentication, encryption, spawn, correct grass terrain, movement across
 chunk boundaries, normal breathing and gravity, attributed chat, session-local
-failure isolation, disconnect cleanup, and reconnect. Interaction and
-inventory-open behavior join this permanent baseline when their protocol
-handling lands; multiplayer visibility and actor cleanup join it in the next
-milestone.
+failure isolation, disconnect cleanup, reconnect, inventory open and close,
+authoritative stack movement and splitting, grass breaking and placement, and
+multiplayer visibility and actor cleanup.
 
 Tests accumulate. A new milestone may not replace, weaken, or silently skip an
 earlier journey. Wire-visible changes additionally require a recorded retail
@@ -90,8 +91,26 @@ tests also reject cache limits smaller than
 
 Retail qualification still requires recorded grass streaming across positive
 and negative chunk boundaries, reconnection rebuilding the view, and no
-unbounded queue or server crash. Automated evidence does not qualify inventory,
-emotes, persistence, block interaction, or terrain generators other than flat.
+unbounded queue or server crash. Automated evidence covers the narrow inventory,
+emote, and grass-interaction slices, but does not by itself qualify them for a
+public support claim. Persistence and terrain generators other than flat remain
+unimplemented.
+
+## Inventory and block-interaction evidence
+
+Inventory tests cover opening and closing the main window repeatedly, hotbar
+selection, Take, Place, and Swap requests, atomic stack splitting, cursor
+transfers, request and stack-ID lineage, stale-ID rejection, rollback after a
+later invalid action, correction snapshots, selected-stack peer updates, and
+placement from a resulting split stack.
+
+Interaction tests cover break start, progress and completion, benign stop and
+abort ordering, reach and block-state revalidation, simultaneous prediction
+correction, all six placement faces, collision rejection, one-item inventory
+consumption, world mutation, owner repair packets, byte-identical multiplayer
+block updates, and held-equipment visibility. This evidence applies only to the
+implemented fixed-flat grass-block slice; it does not imply crafting, general
+items, drops, tools, containers, or broad block support.
 
 ## Multiplayer evidence
 

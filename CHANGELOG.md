@@ -4,6 +4,8 @@ All notable documentation changes will be recorded here.
 
 ## Unreleased
 
+- Aligned the public gameplay boundary with the implemented server-authoritative
+  inventory, grass breaking and placement, collision, and multiplayer behavior.
 - Documented the authoritative player registry, ordered multiplayer actor
   lifecycle, absolute peer movement and posture, disconnect/reconnect cleanup,
   causal-session failure isolation, and the still-open two-client retail gate.
