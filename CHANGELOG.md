@@ -4,6 +4,9 @@ All notable documentation changes will be recorded here.
 
 ## Unreleased
 
+- Corrected the player-profile storage and restoration contract, recorded the
+  exact remaining gameplay milestone order, and separated safe death inventory
+  handling from the later complete vanilla item-entity ecosystem.
 - Documented the version-one continental overworld, climate biomes, rivers, mountain and cave shaping, regional features, generator-version persistence, retained flat profile, diagnostic maps, and remaining structure and seed-parity limits.
 - Recorded the planned dependency order and qualification gates for relocatable
   Runtime artifacts, default terrain, player persistence, survival,

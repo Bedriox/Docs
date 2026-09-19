@@ -221,35 +221,65 @@ player block changes.
 
 ### Player persistence
 
-Store one bounded gzip-compressed big-endian NBT record per authenticated player
-UUID. Persist canonical inventory, selected slot, cursor, position, rotation,
-world, game mode, timestamps, authenticated XUID, and last-known name. Names,
-network runtime IDs, stack-network IDs, login tokens, skins, and cryptographic
-material are never storage authority.
+Store one bounded schema-versioned little-endian NBT record per authenticated
+player UUID. Persist canonical inventory, selected slot, cursor, position,
+rotation, world, game mode, timestamps, authenticated XUID, and last-known
+name. Names, network runtime IDs, stack-network IDs, login tokens, skins, and
+cryptographic material are never storage authority.
 
 Loading occurs after authentication and before authoritative admission. Missing
-records create a new player; invalid positions fall back to the world's safe
-spawn; corrupt records are quarantined instead of overwritten. Dirty revisions
-are saved through bounded autosave, atomic replacement, quit flush, and complete
-graceful-shutdown flush. Save failures remain dirty for retry and do not affect
-unrelated players. The gate includes malicious and corrupt inputs, identity
-mismatch, backup recovery, write failure, revision races, two-player isolation,
-and retail restart checks for position and inventory.
+records create a new player at the world's calculated spawn. A valid saved
+position is restored exactly when its world is available; an unavailable world
+uses that spawn without discarding the remaining profile. Corrupt, unreadable,
+oversized, and unsupported records reject only the affected login and are not
+overwritten. Dirty revisions are saved through bounded autosave, atomic
+replacement, quit flush, and complete graceful-shutdown flush. Save failures
+remain dirty for retry and do not affect unrelated players. The gate includes
+malicious and corrupt inputs, identity mismatch, write failure, revision races,
+two-player isolation, and retail restart checks for position, rotation, and
+inventory.
+
+### Remaining milestone order
+
+The remaining gameplay work follows this dependency order:
+
+1. authoritative health, damage causes, fall damage, invulnerability, death,
+   respawning, persistence, multiplayer projection, and plugin events;
+2. player commands, operators, permission nodes, and command feedback;
+3. the complete supported vanilla block, item, equipment, and inventory
+   ecosystem, including block drops, item use, durability, world item entities,
+   player drops, death drops, pickup, merging, and despawning;
+4. recipes, crafting, processing blocks, and transactional containers;
+5. multiple independently persisted worlds, safe spawns, world lifecycle, and
+   teleportation;
+6. advanced terrain structures, decoration, and complete environmental
+   movement such as swimming and breathing;
+7. entities, mobs, AI, natural spawning, combat, and entity persistence; and
+8. measurement-driven profiling and scaling after realistic workloads show
+   where additional caching or worker isolation is justified.
+
+The health milestone may define the authoritative result of a death inventory
+transition, but visible world drops belong to the complete item-entity
+milestone. Until then, a documented keep-inventory policy prevents fake drops,
+silent item deletion, and duplication.
 
 ### Survival and administration
 
-Implement health, damage causes, fall damage, invulnerability, death, drops,
-respawn, and their plugin events on top of durable player records. Then add
+Implement health, damage causes, fall damage, invulnerability, death, respawn,
+and their plugin events on top of durable player records. Then add
 player command input, operators, permission nodes, command feedback, and the
 same sender-aware command API already used by the console. Neither plugins nor
 clients may bypass authoritative validation.
 
 ### Broader gameplay
 
-Expand canonical blocks and items, partial collision shapes, drops, placement
-rules, crafting, and transactional containers. Add multiple independently
-persisted worlds, per-world safe spawn, loading and unloading, teleportation,
-and bounded plugin APIs before advanced terrain depends on world lifecycle.
+Expand canonical blocks and items, partial collision shapes, block drops,
+placement rules, equipment, item use, durability, complete player inventories,
+and bounded world item entities with authoritative drop, pickup, merge, and
+despawn behavior. Add recipes, crafting, processing blocks, and transactional
+containers after the item model is stable. Add multiple independently persisted
+worlds, per-world safe spawn, loading and unloading, teleportation, and bounded
+plugin APIs before advanced terrain depends on world lifecycle.
 
 Advanced generation then adds structures, richer decoration, and complete
 breathing/swimming authority. Entities, mobs, AI, spawning, combat, and entity persistence follow after world,
