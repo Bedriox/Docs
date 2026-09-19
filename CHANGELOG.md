@@ -4,6 +4,9 @@ All notable documentation changes will be recorded here.
 
 ## Unreleased
 
+- Recorded completion of authoritative health, fall damage, death, respawn,
+  persistence, multiplayer projection, and plugin events, and advanced the
+  remaining gameplay order to player commands and permissions.
 - Corrected the player-profile storage and restoration contract, recorded the
   exact remaining gameplay milestone order, and separated safe death inventory
   handling from the later complete vanilla item-entity ecosystem.

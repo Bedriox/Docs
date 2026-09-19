@@ -241,21 +241,26 @@ inventory.
 
 ### Remaining milestone order
 
+The authoritative health milestone is complete. Bedriox owns bounded health,
+PMMP-aligned fall distance and landing damage, cancellable damage, death-state
+isolation, invulnerability, schema-versioned persistence, multiplayer
+hurt/death projection, both qualified respawn input forms, full respawn state
+resynchronization, and typed damage, death, and respawn plugin events. Inventory
+remains server-owned and retained across death until world item entities exist.
+
 The remaining gameplay work follows this dependency order:
 
-1. authoritative health, damage causes, fall damage, invulnerability, death,
-   respawning, persistence, multiplayer projection, and plugin events;
-2. player commands, operators, permission nodes, and command feedback;
-3. the complete supported vanilla block, item, equipment, and inventory
+1. player commands, operators, permission nodes, and command feedback;
+2. the complete supported vanilla block, item, equipment, and inventory
    ecosystem, including block drops, item use, durability, world item entities,
    player drops, death drops, pickup, merging, and despawning;
-4. recipes, crafting, processing blocks, and transactional containers;
-5. multiple independently persisted worlds, safe spawns, world lifecycle, and
+3. recipes, crafting, processing blocks, and transactional containers;
+4. multiple independently persisted worlds, safe spawns, world lifecycle, and
    teleportation;
-6. advanced terrain structures, decoration, and complete environmental
+5. advanced terrain structures, decoration, and complete environmental
    movement such as swimming and breathing;
-7. entities, mobs, AI, natural spawning, combat, and entity persistence; and
-8. measurement-driven profiling and scaling after realistic workloads show
+6. entities, mobs, AI, natural spawning, combat, and entity persistence; and
+7. measurement-driven profiling and scaling after realistic workloads show
    where additional caching or worker isolation is justified.
 
 The health milestone may define the authoritative result of a death inventory
@@ -265,9 +270,8 @@ silent item deletion, and duplication.
 
 ### Survival and administration
 
-Implement health, damage causes, fall damage, invulnerability, death, respawn,
-and their plugin events on top of durable player records. Then add
-player command input, operators, permission nodes, command feedback, and the
+Health, damage, death, respawn, persistence, and their plugin events now build
+on durable player records. Next add player command input, operators, permission nodes, command feedback, and the
 same sender-aware command API already used by the console. Neither plugins nor
 clients may bypass authoritative validation.
 
