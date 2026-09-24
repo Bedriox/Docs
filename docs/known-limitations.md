@@ -16,6 +16,11 @@ The current executable is a narrow experimental server foundation, not a general
   cursor. It supports opening and closing the main window, selection, Take,
   Place, Swap, and stack splitting. Crafting, armor manipulation, containers,
   item drops, tools, durability, and general item use are unavailable.
+- The creative inventory includes the complete admitted groups, entries,
+  damage variants, block-state variants, and bounded item NBT for the pinned
+  release. Catalog presence does not imply that every item-specific vanilla
+  mechanic is implemented. See
+  [versioned data and the creative catalog](data-and-creative-catalog.md).
 - Block interaction is limited to breaking generated blocks and placing grass
   in the authoritative world. Placement consumes the starter grass stack and validates
   reach, collision, selected inventory state, and authoritative world state.

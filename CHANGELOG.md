@@ -4,6 +4,9 @@ All notable documentation changes will be recorded here.
 
 ## Unreleased
 
+- Documented the deterministic data-release lifecycle, private
+  DataBuilder handoff, public Data admission boundary, and complete
+  current-version creative-catalog scope without implying item-mechanic support.
 - Recorded completion of authoritative health, fall damage, death, respawn,
   persistence, multiplayer projection, and plugin events, and advanced the
   remaining gameplay order to player commands and permissions.

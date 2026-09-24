@@ -67,6 +67,15 @@ session that caused the event when that owner is known. See
 
 Data admits pinned artifacts through deterministic generation, hashes every output, and exposes validated values needed by the protocol layer. Protocol codecs must not invent registry IDs or treat unchecked client data as authoritative.
 
+The expanded data pipeline keeps preparation outside the runtime.
+Release maintainers use the access-restricted
+[DataBuilder](https://github.com/Bedriox/DataBuilder) project to prepare,
+verify, compare, approve, and publish a candidate for independent admission by
+Data. Bedriox and Protocol consume only admitted Data APIs and never fetch or
+transform upstream datasets during startup. See
+[versioned data and the creative catalog](data-and-creative-catalog.md) for the
+public lifecycle and current scope boundary.
+
 See [known limitations](known-limitations.md) for intentionally incomplete gameplay behavior.
 
 ## World-generation pipeline

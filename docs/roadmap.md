@@ -263,6 +263,15 @@ The remaining gameplay work follows this dependency order:
 7. measurement-driven profiling and scaling after realistic workloads show
    where additional caching or worker isolation is justified.
 
+The complete block-and-item milestone begins with an accepted, deterministic
+current-version data bundle and full creative-catalog projection. The public
+Data repository admits the immutable runtime bundle; the access-restricted
+[DataBuilder](https://github.com/Bedriox/DataBuilder) project prepares and
+publishes reviewed candidates. Creative completeness covers groups, entries,
+variants, and safe authoritative selection. It does not by itself implement
+every item's unique gameplay behavior. See
+[versioned data and the creative catalog](data-and-creative-catalog.md).
+
 The health milestone may define the authoritative result of a death inventory
 transition, but visible world drops belong to the complete item-entity
 milestone. Until then, a documented keep-inventory policy prevents fake drops,
