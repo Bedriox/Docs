@@ -9,34 +9,40 @@ The current executable is a narrow experimental server foundation, not a general
 - The server supports one persistent LevelDB overworld with bounded
   movement-driven chunk streaming. New worlds default to deterministic seeded
   continents with climate-driven biomes, mountain ranges, rivers, oceans,
-  caves, regional ore veins, snow, and biome-specific forests; the fixed flat
-  profile remains selectable. Vanilla seed parity, generated structures,
+  caves, regional ore veins, snow, biome-specific forests, and deterministic
+  structures; the fixed flat profile remains selectable. Vanilla seed parity,
   additional dimensions, and multiple loaded worlds are unavailable.
-- Inventory is limited to the server-owned 36-slot main inventory, hotbar, and
-  cursor. It supports opening and closing the main window, selection, Take,
-  Place, Swap, and stack splitting. Crafting, armor manipulation, containers,
-  item drops, tools, durability, and general item use are unavailable.
+- Inventory is server-owned across the 36-slot main inventory, hotbar, cursor,
+  four armor slots, and offhand. It supports ordinary movement, splitting,
+  dropping and pickup, admitted tools and durability, typed equipment, and the
+  implemented ordinary food and drink behaviors. Personal and crafting-table
+  grids support the complete admitted crafting-grid catalog through
+  authoritative transactions. Chests, trapped chests, barrels, shulker boxes,
+  and private Ender Chests use persistent authoritative inventories. Processing
+  stations, enchantments, complete effects, projectiles, and many unique item
+  mechanics remain unavailable. See [crafting](crafting.md) and
+  [storage containers](storage-containers.md).
 - The creative inventory includes the complete admitted groups, entries,
   damage variants, block-state variants, and bounded item NBT for the pinned
   release. Catalog presence does not imply that every item-specific vanilla
   mechanic is implemented. See
   [versioned data and the creative catalog](data-and-creative-catalog.md).
-- Block interaction is limited to breaking generated blocks and placing grass
-  in the authoritative world. Placement consumes the starter grass stack and validates
-  reach, collision, selected inventory state, and authoritative world state.
-  Block drops, tools, hardness by tool, and broader block behavior are not
-  implemented.
-- Combat, mobs, persistent player permissions, Bedrock slash-command input,
-  general scheduling, and persistent plugin data are outside the implemented
+- Supported block interaction validates reach, collision, selected inventory
+  state, tool-aware hardness, durability, drops, placement definitions, and
+  authoritative world state. Catalog admission still does not provide every
+  block-specific vanilla interaction.
+- Mobs, AI, natural spawning, complete entity persistence, complete status
+  effects, and persistent arbitrary plugin data remain outside the implemented
   gameplay slice. Experimental plugin API 0.1 provides lifecycle, events,
-  views, safe operations, and console-dispatched typed commands as documented
+  scheduling, views, safe operations, and typed commands as documented
   in [plugins and API 0.1](plugins.md) and [commands](commands.md).
 - Multiplayer actor join, movement, posture, chat, departure, and reconnect
   have automated coverage, but the repeatable two-client retail checklist,
   longer soak, loss, scale, and memory-recovery gates remain open.
 - `SELF_SIGNED` authentication is for isolated development and does not provide production identity assurance.
 - World chunks and authoritative block changes persist across restarts. Player
-  position, inventory, and identity persistence remain unavailable.
+  identity, position, orientation, inventory, health, game mode, nutrition, and
+  equipment use schema-versioned persistence.
 - Soak, packet-loss, cross-platform retail, and published performance qualification remain outstanding.
 
 These limitations are kept separate from the [roadmap](roadmap.md): the roadmap describes sequencing, while this page describes the observable boundary of the current software.

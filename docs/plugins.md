@@ -161,8 +161,34 @@ inventory ownership, world bounds, or limits. Post-events are immutable.
 actions. `receiveCancelled: true` opts a listener into already cancelled
 pre-events.
 
-Initial events cover join and quit, movement, chat, block breaking and
-placement, and inventory changes. See the tested
+Gameplay events also cover item use, consumption, nutrition, armor and offhand
+equipment, durability loss, and item breakage. Validated intent is exposed
+through cancellable pre-events such as `PlayerItemUseEvent`,
+`PlayerItemConsumeEvent`, `PlayerFoodLevelChangeEvent`,
+`PlayerEquipmentChangeEvent`, and `PlayerItemDamageEvent`. Immutable
+past-tense events report only committed results. Consumption and nutrition
+events accept bounded replacement values; equipment replacement is revalidated
+for its typed slot; durability adjustments remain within the item bounds.
+Nutrition-driven healing also passes through adjustable
+`PlayerRegainHealthEvent` and observational `PlayerRegainedHealthEvent`.
+
+Crafting exposes a cancellable `PlayerCraftItemEvent` after authoritative
+recipe, grid, lineage, ingredient, result, repetition, and capacity validation
+but before inventory commit. A listener may cancel the entire transaction or
+replace its one-repetition outputs without increasing the validated stack or
+item-count budget; Bedriox revalidates item admission and capacity afterward.
+`PlayerCraftedItemEvent` observes only a fully committed craft. Both events
+provide data-only player, recipe, grid, consumed-input, output, remainder, and
+craft-count values rather than access to live inventory.
+
+Storage exposes cancellable `InventoryOpenEvent` and
+`InventoryTransactionEvent` before authoritative mutation. `InventoryOpenedEvent`,
+`InventoryCloseEvent`, and `InventoryTransactionCommittedEvent` observe
+completed lifecycle transitions. Chest pairing has its own cancellable pre-event
+and committed post-event. These events use immutable inventory views and typed
+causes; cancellation cannot retain a stale window or bypass stack lineage.
+
+See the tested
 [ExamplePlugin](https://github.com/Bedriox/ExamplePlugin) for lifecycle,
 logging, default and explicit priorities, cancellation, monitoring, and safe
 messaging examples.
@@ -209,6 +235,49 @@ API 0.1 provides immutable Player, World, Position, BlockPosition, Block,
 Inventory, and ItemStack views. Server operations can list players, look up a
 player by UUID, read the world or a block, send a message, request a teleport,
 set a canonical block identifier, or request an inventory-slot change.
+
+`PluginContext::items()` may register bounded item definitions and gameplay
+behavior for canonical identifiers already admitted by the active Bedrock data
+set. `ItemBehaviorDefinition` can describe instant or timed consumption,
+cooldowns, nutrition and residue, armor slot and defense, maximum durability,
+optional knockback resistance, and offhand eligibility. Definitions belong to
+the registering plugin. An explicit replacement may override built-in behavior
+or that owner's earlier definition, but not another plugin's definition.
+Disablement removes the override and restores any built-in behavior. Custom
+effects belong in typed event listeners and staged server API calls; behavior
+registration does not expose protocol IDs or mutable internal catalogs.
+
+`PluginContext::recipes()` registers immutable shaped or shapeless fixed-result
+recipes while the plugin is enabled. Definitions use a canonical namespaced
+recipe identity, `RecipeIngredient` alternatives, canonical `ItemStack`
+outputs, optional shaped holes and mirroring, and an optional bounded priority.
+For example:
+
+```php
+$this->context()->recipes()->register(new ShapelessRecipe(
+    'myplugin:grass_block_from_dirt',
+    [RecipeIngredient::exact('minecraft:dirt')],
+    [new ItemStack('minecraft:grass_block', 1)],
+));
+```
+
+A plugin may explicitly replace its own recipe identity, but cannot replace a
+built-in recipe or another plugin's recipe. Disablement removes every recipe
+owned by that plugin. Registration is limited to 512 recipes per plugin and
+4,096 plugin recipes server-wide; each definition contains at most nine
+occupied ingredients and four outputs. Item identifiers and counts must be
+admitted by the active catalog. The API does not expose recipe network IDs,
+container IDs, packet values, or mutable server registries. See
+[crafting](crafting.md) for the gameplay and lifecycle boundary.
+
+`PluginContext::server()->containers()` returns a plugin-scoped
+`ContainerManager`. It can resolve supported world storage at a canonical block
+position or create a virtual single chest, double chest, hopper, dispenser, or
+dropper. Handles expose immutable contents plus bounded set, add, remove, clear,
+open, and close requests. Virtual inventories are memory-only and close when
+their owning plugin disables. Plugins never receive window IDs, stack-network
+IDs, block-entity objects, or mutable server inventories. See
+[storage containers](storage-containers.md).
 
 Plugins do not receive sockets, packets, encryption state, mutable registries,
 internal queues, protocol stack IDs, or process-local block IDs. Mutations are

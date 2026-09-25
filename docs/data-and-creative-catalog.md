@@ -1,14 +1,15 @@
-# Versioned data and the creative catalog
+# Versioned data and gameplay catalogs
 
 Bedriox uses the public [Data](https://github.com/Bedriox/Data) repository as
 the runtime authority for reviewed, versioned Bedrock registries. The server
 and Protocol consume its validated PHP API; neither component downloads data
 or reads an upstream project's working files at runtime.
 
-The current dataset includes the complete admitted creative catalog for the
-pinned Bedrock release. Bedriox projects that catalog into its authoritative
-inventory model while keeping item-specific gameplay mechanics as separately
-implemented capabilities.
+The current dataset includes the complete admitted creative and recipe records
+for the pinned Bedrock release. Bedriox projects those records into its
+authoritative inventory and crafting models while keeping item-specific
+gameplay mechanics and processing stations as separately implemented
+capabilities.
 
 ## Release data lifecycle
 
@@ -44,7 +45,10 @@ from the same approved input byte-for-byte reproducible.
 Data independently validates each admitted bundle. It rejects unknown schema
 versions, duplicate identifiers or network IDs, invalid block-state references,
 malformed or oversized NBT, broken creative-group references, and any artifact
-whose recorded hash does not match its contents.
+whose recorded hash does not match its contents. Recipe admission also rejects
+duplicate identities, malformed shapes, unresolved ingredients, tags or
+outputs, unknown recipe kinds or stations, and incomplete source-to-artifact
+coverage.
 
 ## Creative catalog scope
 
@@ -72,6 +76,22 @@ spawn eggs, specialized tools, and other item-specific actions remain separate
 gameplay milestones unless their owning implementation explicitly documents
 support. Unsupported use must remain bounded and must not grant the client
 authority over world or inventory state.
+
+## Recipe catalog scope
+
+The recipe registry exposes immutable shaped, shapeless, input-derived, and
+station-classified records through canonical item identities. It preserves
+dimensions, holes, mirroring, ingredient alternatives and tags, counts,
+outputs, priorities, recipe identities, and the declared station without
+making wire network IDs part of the Data API.
+
+Bedriox admits the complete personal and crafting-table subset into one
+server-owned registry and projects its current wire representation through
+Protocol. Recipe matching and inventory mutation remain Bedriox behavior; Data
+does not inspect player grids or execute a craft. Records assigned to furnaces,
+stonecutters, smithing, cartography, brewing, and other processing stations
+remain available for future owning systems but are not enabled merely because
+the dataset contains them. See [crafting](crafting.md).
 
 ## Updating a pinned release
 

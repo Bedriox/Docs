@@ -54,6 +54,21 @@ For the protocol-2193 path, the server sends StartGame; item, actor, and biome r
 
 Normal movement is accepted through the bounded PlayerAuthInput projection. Simulation positions are feet-based; the protocol adapter applies the Bedrock eye-height offset at the wire boundary. Text packets become bounded chat commands. Inventory stack requests and block intents become immutable commands; the simulation alone owns inventory transfers, prediction reconciliation, block mutation, and placement consumption. Simulation results are broadcast as protocol packets without giving network code ownership of player or world state.
 
+Crafting follows the same ownership boundary. Data supplies immutable canonical
+recipe records, Protocol represents the current wire catalog and bounded stack
+actions, and the server builds the active recipe registry. The simulation owns
+personal and crafting-table grids, matches only authoritative inputs, stages
+plugin events, and commits or corrects the complete inventory transaction.
+Recipe network IDs and client-provided result stacks never become gameplay
+authority. See [crafting](crafting.md).
+
+Persistent storage uses that same authority boundary. Canonical block entities
+and player profiles own durable contents, while the simulation owns every live
+window and atomically stages player and container revisions. Runtime code only
+projects open, contents, affected-slot, block-state, and close events. Plugins
+receive immutable views and bounded operations rather than internal inventories
+or protocol identifiers. See [storage containers](storage-containers.md).
+
 The simulation owns a capacity-bounded player registry indexed by session,
 authenticated identity, and runtime actor ID. Multiplayer projection publishes
 player-list membership at join, gates actor add and baseline metadata on each

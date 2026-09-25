@@ -107,7 +107,7 @@ Retail qualification still requires recorded travel through plains, coast,
 river, forest, mountain, cave, positive-coordinate, and negative-coordinate
 terrain; reconnection rebuilding the view; restart persistence; and no
 unbounded queue or server crash. Automated evidence covers world persistence
-and the narrow inventory, emote, and grass-interaction slices, but does not by
+and the inventory, emote, and interaction slices, but does not by
 itself qualify them for a public support claim.
 
 ## Inventory and block-interaction evidence
@@ -122,9 +122,21 @@ Interaction tests cover break start, progress and completion, benign stop and
 abort ordering, reach and block-state revalidation, simultaneous prediction
 correction, all six placement faces, collision rejection, one-item inventory
 consumption, world mutation, owner repair packets, byte-identical multiplayer
-block updates, and held-equipment visibility. This evidence applies only to the
-implemented fixed-flat grass-block slice; it does not imply crafting, general
-items, drops, tools, containers, or broad block support.
+block updates, and held-equipment visibility.
+
+Crafting tests cover exact shaped and shapeless matching, offsets, declared
+mirroring, ingredient alternatives and tags, grid-size eligibility,
+authoritative consumption and output, repeated crafting, stale lineage,
+invalid action order, rollback, corrections, table open and close cleanup,
+plugin ownership, cancellation, disablement, and complete current catalog
+projection.
+
+Storage-container tests cover canonical block entities, single and paired
+inventories, chunk and player persistence, Ender Chest isolation, portable
+shulker contents, active-window lifecycle, atomic player/storage transactions,
+stale revision rollback, plugin cancellation and cleanup, independent
+multi-view stack identities, block presentation, and exact affected-slot
+responses. Processing stations require separate evidence.
 
 ## Multiplayer evidence
 

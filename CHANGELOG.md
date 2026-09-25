@@ -4,6 +4,14 @@ All notable documentation changes will be recorded here.
 
 ## Unreleased
 
+- Documented persistent chests, trapped chests, barrels, shulker boxes, private
+  Ender Chests, authoritative window transactions, and the plugin container API.
+- Documented authoritative personal and crafting-table grids, complete active
+  crafting-grid recipes, atomic correction behavior, plugin recipe ownership,
+  crafting events, current station limits, and the retail test journey.
+- Documented authoritative item-use, consumption, nutrition, natural
+  regeneration, equipment, durability events, and owner-scoped plugin item
+  behavior definitions.
 - Documented the deterministic data-release lifecycle, private
   DataBuilder handoff, public Data admission boundary, and complete
   current-version creative-catalog scope without implying item-mechanic support.

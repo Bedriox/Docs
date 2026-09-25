@@ -19,6 +19,17 @@ and integration evidence; wire-visible changes also require retail evidence.
 11. With two clients, verify peer visibility, movement and posture, attributed
     chat, synchronized interaction and held items, actor removal before list
     cleanup, and a ghost-free rejoin.
+12. Consume and cancel an ordinary food, verify the authoritative stack and
+    nutrition values, then reconnect and verify that nutrition persists.
+13. Equip each armor slot and offhand, verify peer-visible equipment, take
+    damage, and verify mitigation, durability, breakage, and reconnect state.
+14. Craft through the personal grid and a reachable crafting table, exercise
+    direct and recipe-book requests, close with inputs present, and verify that
+    accepted, cancelled, stale, and repeated crafts neither lose nor duplicate
+    items.
+15. Open a chest, barrel, shulker box, and Ender Chest; transfer items in both
+    directions; close and reopen each window; then restart and verify durable
+    contents, private Ender Chest ownership, and immediate active-window updates.
 
 Malformed, spoofed, phase-invalid, or oversized traffic remains fail-closed for
 the affected session. Valid but unfinished gameplay receives an explicitly
@@ -29,7 +40,9 @@ Passing only an encoder/decoder round trip is insufficient. Tests use literal
 vectors or independent construction where practical, verify resource bounds,
 and retain the regression that motivated each fix.
 
-The multiplayer implementation has automated coverage, but step 11 remains an
-open retail qualification item. Follow the repeatable checklist in
+The multiplayer implementation has automated coverage, but step 11 and the new
+item-use, equipment, crafting, and storage steps 12 through 15 remain open retail
+qualification items.
+Follow the repeatable checklist in
 [player and multiplayer lifecycle](player-multiplayer.md) before advancing any
 support claim.

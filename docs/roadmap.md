@@ -242,25 +242,25 @@ inventory.
 ### Remaining milestone order
 
 The authoritative health milestone is complete. Bedriox owns bounded health,
-PMMP-aligned fall distance and landing damage, cancellable damage, death-state
+fall distance and landing damage, cancellable damage, death-state
 isolation, invulnerability, schema-versioned persistence, multiplayer
 hurt/death projection, both qualified respawn input forms, full respawn state
 resynchronization, and typed damage, death, and respawn plugin events. Inventory
 remains server-owned and retained across death until world item entities exist.
 
-The remaining gameplay work follows this dependency order:
+Persistent transactional storage is now complete across chests, trapped
+chests, barrels, shulker boxes, Ender Chests, block-entity persistence,
+multiplayer windows, and the plugin container API. The remaining gameplay work
+follows this dependency order:
 
-1. player commands, operators, permission nodes, and command feedback;
-2. the complete supported vanilla block, item, equipment, and inventory
-   ecosystem, including block drops, item use, durability, world item entities,
-   player drops, death drops, pickup, merging, and despawning;
-3. recipes, crafting, processing blocks, and transactional containers;
-4. multiple independently persisted worlds, safe spawns, world lifecycle, and
+1. processing blocks and their recipe, fuel, progress, property, and experience
+   authority;
+2. multiple independently persisted worlds, safe spawns, world lifecycle, and
    teleportation;
-5. advanced terrain structures, decoration, and complete environmental
+3. advanced terrain structures, decoration, and complete environmental
    movement such as swimming and breathing;
-6. entities, mobs, AI, natural spawning, combat, and entity persistence; and
-7. measurement-driven profiling and scaling after realistic workloads show
+4. entities, mobs, AI, natural spawning, combat, and entity persistence; and
+5. measurement-driven profiling and scaling after realistic workloads show
    where additional caching or worker isolation is justified.
 
 The complete block-and-item milestone begins with an accepted, deterministic
@@ -280,17 +280,18 @@ silent item deletion, and duplication.
 ### Survival and administration
 
 Health, damage, death, respawn, persistence, and their plugin events now build
-on durable player records. Next add player command input, operators, permission nodes, command feedback, and the
-same sender-aware command API already used by the console. Neither plugins nor
-clients may bypass authoritative validation.
+on durable player records. Player command input, operators, permission nodes,
+command feedback, and the sender-aware command API use the same authoritative
+player identity. Neither plugins nor clients may bypass validation.
 
 ### Broader gameplay
 
-Expand canonical blocks and items, partial collision shapes, block drops,
-placement rules, equipment, item use, durability, complete player inventories,
-and bounded world item entities with authoritative drop, pickup, merge, and
-despawn behavior. Add recipes, crafting, processing blocks, and transactional
-containers after the item model is stable. Add multiple independently persisted
+Canonical blocks and items, partial collision shapes, block drops, placement
+rules, equipment, ordinary item use, nutrition, durability, complete player
+inventories, bounded world item entities, authoritative personal and table
+crafting, and persistent transactional containers now provide the authority
+needed for processing blocks. Add
+multiple independently persisted
 worlds, per-world safe spawn, loading and unloading, teleportation, and bounded
 plugin APIs before advanced terrain depends on world lifecycle.
 

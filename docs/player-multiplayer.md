@@ -69,24 +69,34 @@ client-supplied duration, account identity, platform identity, or flags.
 
 ## Inventory and block interaction
 
-The implemented inventory slice owns 36 main-inventory slots, the selected
-hotbar slot, and one cursor stack. A joining player receives one stack of 64
-grass blocks. The main inventory can be opened and closed repeatedly, and
-bounded Take, Place, and Swap requests can move or split stacks between the
-main inventory, hotbar, and cursor. Successful requests receive authoritative
-slot results; stale stack IDs, invalid counts, unsupported containers, and
-failed merges receive a bounded correction without disconnecting the player.
+The server owns the main inventory, hotbar, cursor, armor, offhand, and
+temporary crafting grids. Bounded inventory requests may move, split, equip,
+drop, consume, or craft stacks only after their container references, counts,
+stack lineage, and complete transaction are validated. Successful requests
+receive authoritative slot results. Stale or invalid requests receive a
+bounded correction without partially changing inventory or disconnecting a
+player for harmless prediction drift.
 
-Grass breaking and placement mutate the in-memory fixed-flat world. The server
-revalidates reach, the current block, player collision, the selected slot, and
-the server-owned held stack before committing a change. Placement consumes one
-item. Rejected client predictions are repaired from authoritative world and
-inventory state. Accepted block changes and held-item changes are synchronized
-only to peers that can currently see the affected chunk or actor.
+Block breaking and placement mutate the authoritative persistent world. The
+server revalidates reach, the current block, player collision, the selected
+slot, the held tool or item, and placement rules before committing a change.
+Rejected client predictions are repaired from authoritative world and
+inventory state. Accepted block, held-item, equipment, world-item, and crafting
+changes are synchronized only to the affected player or peers that can observe
+them.
 
-This is not a general inventory or item system. Crafting, armor manipulation,
-containers, item drops, tools, durability, block drops, and items or placeable
-blocks other than the starter grass stack remain unavailable.
+Personal two-by-two and crafting-table three-by-three grids use the admitted
+current-version recipe catalog. The server computes ingredients and results;
+client-provided recipe and result values are requests only. See
+[crafting](crafting.md) for the transaction, cleanup, plugin, and station
+boundaries.
+
+World storage windows add a second authoritative inventory revision. Chests,
+trapped chests, barrels, and shulker boxes persist with their chunks; paired
+chests expose one deterministic 54-slot view; every Ender Chest opens the
+authenticated player's private 27-slot inventory. Transfers commit the player
+and storage state together, and each viewer receives its own stack projection.
+See [storage containers](storage-containers.md).
 
 ## Disconnect, reconnect, and failure containment
 
@@ -135,11 +145,13 @@ or raw personal packet captures.
 7. Break and place grass from each client. Verify both clients observe the same
    world mutation, held stack, and block-break progress, and that placement
    consumes exactly one server-owned item.
-8. Disconnect client A and verify that client B loses both the actor and
+8. Open one chest with both clients. Transfer, split, and remove stacks from
+   each client, and verify immediate agreement without rollback or duplication.
+9. Disconnect client A and verify that client B loses both the actor and
    player-list entry immediately.
-9. Rejoin client A and verify one fresh actor, one list entry, current movement,
+10. Rejoin client A and verify one fresh actor, one list entry, current movement,
    and no ghost from the earlier session.
-10. Repeat with client B as the departing player and inspect sanitized server
+11. Repeat with client B as the departing player and inspect sanitized server
    diagnostics for unexpected disconnects or runtime failures.
 
 This manual pass does not by itself complete the broader soak, packet-loss,
@@ -148,12 +160,14 @@ cross-platform, memory-recovery, or performance gates in the
 
 ## Current boundary
 
-The lifecycle slice provides only the narrow grass inventory and interaction
-behavior described above. It does not provide crafting, general item use,
-containers, combat, mobs, Bedrock slash-command input, persistent player
-permissions, persistence, or general block behavior. Console-dispatched plugin
-commands are documented separately in [commands](commands.md). Experimental
-plugin API 0.1 is documented in
+The gameplay slice includes authoritative inventory, ordinary item use and
+consumption, nutrition, armor, offhand, durability, block interaction, world
+items, personal and crafting-table crafting, persistent storage containers,
+player combat, commands, and persistence. It does not yet provide processing
+stations, complete effects, projectiles, mobs, or every item-specific vanilla
+behavior. Crafting is documented in [crafting](crafting.md), and storage is
+documented in [storage containers](storage-containers.md). Commands are documented separately in
+[commands](commands.md). Experimental plugin API 0.1 is documented in
 [plugins and API 0.1](plugins.md). The server owns one persistent LevelDB world
 using the selected deterministic `default` or `flat` generator. See
 [known limitations](known-limitations.md) and [compatibility](compatibility.md)
