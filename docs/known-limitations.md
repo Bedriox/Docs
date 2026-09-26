@@ -31,11 +31,13 @@ The current executable is a narrow experimental server foundation, not a general
   state, tool-aware hardness, durability, drops, placement definitions, and
   authoritative world state. Catalog admission still does not provide every
   block-specific vanilla interaction.
-- Mobs, AI, natural spawning, complete entity persistence, complete status
-  effects, and persistent arbitrary plugin data remain outside the implemented
-  gameplay slice. Experimental plugin API 0.1 provides lifecycle, events,
-  scheduling, views, safe operations, and typed commands as documented
-  in [plugins and API 0.1](plugins.md) and [commands](commands.md).
+- The first entity runtime slice supports catalog-backed actor projection,
+  explicit spawning, entity persistence, bounded natural populations, staged
+  mob decisions, and owner-scoped custom mobs. Complete species-specific
+  vanilla behavior, breeding and taming, bosses, projectiles, complete status
+  effects, and persistent arbitrary plugin data remain unavailable. See
+  [entities and custom mobs](entities.md) and
+  [plugins and API 0.1](plugins.md).
 - Multiplayer actor join, movement, posture, chat, departure, and reconnect
   have automated coverage, but the repeatable two-client retail checklist,
   longer soak, loss, scale, and memory-recovery gates remain open.

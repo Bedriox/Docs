@@ -158,6 +158,33 @@ Player profiles are stored separately under `player_data/`. Player autosave
 uses its own interval and per-tick budget so it does not borrow the chunk save
 budget. See [player persistence](player-persistence.md).
 
+## Entity spawning and decisions
+
+The user-facing `server.properties` file contains:
+
+```properties
+difficulty=normal
+spawn-animals=true
+spawn-monsters=true
+```
+
+Both spawn switches accept exactly `true` or `false` and affect natural
+spawning only. Spawn eggs, `/summon`, and plugin-created entities remain
+available when a category is disabled. `difficulty=peaceful` prevents natural
+monster spawning regardless of `spawn-monsters`.
+
+The advanced `bedriox.settings` file contains:
+
+```properties
+entities.ai.enabled=true
+```
+
+Setting it to `false` skips built-in decision and navigation work plus custom
+mob `onAiTick()` callbacks. Entity physics, damage, persistence, visibility,
+ordinary lifecycle `onTick()` callbacks, explicit spawning, and natural-spawn
+ownership remain authoritative. See
+[entities and custom mobs](entities.md) for the complete boundary.
+
 The cache must cover every maximum-size simultaneous player view. Bedriox
 requires:
 

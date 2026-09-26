@@ -1,8 +1,27 @@
 # Commands
 
-Bedriox API 0.1 provides one typed command model for the server console and
-future player command input. The current executable dispatches console input
-only; receiving slash commands from a Bedrock client is not implemented.
+Bedriox provides one typed command model for the server console and Bedrock
+slash-command input. The server advertises only commands the authenticated
+player may use and routes both sender types through the same bounded parser.
+
+## World time
+
+Operators with `bedriox.command.time` can use:
+
+```text
+/time set day
+/time set 13000
+/time add 1000
+/time query
+/time stop
+/time start
+```
+
+Named positions are represented by the typed `WorldTimePreset` enum. Time is
+owned and persisted by each world, advances once per world tick, and is bounded
+to the current Bedrock packet range. Natural spawning, player login, periodic
+client correction, and command changes all consume the same authoritative
+value. A stopped daylight cycle is a runtime choice and resumes after restart.
 
 ## Register a command
 

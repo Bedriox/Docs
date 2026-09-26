@@ -31,7 +31,17 @@ job cancellation. PluginTools tests source discovery, namespace containment,
 unsafe path rejection, `makeplugin`, overwrite protection, child-process
 limits, signatures, checksums, and preservation of previous output on failure.
 ExamplePlugin tests both console and player sender branches against the public
-API without enabling Bedrock command packets.
+API without enabling Bedrock command packets. Its entity example additionally
+checks owner-scoped definition registration, authoritative spawn requests,
+bounded state round trips, lifecycle hooks, bounded controller intents, and
+typed spawn and interaction events.
+
+Entity runtime tests cover registry ownership and cleanup, spatial indexing,
+physics, actor visibility, explicit spawning, spawn-egg authority, persistence
+round trips and corruption isolation, bounded natural-spawn candidates,
+activation budgets, behavior priority, navigation bounds, plugin lifecycle
+attribution, and worker result validation. Retail qualification still requires
+the complete multi-client entity journey described below.
 
 ## Run the gates
 

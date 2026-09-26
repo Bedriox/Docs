@@ -188,6 +188,15 @@ completed lifecycle transitions. Chest pairing has its own cancellable pre-event
 and committed post-event. These events use immutable inventory views and typed
 causes; cancellation cannot retain a stale window or bypass stack lineage.
 
+Entity events expose typed, immutable entity views rather than runtime
+registries or network actor data. `EntitySpawnEvent`, `EntityDespawnEvent`,
+`EntityInteractEvent`, and `EntityDamageEvent` are cancellable pre-events.
+`EntitySpawnedEvent`, `EntityDespawnedEvent`, and `EntityDeathEvent` observe
+committed outcomes.
+`EntityDamageByEntityEvent` adds the typed player or entity that caused the
+damage, while `EntityInteractionType` distinguishes ordinary and item-backed
+interaction without exposing protocol action numbers.
+
 See the tested
 [ExamplePlugin](https://github.com/Bedriox/ExamplePlugin) for lifecycle,
 logging, default and explicit priorities, cancellation, monitoring, and safe
@@ -279,8 +288,27 @@ their owning plugin disables. Plugins never receive window IDs, stack-network
 IDs, block-entity objects, or mutable server inventories. See
 [storage containers](storage-containers.md).
 
+`PluginContext::entities()` is an owner-scoped custom mob registrar. A
+definition combines a canonical non-`minecraft` identifier, a supported
+vanilla catalog identity for client appearance, dimensions, maximum health,
+category, behavior factory, and optional bounded state codec. The owner may then request an
+authoritative spawn of that type at a public `Position`; registration does not
+grant direct access to world or actor registries.
+
+Custom behavior may implement `onSpawn()`, `onTick()`, `onAiTick()`, and
+`onDespawn()`. Tick contexts expose a bounded controller for movement, look,
+target, velocity, and despawn intent. Controller and staged API actions commit
+only after their callback returns successfully; failure discards the complete
+batch. Ordinary lifecycle ticks continue when entity AI is disabled; AI hooks
+do not. Persistent custom state is an opaque schema-versioned byte string with
+an explicit per-definition limit. Explicit replacement affects future spawns,
+while each live mob keeps its original immutable definition generation. Plugin
+disablement releases its definitions, and a factory, lifecycle, or codec
+failure follows normal plugin failure isolation. See
+[entities and custom mobs](entities.md) and the tested
+[ExamplePlugin](https://github.com/Bedriox/ExamplePlugin) guide mob.
+
 Plugins do not receive sockets, packets, encryption state, mutable registries,
 internal queues, protocol stack IDs, or process-local block IDs. Mutations are
 revalidated and staged while a listener runs. Persistent player permissions,
-in-game command input, general scheduling, persistence, custom entities,
 marketplace distribution, and a security sandbox are not part of API 0.1.

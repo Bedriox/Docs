@@ -4,6 +4,12 @@ All notable documentation changes will be recorded here.
 
 ## Unreleased
 
+- Documented per-world bounded daylight-cycle progression, persistence, client synchronization, natural-spawn lighting, typed presets, and the `time` command.
+- Documented custom entity registration, lifecycle hooks, bounded persistent
+  state, authoritative spawning, transactional controller intents, immutable
+  live definition generations, typed entity events, and spawn controls.
+- Recorded the staged entity roadmap from typed runtime and explicit spawning
+  through persistence, natural spawning, and six bounded mob behavior gates.
 - Documented persistent chests, trapped chests, barrels, shulker boxes, private
   Ender Chests, authoritative window transactions, and the plugin container API.
 - Documented authoritative personal and crafting-table grids, complete active

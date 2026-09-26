@@ -259,7 +259,8 @@ follows this dependency order:
    teleportation;
 3. advanced terrain structures, decoration, and complete environmental
    movement such as swimming and breathing;
-4. entities, mobs, AI, natural spawning, combat, and entity persistence; and
+4. the entity runtime, explicit spawning, entity persistence, natural
+   spawning, and staged mob behavior; and
 5. measurement-driven profiling and scaling after realistic workloads show
    where additional caching or worker isolation is justified.
 
@@ -296,8 +297,89 @@ worlds, per-world safe spawn, loading and unloading, teleportation, and bounded
 plugin APIs before advanced terrain depends on world lifecycle.
 
 Advanced generation then adds structures, richer decoration, and complete
-breathing/swimming authority. Entities, mobs, AI, spawning, combat, and entity persistence follow after world,
+breathing/swimming authority. The entity milestone follows after world,
 inventory, damage, and plugin-event contracts are stable.
+
+### Entity runtime and behavior
+
+The accepted entity direction is delivered in dependency order. This roadmap
+does not claim that any stage is implemented until its owning release notes,
+tests, and compatibility evidence say so.
+
+The foundation first adds stable vanilla and custom entity types, dedicated
+mob implementations, animal and monster categories, shared capability
+interfaces, lifecycle ownership, spatial indices, visibility, bounded ticking,
+attributes, metadata, plugin registration, and the complete supported actor
+packet conversation. Dropped items must retain their already-qualified
+gravity, collision, pickup, persistence, and inventory behavior while moving
+onto the shared runtime.
+
+Explicit spawning follows through spawn eggs, `/summon`, and the plugin API.
+Spawning is one authoritative transaction: a cancelled or failed spawn creates
+no actor and consumes no egg, while a successful survival spawn consumes
+exactly one server-owned egg. Catalog presence alone does not make a mob
+playable; each admitted type needs a dedicated implementation and a complete
+client conversation.
+
+Entity persistence comes before natural spawning. Non-player entities belong
+to their current chunk and retain canonical type, UUID, position, motion,
+health, equipment, variant, and bounded custom state across autosave, unload,
+restart, and cross-chunk movement. Unknown plugin-owned records remain dormant
+and preserved rather than being silently deleted. Players remain in the
+separate player-profile store.
+
+Natural spawning then adds deduplicated player-centered candidate chunks,
+category caps, local density, biome, light, surface or liquid, collision,
+distance, and difficulty rules. Named, tamed, leashed, ridden, plugin-forced,
+and otherwise persistent entities remain exempt from ordinary distance
+despawning. `spawn-animals` and `spawn-monsters` become user settings only when
+these rules are implemented and qualified.
+
+Mob behavior is divided into six cumulative gates:
+
+1. navigation: direct movement, walking, swimming, flying, climbing, jumping,
+   doors, bounded paths, invalidation, caching, worker execution, and stuck
+   recovery;
+2. sensors, memories, and goals: typed state, deterministic priorities,
+   conflicting-control exclusion, activation, wakeups, plugin extensions,
+   fair budgets, and telemetry;
+3. passive behavior: looking, wandering, avoidance, panic, temptation,
+   following, and idle movement in each supported medium;
+4. animal behavior: aging, breeding, parenting, taming, sitting, food
+   preferences, durable state, and species interactions;
+5. hostile behavior: targets, line of sight, pursuit, retaliation, melee,
+   ranged attacks, cooldowns, group alerts, and multiplayer target changes; and
+6. special behavior: individually qualified creepers, endermen, villagers,
+   golems, aquatic and flying mobs, Nether families, bosses, and other
+   current-version exceptions.
+
+Core physics, collision, damage, fire, air, persistence, and network projection
+remain separate from intelligence. The advanced `entities.ai.enabled` setting
+appears only with the first AI gate and disables decisions and navigation, not
+those core lifecycle rules.
+
+Performance is part of every behavior gate. Near-player or combat behavior is
+active; loaded but less relevant mobs use reduced decision frequency; idle
+distant mobs sleep with bounded wakeups; reviewed bosses or plugin behavior may
+be forced active. Stable offsets stagger sensors and goal selection. Spatial
+indices replace world-wide searches, immutable definitions are shared across
+same-type mobs, and per-entity memory stays compact and typed.
+
+Navigation first tries direct travel and reuses a valid path. Expensive searches
+are bounded, cached, deduplicated, and retried with delay. Only immutable path
+searches may use managed workers; mutable AI and entity state stay on the
+simulation thread, and stale worker results are rejected by entity, target,
+world, and chunk revision. Fair elapsed-time and operation budgets defer lower
+priority work without deferring critical physics or damage.
+
+The cumulative gate includes two-player actor visibility, every admitted spawn
+egg, restart and cross-chunk persistence, bounded natural populations, mixed
+terrain and water navigation, unreachable-target recovery, plugin-defined
+entities and goals, large sleeping and active populations, worker saturation,
+packet coalescing, memory recovery, and the existing tick and soak budgets.
+`/status advanced` must attribute active, reduced, sleeping, and forced counts,
+AI cost, deferred work, sensor and goal work, path results, cache behavior, and
+bounded plugin ownership without exposing player identity or entity payloads.
 
 ### Measurement-driven scaling
 
