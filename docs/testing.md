@@ -120,6 +120,16 @@ unbounded queue or server crash. Automated evidence covers world persistence
 and the inventory, emote, and interaction slices, but does not by
 itself qualify them for a public support claim.
 
+The multi-world release gate requires at least three simultaneously loaded worlds,
+independent block/container/entity state, save-unload-load persistence, retained
+stale handles, repeated cross-world teleports, two-player visibility isolation,
+disconnect and cancellation during destination preparation, and restart of a
+player in a previously loaded world. Built-in and plugin generators must remain
+deterministic across worker count, request order, retry, negative coordinates,
+unload, and restart. Sustained activity in one world must not starve chat,
+movement, persistence, or generation in another. These tests do not become a
+support claim until the owning implementation and retail journey pass.
+
 ## Inventory and block-interaction evidence
 
 Inventory tests cover opening and closing the main window repeatedly, hotbar

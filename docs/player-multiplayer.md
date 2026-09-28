@@ -164,11 +164,12 @@ The gameplay slice includes authoritative inventory, ordinary item use and
 consumption, nutrition, armor, offhand, durability, block interaction, world
 items, personal and crafting-table crafting, persistent storage containers,
 player combat, commands, and persistence. It does not yet provide processing
-stations, complete effects, projectiles, mobs, or every item-specific vanilla
-behavior. Crafting is documented in [crafting](crafting.md), and storage is
+stations, complete effects, projectiles, complete species-specific mob
+behavior, or every item-specific vanilla behavior. Crafting is documented in
+[crafting](crafting.md), and storage is
 documented in [storage containers](storage-containers.md). Commands are documented separately in
-[commands](commands.md). Experimental plugin API 0.1 is documented in
-[plugins and API 0.1](plugins.md). The server owns one persistent LevelDB world
+[commands](commands.md). Experimental plugin API 0.3 is documented in
+[plugins and API 0.3](plugins.md). The server owns persistent LevelDB worlds
 using the selected deterministic `default` or `flat` generator. See
 [known limitations](known-limitations.md) and [compatibility](compatibility.md)
 for the public support boundary.

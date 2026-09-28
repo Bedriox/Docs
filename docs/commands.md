@@ -28,28 +28,40 @@ value. A stopped daylight cycle is a runtime choice and resumes after restart.
 Register commands while enabling a plugin:
 
 ```php
+use Bedriox\Api\Command\AbstractCommand;
 use Bedriox\Api\Command\AllowedCommandSenders;
 use Bedriox\Api\Command\CommandContext;
-use Bedriox\Api\Command\CommandDefinition;
 use Bedriox\Api\Command\CommandResult;
 
-$this->context()->commands()->register(
-    new CommandDefinition(
-        'hello',
-        'Sends a greeting.',
-        'hello',
-        aliases: ['hi'],
-        permission: 'example.command.hello',
-        allowedSenders: AllowedCommandSenders::CONSOLE_ONLY,
-    ),
-    function (CommandContext $context): CommandResult {
-        if ($context->arguments() !== []) {
-            return CommandResult::USAGE;
-        }
-        $context->sender()->sendMessage('Hello from Bedriox.');
-        return CommandResult::SUCCESS;
-    },
-);
+final class HelloCommand extends AbstractCommand
+{
+    public function __construct()
+    {
+        parent::__construct('hello', 'Sends a greeting.');
+    }
+
+    protected function aliases(): array
+    {
+        return ['hi'];
+    }
+
+    protected function permission(): ?string
+    {
+        return 'example.command.hello';
+    }
+
+    protected function allowedSenders(): AllowedCommandSenders
+    {
+        return AllowedCommandSenders::CONSOLE_ONLY;
+    }
+
+    public function execute(CommandContext $context): CommandResult
+    {
+        return $this->success('Hello from Bedriox.');
+    }
+}
+
+$this->context()->commands()->register(new HelloCommand());
 ```
 
 Names begin with a lowercase ASCII letter and may contain lowercase letters,
@@ -87,18 +99,15 @@ The player value is the immutable public API view, not the mutable server
 player. `AllowedCommandSenders::CONSOLE_ONLY`, `PLAYER_ONLY`, and `ANY` let the
 dispatcher enforce the caller policy before the handler executes.
 
-The console has console authority. Permission nodes are checked centrally, but
-persistent player assignments, groups, and operator management remain future
-work. Plugin code should still declare permissions now so the same definition
-works when player command input is introduced.
+The console has console authority. Permission nodes, UUID-based operator state,
+and explicit player grants are checked centrally before plugin code runs.
 
 ## Results and events
 
-A handler returns:
-
-- `CommandResult::SUCCESS` when it completed;
-- `CommandResult::FAILURE` when it handled a bounded failure; or
-- `CommandResult::USAGE` when Bedriox should display the registered usage.
+A handler returns a `CommandResult` created through `success()` or `failure()`.
+An optional result message is sent to the command sender. Invalid input is
+rejected before `execute()` and Bedriox sends the binding error plus every
+generated usage form.
 
 `CommandPreDispatchEvent` runs after lookup, sender restriction, and permission
 validation. Cancelling it prevents the handler from running but cannot grant
@@ -128,6 +137,6 @@ A command must return promptly. Bounded external work may implement
 cooperatively and cancels them when their owner disables, but the plugin still
 owns task-specific timeouts, process cleanup, and output limits.
 
-See [plugins and API 0.1](plugins.md) for lifecycle and PluginTools packaging.
+See [plugins and API 0.3](plugins.md) for lifecycle and PluginTools packaging.
 The [ExamplePlugin](https://github.com/Bedriox/ExamplePlugin) demonstrates safe
 console/player sender discrimination without mutating gameplay state.

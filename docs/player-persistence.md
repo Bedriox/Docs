@@ -42,6 +42,14 @@ streaming. They may choose a bounded destination and orientation. The later
 `PlayerJoinEvent` still means that the client completed initialization and
 entered the world.
 
+The multi-world lifecycle retains the same stored world ID, position,
+and rotation. A saved non-default destination will be restored only when a
+plugin has already loaded that world. Login will not block while implicitly
+opening a world from a player record. See
+[worlds and teleportation](worlds-and-teleportation.md). This API 0.3 behavior
+is implemented, while cross-world retail and restart qualification remains
+open.
+
 ## Saving and recovery
 
 Routine player saving is controlled independently by:

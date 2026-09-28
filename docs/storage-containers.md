@@ -43,15 +43,18 @@ and clean server restart.
 
 ## Plugin API
 
-`PluginContext::server()->containers()` returns a plugin-scoped container
-manager. A plugin may look up supported world storage by canonical block
-position or create a virtual layout:
+`PluginContext::containers()` returns a plugin-scoped `ContainerManager`. A
+plugin may look up supported world storage by loaded-world handle and canonical
+block position or create a virtual layout:
 
 ```php
 use Bedriox\Api\Inventory\ContainerLayout;
 use Bedriox\Api\Inventory\ItemStack;
+use Bedriox\Api\World\BlockPosition;
 
-$menu = $this->context()->server()->containers()->create(
+$containers = $this->context()->containers();
+$worldChest = $containers->at($world, new BlockPosition(10, 65, -4));
+$menu = $containers->create(
     ContainerLayout::HOPPER,
     'Travel menu',
 );

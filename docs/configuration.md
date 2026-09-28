@@ -154,6 +154,13 @@ generator version fails before missing chunks can be generated. A new world crea
 `levelname.txt`, and `db/` layout; saved chunks and player block changes are
 loaded before any missing coordinate is generated.
 
+These `level.*` keys select the one startup default world. They are not a
+global template for plugin-created worlds. Additional worlds created through
+API 0.3 receive their generator, seed, display name, difficulty, time, and
+optional spawn through creation options described in
+[worlds and teleportation](worlds-and-teleportation.md). Cross-world retail
+qualification remains open.
+
 Player profiles are stored separately under `player_data/`. Player autosave
 uses its own interval and per-tick budget so it does not borrow the chunk save
 budget. See [player persistence](player-persistence.md).

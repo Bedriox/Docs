@@ -6,12 +6,16 @@ The current executable is a narrow experimental server foundation, not a general
   Protocol 2193 / Bedrock 1.26.50 is the sole wire target, and Bedrock 1.26.51
   is an initially qualified same-protocol client, but the complete release
   qualification gate remains open.
-- The server supports one persistent LevelDB overworld with bounded
-  movement-driven chunk streaming. New worlds default to deterministic seeded
-  continents with climate-driven biomes, mountain ranges, rivers, oceans,
-  caves, regional ore veins, snow, biome-specific forests, and deterministic
-  structures; the fixed flat profile remains selectable. Vanilla seed parity,
-  additional dimensions, and multiple loaded worlds are unavailable.
+- The server supports multiple independently persisted LevelDB overworlds with
+  bounded movement-driven chunk streaming. New worlds default to deterministic
+  seeded continents with climate-driven biomes, mountain ranges, rivers,
+  oceans, caves, regional ore veins, snow, biome-specific forests, and
+  deterministic structures; the fixed flat profile remains selectable.
+  Additional dimensions and vanilla seed parity remain unavailable. The
+  lifecycle, teleport, and generator boundaries are documented in
+  [worlds and teleportation](worlds-and-teleportation.md) and
+  [plugin world generators](plugin-world-generators.md). Cross-world retail
+  qualification remains open and is not a compatibility claim.
 - Inventory is server-owned across the 36-slot main inventory, hotbar, cursor,
   four armor slots, and offhand. It supports ordinary movement, splitting,
   dropping and pickup, admitted tools and durability, typed equipment, and the
@@ -37,7 +41,7 @@ The current executable is a narrow experimental server foundation, not a general
   vanilla behavior, breeding and taming, bosses, projectiles, complete status
   effects, and persistent arbitrary plugin data remain unavailable. See
   [entities and custom mobs](entities.md) and
-  [plugins and API 0.1](plugins.md).
+  [plugins and API 0.3](plugins.md).
 - Multiplayer actor join, movement, posture, chat, departure, and reconnect
   have automated coverage, but the repeatable two-client retail checklist,
   longer soak, loss, scale, and memory-recovery gates remain open.

@@ -4,6 +4,9 @@ All notable documentation changes will be recorded here.
 
 ## Unreleased
 
+- Updated the public plugin documentation for API 0.3, including object-owned
+  player and world actions, session-bound main, armor, and offhand inventory
+  capabilities, world lifecycle management, and plugin-scoped containers.
 - Documented per-world bounded daylight-cycle progression, persistence, client synchronization, natural-spawn lighting, typed presets, and the `time` command.
 - Documented custom entity registration, lifecycle hooks, bounded persistent
   state, authoritative spawning, transactional controller intents, immutable
@@ -33,10 +36,10 @@ All notable documentation changes will be recorded here.
   administration, broader gameplay, advanced generation, entities, and
   measurement-driven scaling.
 - Documented the sender-based plugin command API, bounded non-blocking console
-  dispatch, command events, cleanup, and current console-only input boundary.
+  and authenticated player dispatch, command events, and lifecycle cleanup.
 - Documented PluginTools-owned source loading and the primary `makeplugin`
   console workflow, with protected overwrite and standalone CLI alternatives.
-- Documented PHAR-only plugin installation and building, API 0.1 lifecycle and
+- Documented PHAR-only plugin installation and building, API 0.3 lifecycle and
   events, safe public views, ExamplePlugin, and PluginTools.
 - Documented the console format, rotating `server.log`, local crash reports,
   redaction, and default-on configurable player identifiers.

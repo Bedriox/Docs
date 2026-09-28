@@ -239,6 +239,26 @@ malicious and corrupt inputs, identity mismatch, write failure, revision races,
 two-player isolation, and retail restart checks for position, rotation, and
 inventory.
 
+### Multi-world lifecycle and generators
+
+The active world milestone provides one authoritative runtime per loaded world,
+lightweight generation-tagged handles, constant-time canonical lookup,
+asynchronous deduplicated lifecycle operations, and atomic cross-world
+teleportation. `Position` accepts optional world and orientation values so
+same-world and cross-world destinations share one public value type.
+
+The same milestone adds built-in `default`, `flat`, and `void` generator
+definitions plus an owner-scoped plugin registrar. Built-ins run through
+bounded workers. Plugin-defined generators currently use bounded main-thread
+execution with immutable inputs; isolated worker admission remains a later
+performance improvement.
+
+Core does not add a `/world` command; plugins own administration and access
+policy. See [worlds and teleportation](worlds-and-teleportation.md) and
+[plugin world generators](plugin-world-generators.md). The public lifecycle
+surface and plugin registrar are implemented in API 0.3; this section does not
+claim qualified retail support.
+
 ### Remaining milestone order
 
 The authoritative health milestone is complete. Bedriox owns bounded health,

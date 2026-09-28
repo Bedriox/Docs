@@ -6,7 +6,7 @@ shutdown records without logging every packet, movement, tick, or chunk.
 The console format is:
 
 ```text
-[17-Sep-2026 21:42:10] Bedriox INFO > Starting Bedriox 0.1.0-alpha.1
+[17-Sep-2026 21:42:10] Bedriox INFO > Starting Bedriox 0.3.0-alpha.1
 [17-Sep-2026 21:42:11] Bedriox INFO > [ExamplePlugin] Plugin enabled
 ```
 

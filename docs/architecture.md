@@ -122,8 +122,22 @@ with completed generation held in a bounded staging queue. The default
 generator stages continental/climate sampling, biome resolution, surface rules,
 cave carving, regional ores, and vegetation before serialization. Persistent
 generator-version metadata prevents unsupported algorithms from extending an
-established world. Multiple loaded worlds and worker processes remain outside
-this milestone.
+established world.
+
+The multi-world architecture keeps exactly one heavy runtime for each
+loaded world in a canonical `WorldManager` registry. Public values carry a
+lightweight world handle and load-generation token rather than retaining the
+provider, chunk cache, entities, or simulation. Cross-world teleport prepares
+the destination and transfers authoritative membership as one transaction.
+Built-in generation uses bounded workers. Plugin-defined generators use a
+bounded main-thread fallback because arbitrary plugin code is not loaded into
+core workers. Results remain subject to generator identity, chunk, and
+lifecycle validation before installation. See
+[worlds and teleportation](worlds-and-teleportation.md) and
+[plugin world generators](plugin-world-generators.md). The public world
+handles, lifecycle service, and owner-scoped plugin generator registrar are
+part of API 0.3; cross-world retail qualification remains a release gate and
+the implementation is not a retail compatibility claim.
 
 This is private-alpha behavior and does not establish retail compatibility.
 The cross-repository decision is tracked in

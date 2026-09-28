@@ -1,4 +1,4 @@
-# Plugins and API 0.1
+# Plugins and API 0.3
 
 Bedriox loads trusted in-process PHP plugins from strongly signed PHAR files.
 Bedriox itself discovers only files named `*.phar` directly inside `plugins/`.
@@ -108,7 +108,7 @@ Every archive root contains `plugin.json` and `src/`:
   "schema": 1,
   "name": "ExamplePlugin",
   "version": "0.1.0",
-  "api": "^0.1",
+  "api": "^0.3",
   "main": "Bedriox\\ExamplePlugin\\Main",
   "namespace": "Bedriox\\ExamplePlugin",
   "authors": ["Bedriox Team"],
@@ -145,7 +145,7 @@ returns `void`:
 #[EventHandler]
 public function onJoin(PlayerJoinEvent $event): void
 {
-    $this->context()->server()->sendMessage($event->player, 'Welcome');
+    $event->player->sendMessage('Welcome');
 }
 ```
 
@@ -204,16 +204,19 @@ messaging examples.
 
 ## Commands
 
-Register typed commands through `PluginContext::commands()`. A
-`CommandDefinition` declares a lowercase name, description, usage, aliases,
-optional permission, and `ANY`, `CONSOLE_ONLY`, or `PLAYER_ONLY` sender policy.
-Names and aliases are case-insensitive. A deterministic
-`<plugin>:<command>` name is registered alongside the short name. A later
+Register a class implementing `Command`, normally by extending
+`AbstractCommand`, through `PluginContext::commands()`. Its definition declares
+a lowercase name, description, aliases, optional permission, and `ANY`,
+`CONSOLE_ONLY`, or `PLAYER_ONLY` sender policy. `defineArguments()` supplies
+typed parameters and overloads used by the parser, generated usage, and
+Bedrock autocomplete. Names and aliases are case-insensitive. A deterministic
+`<plugin>:<command>` name is registered alongside the short name, and a later
 registration that conflicts with an existing short name or alias is rejected.
 
-Handlers receive a `CommandContext` containing the sender, resolved label, and
-bounded parsed arguments. Return `CommandResult::SUCCESS`, `FAILURE`, or
-`USAGE`. Use concrete sender types when behavior depends on the caller:
+`execute()` receives a `CommandContext` containing the sender, resolved label,
+and validated `CommandValues`. It returns a success or failure result, with an
+optional message for the sender. Use concrete sender types when behavior
+depends on the caller:
 
 ```php
 if ($context->sender() instanceof ConsoleCommandSender) {
@@ -225,10 +228,10 @@ if ($context->sender() instanceof PlayerCommandSender) {
 }
 ```
 
-Bedriox currently accepts operator commands from the non-blocking server
-console only. The player sender contract is available so plugins do not need a
-second command model later, but Bedrock slash-command input, persistent player
-permissions, groups, and operator management are not implemented.
+Bedriox accepts commands from the non-blocking server console and authenticated
+Bedrock slash-command input. UUID-based operator state, explicit permission
+grants, sender restrictions, and command events are enforced centrally before
+plugin code runs.
 
 Bedriox enforces sender and permission policy before plugin code runs.
 `CommandPreDispatchEvent` can cancel valid dispatch after those checks;
@@ -240,10 +243,72 @@ boundary.
 
 ## Safe public API
 
-API 0.1 provides immutable Player, World, Position, BlockPosition, Block,
-Inventory, and ItemStack views. Server operations can list players, look up a
-player by UUID, read the world or a block, send a message, request a teleport,
-set a canonical block identifier, or request an inventory-slot change.
+API 0.3 provides immutable `Player`, `World`, `Position`, `BlockPosition`,
+`Block`, `Inventory`, and `ItemStack` values. `PluginContext::server()` is the
+global discovery surface: `getWorldManager()`, `getOnlinePlayers()`,
+`getPlayerByUuid()`, and exact case-insensitive `getPlayerByName()`.
+Authoritative behavior belongs to the object it affects:
+
+```php
+use Bedriox\Api\Inventory\ItemStack;
+use Bedriox\Api\World\BlockPosition;
+use Bedriox\Api\World\Position;
+
+$server = $this->context()->server();
+$player = $server->getPlayerByName('ExamplePlayer');
+if ($player !== null) {
+    $player->sendMessage('Welcome');
+    $player->getInventory()->addItem(new ItemStack('minecraft:apple', 1));
+    $player->teleport(new Position(100.5, 70.0, -25.5));
+}
+
+$world = $server->getWorldManager()->getDefault();
+$spawnBlock = new BlockPosition(0, 64, 0);
+$block = $world->getBlock($spawnBlock);
+$world->setBlock($spawnBlock, 'minecraft:grass_block');
+```
+
+`Player` owns message, teleport, damage, game-mode, and access to its three
+session-bound inventory capabilities. `World` owns canonical block reads and
+writes.
+Requests enter the same authoritative validation, event, persistence, and
+synchronization paths as built-in gameplay. Stale player sessions and unloaded
+world generations fail closed; plugins never receive the mutable server player
+or heavy world runtime.
+
+### Player inventories
+
+Use the inventory capability that owns the slot being changed:
+
+```php
+$main = $player->getInventory();
+$armor = $player->getArmorInventory();
+$offHand = $player->getOffHandInventory();
+
+$main->setItem(4, new ItemStack('minecraft:apple', 16));
+$armor->setHelmet(new ItemStack('minecraft:diamond_helmet', 1));
+$offHand->clear();
+```
+
+`PlayerInventory` covers the 36-slot main inventory and hotbar. It provides
+`getSize()`, `getSelectedHotbarSlot()`, `getHeldItem()`, `getItem()`,
+`getContents()`, `isEmpty()`, `contains()`, `getAddableQuantity()`, and
+`firstEmpty()` for reads. Its authoritative mutations are `setItem()`,
+`setContents()`, `addItem()`, `removeItem()`, `clear()`, `clearAll()`, and
+`setSelectedHotbarSlot()`.
+
+`ArmorInventory` provides generic `getItem()`, `setItem()`, and `clear()`
+operations using `EquipmentSlot`, named helmet, chestplate, leggings, and boots
+getters and setters, plus `getContents()`, `clearAll()`, and `isEmpty()`.
+`OffHandInventory` provides `getItem()`, `setItem()`, `clear()`, and `isEmpty()`
+for its single slot.
+
+Content arrays and returned item stacks are snapshots. Mutate an inventory
+through its methods rather than editing a returned array. Bulk replacement is
+validated as one authoritative operation, and only changed slots are
+synchronized. A main-inventory `clearAll()` does not clear armor or offhand.
+Capabilities retained after disconnect or replacement login reject mutations
+instead of targeting a newer session.
 
 `PluginContext::items()` may register bounded item definitions and gameplay
 behavior for canonical identifiers already admitted by the active Bedrock data
@@ -279,7 +344,7 @@ admitted by the active catalog. The API does not expose recipe network IDs,
 container IDs, packet values, or mutable server registries. See
 [crafting](crafting.md) for the gameplay and lifecycle boundary.
 
-`PluginContext::server()->containers()` returns a plugin-scoped
+`PluginContext::containers()` returns a plugin-scoped
 `ContainerManager`. It can resolve supported world storage at a canonical block
 position or create a virtual single chest, double chest, hopper, dispenser, or
 dropper. Handles expose immutable contents plus bounded set, add, remove, clear,
@@ -310,5 +375,26 @@ failure follows normal plugin failure isolation. See
 
 Plugins do not receive sockets, packets, encryption state, mutable registries,
 internal queues, protocol stack IDs, or process-local block IDs. Mutations are
-revalidated and staged while a listener runs. Persistent player permissions,
-marketplace distribution, and a security sandbox are not part of API 0.1.
+revalidated and staged while a listener runs. Marketplace distribution and a
+security sandbox are not part of API 0.3.
+
+## World lifecycle and generators
+
+`Server::getWorldManager()` returns the API 0.3 `WorldManager`. It provides
+constant-time loaded-world lookup plus queued create, load, save, and unload
+operations through lightweight world handles. It does not expose the heavy
+world runtime, LevelDB provider, mutable chunks, or internal queues.
+
+`Position` accepts optional world, yaw, and pitch values so the common
+same-world teleport remains concise while a supplied world requests an atomic
+cross-world transition. Plugins, not Bedriox core, own world-management
+commands, menus, aliases, and access policy.
+
+`PluginContext::generators()` exposes owner-scoped namespaced definitions.
+Generator classes are final, stateless, zero-argument implementations with
+bounded immutable inputs. Built-ins run in core workers; plugin-defined
+generators use bounded main-thread execution and do not receive mutable server
+services. See
+[worlds and teleportation](worlds-and-teleportation.md) and
+[plugin world generators](plugin-world-generators.md) for the implemented
+contract and current qualification limits.

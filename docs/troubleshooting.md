@@ -51,7 +51,7 @@ per-tick budget. A white or empty area beyond loaded grass normally indicates a
 streaming or serialization failure, not a need to raise an unbounded radius.
 Never attach authentication chains or encryption material to a report.
 
-## Console commands do not run
+## Commands do not run
 
 Confirm that `console.enabled=true` and the server process has an open standard
 input stream. Detached service managers may close input; use
@@ -59,9 +59,12 @@ input stream. Detached service managers may close input; use
 command, denied permission, unsupported sender, malformed quoted argument, or
 disabled owner produces bounded feedback in the console and `logs/server.log`.
 
-Bedriox does not currently accept slash commands from a Bedrock player. A
-plugin may define player-capable commands for the stable sender contract, but
-only console input reaches the dispatcher in this release.
+Bedriox also accepts authenticated Bedrock slash-command input. For a player,
+confirm that the command allows player senders and that the player's UUID is an
+operator or has the required permission grant. The server advertises only the
+commands available to that player. Restart Bedriox after changing plugin
+command definitions, and check whether a live permission change refreshed the
+command list.
 
 ## PluginTools does not load or package a source plugin
 

@@ -8,6 +8,8 @@ The current playable scope includes:
 - Bedrock login, authentication, encryption, and resource-pack negotiation;
 - persistent default and flat overworld generation backed by immutable
   current-version protocol data;
+- multiple independently persisted loaded worlds, queued lifecycle operations,
+  cross-world teleportation, and built-in or plugin-defined generators;
 - player-list visibility, bounded movement and collision, text chat, emotes, and disconnect handling;
 - server-owned survival and creative inventory, world item entities, armor,
   offhand, tools, durability, ordinary consumption and nutrition, and
@@ -23,12 +25,12 @@ The current playable scope includes:
 
 This scope is a development boundary, not a retail compatibility claim. The authoritative supported client and protocol arrays remain empty until the qualification described in [compatibility](compatibility.md) and [testing](testing.md) is complete.
 
-Processing stations, additional dimensions, multiple loaded worlds, complete
-effects and projectiles, mobs, AI, natural
-spawning, and broad version compatibility remain later capabilities.
-Experimental plugin API 0.1
+Processing stations, additional dimensions, complete effects and projectiles,
+complete species-specific mob behavior, and broad version compatibility remain
+later capabilities.
+Experimental plugin API 0.3
 provides the bounded plugin, event, scheduler, item-behavior, and command
-surfaces documented in [plugins and API 0.1](plugins.md) and
+surfaces documented in [plugins and API 0.3](plugins.md) and
 [commands](commands.md). Future capabilities should be added
 behind owned interfaces and measured needs rather than coupled to transport
 callbacks or unchecked packet data.
