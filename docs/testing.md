@@ -156,7 +156,20 @@ inventories, chunk and player persistence, Ender Chest isolation, portable
 shulker contents, active-window lifecycle, atomic player/storage transactions,
 stale revision rollback, plugin cancellation and cleanup, independent
 multi-view stack identities, block presentation, and exact affected-slot
-responses. Processing stations require separate evidence.
+responses. Brewing-stand tests additionally cover the five-slot mapping,
+data-backed transitions, fuel and progress, atomic result commits, plugin
+cancellation, block-entity persistence, container properties, and viewer
+synchronization. Other processing stations require separate evidence.
+
+Effect and potion tests cover typed identity, replacement and hidden fallback,
+expiration, instant and periodic behavior, storage, death, client projection,
+drink completion and residue, milk, golden apples, splash falloff, lingering
+cloud cadence, tipped-arrow scaling, and bounded projectile lifetime. Particle
+tests cover current named and data-backed families, payload validation,
+audience filtering, delivered-chunk eligibility, and per-tick work limits.
+Retail effect, potion, particle, and brewing checks remain part of the release
+qualification recorded in
+[effects, particles, potions, and brewing](effects-and-particles.md).
 
 ## Multiplayer evidence
 

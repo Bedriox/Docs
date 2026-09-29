@@ -23,6 +23,37 @@ to the current Bedrock packet range. Natural spawning, player login, periodic
 client correction, and command changes all consume the same authoritative
 value. A stopped daylight cycle is a runtime choice and resumes after restart.
 
+## Effects and particles
+
+Operators with `bedriox.command.effect` can use the typed effect catalog:
+
+```text
+/effect <player> <effect> [seconds] [amplifier] [hideParticles]
+/effect <player> <effect> infinite [amplifier] [hideParticles]
+/effect <player> clear [effect]
+```
+
+Effect names omit the `minecraft:` prefix. Seconds default to 30, amplifiers
+default to zero, and `hideParticles` defaults to `false`. These commands use
+the same cancellable authoritative effect path as plugins and potion delivery.
+
+Players with `bedriox.command.particle` can spawn a named current-version
+particle in their current loaded world:
+
+```text
+/particle minecraft:heart_particle
+/particle minecraft:basic_flame_particle ~ ~1 ~
+```
+
+The particle argument must exactly match a registered `ParticleType` value;
+short aliases such as `minecraft:heart` and `minecraft:flame` are not accepted.
+An unknown particle fails without spawning anything. Coordinates accept the
+ordinary relative `~` form. The command is player-only because the world comes
+from the player's current session, and delivery still uses chunk visibility
+and particle budgets. See
+[effects, particles, potions, and brewing](effects-and-particles.md) for the
+public API and retail checklist.
+
 ## Register a command
 
 Register commands while enabling a plugin:

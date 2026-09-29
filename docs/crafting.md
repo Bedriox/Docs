@@ -34,9 +34,12 @@ same authoritative transaction path.
 
 This milestone covers recipes that belong to the personal or crafting-table
 grid. Furnaces, blast furnaces, smokers, campfires, stonecutters, smithing
-tables, cartography tables, brewing stands, looms, anvils, grindstones,
+tables, cartography tables, looms, anvils, grindstones,
 enchanting tables, and automated crafters are separate processing systems and
-are not enabled by crafting-grid support. Persistent storage containers use the
+are not enabled by crafting-grid support. Brewing stands are a separate
+implemented processing system documented in
+[effects, particles, potions, and brewing](effects-and-particles.md).
+Persistent storage containers use the
 same authoritative inventory foundation but are documented separately in
 [storage containers](storage-containers.md).
 

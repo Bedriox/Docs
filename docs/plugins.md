@@ -197,6 +197,15 @@ committed outcomes.
 damage, while `EntityInteractionType` distinguishes ordinary and item-backed
 interaction without exposing protocol action numbers.
 
+Status effects use a generation-bound `EffectManager` on players and living
+entities. Cancellable add and remove events run before authoritative mutation;
+immutable added and removed events report committed state. Worlds also expose
+typed, bounded particle presentation with optional player audiences and
+delivered-chunk filtering. Brewing exposes cancellable fuel and result events
+plus immutable committed notifications without mutable stand internals. See
+[effects, particles, potions, and brewing](effects-and-particles.md) for
+examples, replacement behavior, causes, and limits.
+
 See the tested
 [ExamplePlugin](https://github.com/Bedriox/ExamplePlugin) for lifecycle,
 logging, default and explicit priorities, cancellation, monitoring, and safe

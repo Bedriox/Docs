@@ -89,9 +89,12 @@ Bedriox admits the complete personal and crafting-table subset into one
 server-owned registry and projects its current wire representation through
 Protocol. Recipe matching and inventory mutation remain Bedriox behavior; Data
 does not inspect player grids or execute a craft. Records assigned to furnaces,
-stonecutters, smithing, cartography, brewing, and other processing stations
-remain available for future owning systems but are not enabled merely because
-the dataset contains them. See [crafting](crafting.md).
+stonecutters, smithing, cartography, and other processing stations remain
+available for future owning systems but are not enabled merely because the
+dataset contains them. Brewing container and potion mixes are consumed by the
+implemented authoritative brewing-stand system; Data describes its transitions
+but does not execute them. See [crafting](crafting.md) and
+[effects, particles, potions, and brewing](effects-and-particles.md).
 
 ## Updating a pinned release
 

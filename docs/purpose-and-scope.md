@@ -18,6 +18,9 @@ The current playable scope includes:
   matching and atomic crafting transactions;
 - persistent chest, trapped-chest, barrel, shulker-box, and player-owned Ender
   Chest inventories with atomic multiplayer window transactions;
+- typed status effects, bounded world particles, drinkable and throwable
+  potions, tipped-arrow delivery, area-effect clouds, and persistent brewing
+  stands;
 - authoritative block breaking and placement, player combat, health, death,
   respawn, commands, operators, permissions, and player persistence; and
 - an authoritative 20 TPS simulation with bounded worker-backed world and
@@ -25,7 +28,8 @@ The current playable scope includes:
 
 This scope is a development boundary, not a retail compatibility claim. The authoritative supported client and protocol arrays remain empty until the qualification described in [compatibility](compatibility.md) and [testing](testing.md) is complete.
 
-Processing stations, additional dimensions, complete effects and projectiles,
+Processing stations other than brewing stands, additional dimensions,
+additional projectile families,
 complete species-specific mob behavior, and broad version compatibility remain
 later capabilities.
 Experimental plugin API 0.3

@@ -4,6 +4,9 @@ All notable documentation changes will be recorded here.
 
 ## Unreleased
 
+- Document typed effect managers and lifecycle events, the complete named and
+  data-backed particle catalog, potion delivery, brewing behavior and events,
+  operator commands, safety limits, and retail qualification steps.
 - Updated the public plugin documentation for API 0.3, including object-owned
   player and world actions, session-bound main, armor, and offhand inventory
   capabilities, world lifecycle management, and plugin-scoped containers.

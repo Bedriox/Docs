@@ -23,8 +23,11 @@ The current executable is a narrow experimental server foundation, not a general
   grids support the complete admitted crafting-grid catalog through
   authoritative transactions. Chests, trapped chests, barrels, shulker boxes,
   and private Ender Chests use persistent authoritative inventories. Processing
-  stations, enchantments, complete effects, projectiles, and many unique item
-  mechanics remain unavailable. See [crafting](crafting.md) and
+  stations other than brewing stands, enchantments, additional projectile
+  families, and many unique item mechanics remain unavailable. Potions,
+  tipped arrows, and brewing use the active release's admitted data and are
+  documented in [effects, particles, potions, and brewing](effects-and-particles.md).
+  See [crafting](crafting.md) and
   [storage containers](storage-containers.md).
 - The creative inventory includes the complete admitted groups, entries,
   damage variants, block-state variants, and bounded item NBT for the pinned
@@ -38,8 +41,11 @@ The current executable is a narrow experimental server foundation, not a general
 - The first entity runtime slice supports catalog-backed actor projection,
   explicit spawning, entity persistence, bounded natural populations, staged
   mob decisions, and owner-scoped custom mobs. Complete species-specific
-  vanilla behavior, breeding and taming, bosses, projectiles, complete status
-  effects, and persistent arbitrary plugin data remain unavailable. See
+  vanilla behavior, breeding and taming, bosses, general-purpose projectile
+  APIs, and persistent arbitrary plugin data remain
+  unavailable. Typed effect state, events, synchronization, persistence, and
+  the currently implemented mechanics are described in
+  [effects and particles](effects-and-particles.md). See also
   [entities and custom mobs](entities.md) and
   [plugins and API 0.3](plugins.md).
 - Multiplayer actor join, movement, posture, chat, departure, and reconnect
