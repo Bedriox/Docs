@@ -30,6 +30,12 @@ and integration evidence; wire-visible changes also require retail evidence.
 15. Open a chest, barrel, shulker box, and Ender Chest; transfer items in both
     directions; close and reopen each window; then restart and verify durable
     contents, private Ender Chest ownership, and immediate active-window updates.
+16. Process items in a furnace, blast furnace, smoker, and campfire; restart
+    during active work; extract the results and collect the resulting experience
+    without duplicated inputs, output, fuel, or experience.
+17. Exercise each transient station, including accepted, cancelled, stale,
+    full-inventory, close, disconnect, and repeated-result paths; verify that
+    inputs return exactly once and all experience costs remain authoritative.
 
 Malformed, spoofed, phase-invalid, or oversized traffic remains fail-closed for
 the affected session. Valid but unfinished gameplay receives an explicitly
@@ -41,7 +47,8 @@ vectors or independent construction where practical, verify resource bounds,
 and retain the regression that motivated each fix.
 
 The multiplayer implementation has automated coverage, but step 11 and the new
-item-use, equipment, crafting, and storage steps 12 through 15 remain open retail
+item-use, equipment, crafting, storage, processing, and experience steps 12
+through 17 remain open retail
 qualification items.
 Follow the repeatable checklist in
 [player and multiplayer lifecycle](player-multiplayer.md) before advancing any

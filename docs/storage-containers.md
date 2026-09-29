@@ -95,7 +95,10 @@ keys, credentials, or raw personal packet captures.
 
 ## Current boundary
 
-Storage containers do not implement furnace-style processing, fuel, brewing,
-enchanting, smithing, stonecutting, automation, redstone behavior, or hoppers
-moving items between world inventories. Those systems build on this inventory
-and block-entity foundation in later milestones.
+Storage containers do not themselves implement furnace-style processing, fuel,
+brewing, enchanting, smithing, or stonecutting. Those implemented systems build
+on this inventory and block-entity foundation and are documented in
+[processing stations and experience](processing-and-experience.md) and
+[effects, particles, potions, and brewing](effects-and-particles.md).
+Automation, redstone behavior, and hoppers moving items between world
+inventories remain separate future systems.

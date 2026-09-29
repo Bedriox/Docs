@@ -22,12 +22,16 @@ The current executable is a narrow experimental server foundation, not a general
   implemented ordinary food and drink behaviors. Personal and crafting-table
   grids support the complete admitted crafting-grid catalog through
   authoritative transactions. Chests, trapped chests, barrels, shulker boxes,
-  and private Ender Chests use persistent authoritative inventories. Processing
-  stations other than brewing stands, enchantments, additional projectile
-  families, and many unique item mechanics remain unavailable. Potions,
-  tipped arrows, and brewing use the active release's admitted data and are
-  documented in [effects, particles, potions, and brewing](effects-and-particles.md).
-  See [crafting](crafting.md) and
+  and private Ender Chests use persistent authoritative inventories. Furnaces,
+  blast furnaces, smokers, campfires, transient workstations, experience, and
+  experience orbs use server-authoritative processing. Automation through
+  hoppers, droppers, dispensers, or crafters, villager trading, beacons,
+  additional projectile families, and many unique item mechanics remain
+  unavailable. Potions, tipped arrows, and brewing use the active release's
+  admitted data and are documented in
+  [effects, particles, potions, and brewing](effects-and-particles.md).
+  See [crafting](crafting.md),
+  [processing stations and experience](processing-and-experience.md), and
   [storage containers](storage-containers.md).
 - The creative inventory includes the complete admitted groups, entries,
   damage variants, block-state variants, and bounded item NBT for the pinned

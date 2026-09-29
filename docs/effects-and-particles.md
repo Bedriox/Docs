@@ -209,4 +209,4 @@ Record the Bedriox commit, Data release, client build, platform, exact action, a
 
 ## Current boundary
 
-The typed effect manager, lifecycle events, current named and data-backed particles, drinkable and throwable potion forms, tipped-arrow delivery, area-effect clouds, and brewing stands are implemented for the active data release. Catalog admission still does not imply that every unrelated item, projectile, processing station, or block-specific mechanic is available. Retail qualification remains open until the checklist above is completed against the pinned client build.
+The typed effect manager, lifecycle events, current named and data-backed particles, drinkable and throwable potion forms, tipped-arrow delivery, area-effect clouds, and brewing stands are implemented for the active data release. Catalog admission still does not imply that every unrelated item, projectile, automation system, or block-specific mechanic is available. Retail qualification remains open until the checklist above is completed against the pinned client build.

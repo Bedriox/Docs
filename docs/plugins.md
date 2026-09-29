@@ -206,6 +206,25 @@ plus immutable committed notifications without mutable stand internals. See
 [effects, particles, potions, and brewing](effects-and-particles.md) for
 examples, replacement behavior, causes, and limits.
 
+Player experience uses a generation-bound `ExperienceManager` returned by
+`Player::getExperience()`. Its immutable snapshot exposes total points, derived
+level, and progress. Bounded `setTotalPoints()`, `addPoints()`, and
+`removePoints()` requests enter the authoritative simulation with a typed
+`ExperienceChangeCause`; they do not mutate a retained snapshot directly.
+`PlayerExperienceChangeEvent` and `ExperienceOrbSpawnEvent` are cancellable
+pre-events, while `PlayerExperienceChangedEvent` and
+`ExperienceOrbSpawnedEvent` observe committed outcomes.
+
+Processing follows the same paired rule. Furnace fuel, smelt start, smelt
+completion, extraction, campfire cooking, transient workstations, enchanting,
+composters, and cauldrons expose bounded pre-events and immutable committed
+events. Listeners receive canonical item identities, typed station kinds,
+positions, and causes rather than mutable station state or protocol values.
+Events fire only for semantic transitions, not processing ticks. A listener
+cannot bypass reach, slot ownership, stack lineage, capacity, experience cost,
+revision checks, or atomic commit. See
+[processing stations and experience](processing-and-experience.md).
+
 See the tested
 [ExamplePlugin](https://github.com/Bedriox/ExamplePlugin) for lifecycle,
 logging, default and explicit priorities, cancellation, monitoring, and safe

@@ -163,11 +163,12 @@ cross-platform, memory-recovery, or performance gates in the
 The gameplay slice includes authoritative inventory, ordinary item use and
 consumption, nutrition, armor, offhand, durability, block interaction, world
 items, personal and crafting-table crafting, persistent storage containers,
-player combat, commands, and persistence. It does not yet provide processing
-stations, complete effects, projectiles, complete species-specific mob
-behavior, or every item-specific vanilla behavior. Crafting is documented in
-[crafting](crafting.md), and storage is
-documented in [storage containers](storage-containers.md). Commands are documented separately in
+processing stations, experience, player combat, commands, and persistence. It
+does not yet provide every projectile family, complete species-specific mob
+behavior, automation system, or item-specific vanilla behavior. Crafting is
+documented in [crafting](crafting.md), processing in
+[processing stations and experience](processing-and-experience.md), and storage
+in [storage containers](storage-containers.md). Commands are documented separately in
 [commands](commands.md). Experimental plugin API 0.3 is documented in
 [plugins and API 0.3](plugins.md). The server owns persistent LevelDB worlds
 using the selected deterministic `default` or `flat` generator. See

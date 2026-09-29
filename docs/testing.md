@@ -159,7 +159,18 @@ multi-view stack identities, block presentation, and exact affected-slot
 responses. Brewing-stand tests additionally cover the five-slot mapping,
 data-backed transitions, fuel and progress, atomic result commits, plugin
 cancellation, block-entity persistence, container properties, and viewer
-synchronization. Other processing stations require separate evidence.
+synchronization.
+
+Processing tests cover furnace, blast-furnace, smoker, and campfire recipes,
+fuel, bounded progress, active-station scheduling, block-entity persistence,
+unload and restart, extraction experience, transient station session cleanup,
+authoritative costs and results, map and banner item data, composters,
+cauldrons, and plugin pre/post events. Experience tests cover level and progress
+derivation, persistence, commands and plugin mutations, orb spawning, movement,
+merging, pickup, capacity, and despawn. Adversarial cases include stale and
+replayed requests, repeated result collection, full destinations, block
+replacement, close, disconnect, teleport, plugin cancellation, listener
+failure, and revision changes before commit.
 
 Effect and potion tests cover typed identity, replacement and hidden fallback,
 expiration, instant and periodic behavior, storage, death, client projection,

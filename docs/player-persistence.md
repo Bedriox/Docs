@@ -18,7 +18,8 @@ The current versioned record contains:
 - first-played and last-played timestamps;
 - world name, exact position, yaw, and pitch;
 - the supported survival game mode;
-- 36 main-inventory slots, the selected hotbar slot, and the cursor stack.
+- 36 main-inventory slots, the selected hotbar slot, and the cursor stack; and
+- bounded total experience points, from which level and progress are derived.
 
 Items use canonical identifiers such as `minecraft:grass_block`. Bedrock stack
 network IDs belong to one connection and are allocated again on every login.

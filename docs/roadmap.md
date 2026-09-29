@@ -270,25 +270,25 @@ remains server-owned and retained across death until world item entities exist.
 
 Persistent transactional storage is now complete across chests, trapped
 chests, barrels, shulker boxes, Ender Chests, block-entity persistence,
-multiplayer windows, and the plugin container API. The remaining gameplay work
-follows this dependency order:
+multiplayer windows, and the plugin container API. Authoritative processing
+stations and experience now build on that foundation. Multi-world lifecycle,
+teleportation, typed entity runtime, persistence, natural spawning, and staged
+mob behavior are also present. Remaining gameplay work follows this dependency
+order:
 
-1. processing blocks and their recipe, fuel, progress, property, and experience
-   authority;
-2. multiple independently persisted worlds, safe spawns, world lifecycle, and
-   teleportation;
-3. advanced terrain structures, decoration, and complete environmental
+1. automation and redstone systems that move or process items without an
+   active player;
+2. advanced terrain structures, decoration, and complete environmental
    movement such as swimming and breathing;
-4. the entity runtime, explicit spawning, entity persistence, natural
-   spawning, and staged mob behavior; and
-5. measurement-driven profiling and scaling after realistic workloads show
+3. complete species-specific entity behavior and remaining projectile families;
+   and
+4. measurement-driven profiling and scaling after realistic workloads show
    where additional caching or worker isolation is justified.
 
 The complete block-and-item milestone begins with an accepted, deterministic
-current-version data bundle and full creative-catalog projection. The public
-Data repository admits the immutable runtime bundle; the access-restricted
-[DataBuilder](https://github.com/Bedriox/DataBuilder) project prepares and
-publishes reviewed candidates. Creative completeness covers groups, entries,
+current-version data bundle and full creative-catalog projection. Data admits
+the immutable source-neutral runtime bundle after candidate review. Creative
+completeness covers groups, entries,
 variants, and safe authoritative selection. It does not by itself implement
 every item's unique gameplay behavior. See
 [versioned data and the creative catalog](data-and-creative-catalog.md).
@@ -310,15 +310,14 @@ player identity. Neither plugins nor clients may bypass validation.
 Canonical blocks and items, partial collision shapes, block drops, placement
 rules, equipment, ordinary item use, nutrition, durability, complete player
 inventories, bounded world item entities, authoritative personal and table
-crafting, and persistent transactional containers now provide the authority
-needed for processing blocks. Add
-multiple independently persisted
-worlds, per-world safe spawn, loading and unloading, teleportation, and bounded
-plugin APIs before advanced terrain depends on world lifecycle.
+crafting, persistent transactional containers, processing stations, and
+experience now share one atomic authority model. Multiple independently
+persisted worlds, per-world safe spawn, loading and unloading, teleportation,
+and bounded plugin APIs provide the lifecycle foundation for advanced terrain.
 
 Advanced generation then adds structures, richer decoration, and complete
-breathing/swimming authority. The entity milestone follows after world,
-inventory, damage, and plugin-event contracts are stable.
+breathing/swimming authority. Automation and remaining entity behavior keep
+their own authority, performance, persistence, and plugin-event gates.
 
 ### Entity runtime and behavior
 

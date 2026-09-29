@@ -9,8 +9,7 @@ in the repository that owns its state and invariants.
 | Bedriox | Startup, configuration, authentication policy, sessions, players, simulation, worlds, commands, observability | RakNet algorithms, packet layouts, versioned registries |
 | RakNet | UDP, discovery framing, negotiation, reliability, ordering, fragmentation, transport sessions | Bedrock packets or gameplay |
 | Protocol | Bedrock framing, encryption envelopes, packet codecs, protocol-version authority | Sockets, mutable players or worlds |
-| Data | Immutable admitted artifacts, canonical states, palettes, hashes, offline generators | Runtime downloads or mutable server state |
-| [DataBuilder](https://github.com/Bedriox/DataBuilder) (access restricted) | Preparing, verifying, comparing, approving, and publishing candidate datasets for Data review | Runtime loading, protected-branch publication, or server gameplay |
+| Data | Immutable admitted artifacts, canonical states, palettes, hashes, and source-neutral indexed views | Runtime downloads or mutable server state |
 | Docs | Supported operator and ecosystem-developer behavior | Unimplemented promises or architectural decisions |
 | RFCs | Decisions, alternatives, consequences, and acceptance criteria | Claims that a feature is already supported |
 | ExamplePlugin | Tested first-party API 0.3 examples | Server internals or unreleased APIs |

@@ -4,6 +4,22 @@ Bedriox provides one typed command model for the server console and Bedrock
 slash-command input. The server advertises only commands the authenticated
 player may use and routes both sender types through the same bounded parser.
 
+## Experience
+
+Operators with `bedriox.command.experience` can use `experience` or its `xp`
+alias:
+
+```text
+/experience query <player>
+/experience set <player> <amount> [points|levels]
+/experience add <player> <amount> [points|levels]
+```
+
+The optional unit defaults to points. Values are bounded, levels are derived
+from the authoritative total, and negative `add` amounts cannot reduce the
+total below zero. Command changes use the same cancellable experience event and
+committed post-event as orb collection, processing, and plugin requests.
+
 ## World time
 
 Operators with `bedriox.command.time` can use:

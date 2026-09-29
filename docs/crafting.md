@@ -34,18 +34,18 @@ same authoritative transaction path.
 
 This milestone covers recipes that belong to the personal or crafting-table
 grid. Furnaces, blast furnaces, smokers, campfires, stonecutters, smithing
-tables, cartography tables, looms, anvils, grindstones,
-enchanting tables, and automated crafters are separate processing systems and
-are not enabled by crafting-grid support. Brewing stands are a separate
-implemented processing system documented in
-[effects, particles, potions, and brewing](effects-and-particles.md).
+tables, cartography tables, looms, anvils, grindstones, enchanting tables,
+brewing stands, and automated crafters are separate processing systems and do
+not use a crafting-grid transaction. Implemented player-operated stations are
+documented in [processing stations and experience](processing-and-experience.md)
+and [effects, particles, potions, and brewing](effects-and-particles.md).
 Persistent storage containers use the
 same authoritative inventory foundation but are documented separately in
 [storage containers](storage-containers.md).
 
 The creative catalog and recipe catalog describe which item and recipe records
 the active data release admits. They do not imply that every resulting item's
-unique use behavior or every processing station has been implemented.
+unique use behavior or an unrelated automation system has been implemented.
 
 ## Troubleshooting
 

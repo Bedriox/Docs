@@ -4,6 +4,9 @@ All notable documentation changes will be recorded here.
 
 ## Unreleased
 
+- Document authoritative processing stations, persistent and transient station
+  ownership, experience and orbs, atomic no-duplication rules, plugin events,
+  and the cumulative retail qualification journey.
 - Document typed effect managers and lifecycle events, the complete named and
   data-backed particle catalog, potion delivery, brewing behavior and events,
   operator commands, safety limits, and retail qualification steps.
@@ -24,8 +27,8 @@ All notable documentation changes will be recorded here.
 - Documented authoritative item-use, consumption, nutrition, natural
   regeneration, equipment, durability events, and owner-scoped plugin item
   behavior definitions.
-- Documented the deterministic data-release lifecycle, private
-  DataBuilder handoff, public Data admission boundary, and complete
+- Documented the deterministic, source-neutral data-release lifecycle, public
+  Data admission boundary, and complete
   current-version creative-catalog scope without implying item-mechanic support.
 - Recorded completion of authoritative health, fall damage, death, respawn,
   persistence, multiplayer projection, and plugin events, and advanced the

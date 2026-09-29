@@ -13,11 +13,9 @@ capabilities.
 
 ## Release data lifecycle
 
-Release maintainers prepare candidate data with the private
-[DataBuilder](https://github.com/Bedriox/DataBuilder) repository. Access to that
-repository is restricted. Its maintained instructions are the authority for
-the exact commands and review workflow; public documentation intentionally does
-not reproduce private implementation details or machine-specific paths.
+Release maintainers prepare a candidate from approved, pinned source material.
+The public contract begins at the reviewed candidate and does not depend on a
+particular preparation tool or workspace layout.
 
 The release flow is:
 
@@ -31,9 +29,8 @@ The release flow is:
    component release in its consumers.
 
 Publication must stop if the candidate changed after approval, the destination
-checkout is dirty, a required reference is unresolved, or validation fails.
-DataBuilder never publishes directly to a protected branch and never makes an
-unreviewed upstream checkout a runtime dependency.
+checkout is dirty, a required source is unresolved, or validation fails. An
+unreviewed source checkout never becomes a runtime dependency.
 
 ## Dataset contract
 
@@ -85,15 +82,13 @@ dimensions, holes, mirroring, ingredient alternatives and tags, counts,
 outputs, priorities, recipe identities, and the declared station without
 making wire network IDs part of the Data API.
 
-Bedriox admits the complete personal and crafting-table subset into one
-server-owned registry and projects its current wire representation through
-Protocol. Recipe matching and inventory mutation remain Bedriox behavior; Data
-does not inspect player grids or execute a craft. Records assigned to furnaces,
-stonecutters, smithing, cartography, and other processing stations remain
-available for future owning systems but are not enabled merely because the
-dataset contains them. Brewing container and potion mixes are consumed by the
-implemented authoritative brewing-stand system; Data describes its transitions
-but does not execute them. See [crafting](crafting.md) and
+Bedriox admits crafting and processing records into server-owned indexed views
+and projects their current wire representation through Protocol. Recipe
+matching, fuel selection, scheduling, experience, and inventory mutation remain
+Bedriox behavior; Data does not inspect live stations or execute a transition.
+Catalog presence still does not enable an unrelated mechanic by itself. See
+[crafting](crafting.md),
+[processing stations and experience](processing-and-experience.md), and
 [effects, particles, potions, and brewing](effects-and-particles.md).
 
 ## Updating a pinned release
