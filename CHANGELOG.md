@@ -4,6 +4,8 @@ All notable documentation changes will be recorded here.
 
 ## Unreleased
 
+- Clarified the sheep and skeleton land-mob qualification plan and documented
+  the implemented entity equipment, death-drop, and projectile event pairs.
 - Document authoritative processing stations, persistent and transient station
   ownership, experience and orbs, atomic no-duplication rules, plugin events,
   and the cumulative retail qualification journey.

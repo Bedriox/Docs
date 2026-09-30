@@ -197,6 +197,27 @@ committed outcomes.
 damage, while `EntityInteractionType` distinguishes ordinary and item-backed
 interaction without exposing protocol action numbers.
 
+Living-entity equipment uses cancellable, adjustable
+`EntityEquipmentChangeEvent` before commit and immutable
+`EntityEquipmentChangedEvent` afterward. `EntityDeathEvent` is non-cancellable
+but allows its stable, once-evaluated bounded drop list to be replaced before
+item actors are created. Projectile lifecycle uses cancellable
+`ProjectileLaunchEvent` and `ProjectileImpactEvent`, followed by immutable
+`ProjectileLaunchedEvent` and `ProjectileImpactedEvent`. Launch listeners may
+replace bounded motion and receive a `Player|LivingEntity` shooter; impact
+values identify the resolved player, entity, or block without exposing packet
+actor metadata.
+
+The sheep and skeleton development slice adds `EntityTargetEvent` and
+`EntityTargetChangedEvent` with typed `EntityTargetReason` values, plus
+`EntityShearEvent` and `EntityShearedEvent`. Target listeners may replace the
+bounded player, entity, or null target. Shearing listeners may cancel or replace
+the bounded drop list before the tool, sheep state, and drops commit together.
+Its public entity capabilities are `Ageable`, `Breedable`, `Shearable`, and
+`RangedMob`; sheep color uses the typed `WoolColor` enum and bounded
+`SheepController` intents. These names are part of the coordinated development
+contract and are not a release-support claim by themselves.
+
 Status effects use a generation-bound `EffectManager` on players and living
 entities. Cancellable add and remove events run before authoritative mutation;
 immutable added and removed events report committed state. Worlds also expose

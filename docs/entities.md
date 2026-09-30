@@ -39,6 +39,36 @@ villager, and miscellaneous entities. `MobActivationState` reports active,
 reduced, sleeping, or forced scheduling without exposing the scheduler or its
 queues.
 
+## Land-mob qualification
+
+Canonical catalog identity and client rendering do not by themselves establish
+species support. Cow and zombie are the currently specialized reference animal
+and monster. The next land-mob slice is sheep and skeleton: sheep qualifies
+durable animal variants and authoritative shearing, while skeleton qualifies
+ranged hostile decisions through the existing projectile runtime. Until the
+owning implementation, tests, and release notes identify that slice as
+complete, plugins must treat other catalog-backed actors as baseline entity
+admission rather than complete vanilla behavior.
+
+The planned sheep gate covers adult and baby state, wool color, sheared state,
+dyeing, shearing, wool drops, grazing and regrowth, temptation, breeding,
+persistence, metadata, and natural spawning. The planned skeleton gate covers
+targeting, line of sight, pursuit, bow equipment, authoritative arrows, attack
+cadence, daylight combustion, helmet wear, drops, persistence, multiplayer
+projection, and natural spawning. See
+[RFC 0031](https://github.com/Bedriox/RFCs/blob/main/rfcs/0031-land-mob-expansion.md)
+for the broader proposed roster and acceptance gates.
+
+The coordinated public API for this development slice uses
+`Vanilla\Sheep`, `Vanilla\Skeleton`, `VanillaEntityType::SHEEP`, and
+`VanillaEntityType::SKELETON`. Sheep implements the `Animal`, `Ageable`,
+`Breedable`, and `Shearable` capabilities. Its immutable view exposes
+`isBaby()`, `isSheared()`, and `getWoolColor()`; `SheepController` provides
+bounded `setBaby()`, `setSheared()`, and `setWoolColor()` intents using the
+typed `WoolColor` enum. Skeleton implements `Monster`, `Undead`, and
+`RangedMob` and uses the ordinary mob controller. These names do not establish
+release support until the implementation and qualification gates above pass.
+
 ## Register a custom mob
 
 Register custom definitions while the plugin is enabled. Identifiers must be
@@ -173,7 +203,21 @@ The entity event surface includes:
   `EntityInteractionType`;
 - `EntityDamageEvent`: cancellable damage with a bounded mutable amount;
 - `EntityDamageByEntityEvent`: damage plus its typed player or entity source;
-- `EntityDeathEvent`: immutable death observation with the last damage event.
+- `EntityEquipmentChangeEvent` and `EntityEquipmentChangedEvent`: cancellable,
+  adjustable equipment intent and immutable committed equipment state;
+- `EntityTargetEvent` and `EntityTargetChangedEvent`: cancellable target intent
+  with an adjustable `Player|Entity|null` target, typed `EntityTargetReason`,
+  and immutable committed target state;
+- `EntityShearEvent` and `EntityShearedEvent`: cancellable validated shearing
+  with a bounded replaceable drop list, followed by the immutable committed
+  player, entity, tool, and drops;
+- `EntityDeathEvent`: non-cancellable death observation with the last damage
+  event and a bounded, replaceable drop list;
+- `ProjectileLaunchEvent` and `ProjectileLaunchedEvent`: cancellable launch
+  from a `Player|LivingEntity` shooter with bounded mutable motion and
+  immutable committed launch state; and
+- `ProjectileImpactEvent` and `ProjectileImpactedEvent`: cancellable resolved
+  player, entity, or block impact and immutable committed impact state.
 
 Cancellation rejects the requested mutation through the authoritative path; it
 does not bypass validation or grant direct access to actor packets. Post-events
@@ -213,6 +257,6 @@ continues.
 
 Entity state remains part of world persistence, separate from player profiles.
 Graceful shutdown flushes loaded entity ownership with world data. Complete
-species-specific behavior, bosses, breeding and taming, projectiles, and status
-effects remain later gameplay work; catalog admission or a rendered vanilla
-appearance does not imply those mechanics are complete.
+species-specific behavior, bosses, breeding and taming, and the remaining
+projectile families remain later gameplay work; catalog admission or a rendered
+vanilla appearance does not imply those mechanics are complete.

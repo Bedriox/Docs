@@ -45,8 +45,8 @@ The current executable is a narrow experimental server foundation, not a general
 - The first entity runtime slice supports catalog-backed actor projection,
   explicit spawning, entity persistence, bounded natural populations, staged
   mob decisions, and owner-scoped custom mobs. Complete species-specific
-  vanilla behavior, breeding and taming, bosses, general-purpose projectile
-  APIs, and persistent arbitrary plugin data remain
+  vanilla behavior, breeding and taming, bosses, remaining projectile families,
+  and persistent arbitrary plugin data remain
   unavailable. Typed effect state, events, synchronization, persistence, and
   the currently implemented mechanics are described in
   [effects and particles](effects-and-particles.md). See also

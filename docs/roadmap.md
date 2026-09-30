@@ -372,6 +372,18 @@ Mob behavior is divided into six cumulative gates:
    golems, aquatic and flying mobs, Nether families, bosses, and other
    current-version exceptions.
 
+The first land-mob expansion slice pairs sheep with skeleton. Sheep proves
+typed age, breeding, shearing, wool-color state, persistence, interaction, and
+passive spawning. Skeleton proves target-reason changes, ranged decisions,
+entity-owned projectile launch, daylight equipment wear, persistence, and
+hostile spawning. Public names are fixed through `Ageable`, `Breedable`,
+`Shearable`, `RangedMob`, `WoolColor`, `SheepController`, the dedicated sheep
+and skeleton views, and the typed target and shear event pairs. Broader
+breeding, transformation, block-change, explosion, and mount APIs remain
+deferred until their owning mechanics exist. The complete proposed land roster
+and cumulative acceptance matrix are tracked by
+[RFC 0031](https://github.com/Bedriox/RFCs/blob/main/rfcs/0031-land-mob-expansion.md).
+
 Core physics, collision, damage, fire, air, persistence, and network projection
 remain separate from intelligence. The advanced `entities.ai.enabled` setting
 appears only with the first AI gate and disables decisions and navigation, not

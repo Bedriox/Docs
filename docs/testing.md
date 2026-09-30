@@ -40,8 +40,16 @@ Entity runtime tests cover registry ownership and cleanup, spatial indexing,
 physics, actor visibility, explicit spawning, spawn-egg authority, persistence
 round trips and corruption isolation, bounded natural-spawn candidates,
 activation budgets, behavior priority, navigation bounds, plugin lifecycle
-attribution, and worker result validation. Retail qualification still requires
-the complete multi-client entity journey described below.
+attribution, worker result validation, entity equipment and drop events, and
+projectile launch and impact event isolation. Retail qualification still
+requires the complete multi-client entity journey described below.
+
+The sheep and skeleton development gate additionally requires exact public
+type and capability projection, every wool color, baby and sheared persistence,
+cancelled and committed shearing, target-reason transitions, ranged attack
+cadence, entity-owned projectile launches and impacts, daylight helmet wear,
+natural spawning, chunk unload and reload, restart, and two-player visibility.
+Catalog appearance or a successful `/summon` alone does not satisfy this gate.
 
 ## Run the gates
 
