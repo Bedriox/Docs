@@ -11,7 +11,7 @@ isolation, and teleport safety. Plugins decide how operators
 and players create or select worlds.
 
 The architectural contract is tracked by
-[RFC 0032](https://github.com/Bedriox/RFCs/blob/main/rfcs/0032-multi-world-lifecycle-teleportation-and-generators.md).
+the [roadmap](roadmap.md).
 
 ## World identity
 

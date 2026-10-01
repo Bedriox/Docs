@@ -37,5 +37,5 @@ Stop the foreground server with the platform's normal interrupt signal, such as 
 The first successful start creates `bedriox.settings` in the current working
 directory. Stop the server, edit the generated file, and start it again to
 apply operator settings. Explicit command options override matching file
-values. Bedriox remains private alpha; successful startup and terrain streaming
+values. Bedriox remains beta software; successful startup and terrain streaming
 do not establish retail-client support.

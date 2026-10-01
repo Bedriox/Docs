@@ -5,6 +5,8 @@ All notable documentation changes will be recorded here.
 
 ## Unreleased
 
+- Document tameable and neutral animals, horse-family mounts, ownership,
+  sitting, anger, passenger behavior, and their public plugin events.
 - Document the authoritative aquatic capability, initial water-mob roster,
   three-dimensional movement, breathing and stranding, bounded natural
   populations, bucket interactions, persistence, loot, and plugin boundaries.

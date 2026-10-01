@@ -36,7 +36,7 @@ Project website: [bedriox.com](https://bedriox.com)
 
 The [compatibility page](docs/compatibility.md) is authoritative. Automated protocol coverage does not by itself establish retail-client support.
 
-Architecture decisions and proposals are maintained separately in [RFCs](https://github.com/Bedriox/RFCs).
+Architecture decisions relevant to operators and plugin developers are summarized in the [architecture](docs/architecture.md) and [roadmap](docs/roadmap.md) guides.
 
 ## Contributing
 

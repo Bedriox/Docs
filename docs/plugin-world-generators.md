@@ -11,7 +11,7 @@ generators currently use a bounded main-thread fallback because arbitrary
 plugin code is not admitted into core workers.
 
 The decision and acceptance requirements are tracked by
-[RFC 0032](https://github.com/Bedriox/RFCs/blob/main/rfcs/0032-multi-world-lifecycle-teleportation-and-generators.md).
+the [world lifecycle and teleportation guide](worlds-and-teleportation.md).
 
 ## Registry and identity
 

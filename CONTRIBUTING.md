@@ -25,4 +25,4 @@ By contributing, you agree that your contribution is provided under
 GPL-3.0-only, as described in [LICENSE](LICENSE).
 
 Material changes to architecture or policy belong first in
-[RFCs](https://github.com/Bedriox/RFCs).
+the public architecture and roadmap documentation.

@@ -42,11 +42,11 @@ queues.
 ## Land-mob qualification
 
 Canonical catalog identity and client rendering do not by themselves establish
-species support. Cow, sheep, pig, chicken, rabbit, zombie, skeleton, and the
-common-hostile roster documented below have dedicated gameplay
+species support. Cow, sheep, pig, chicken, rabbit, zombie, skeleton, the
+common-hostile roster, and the tameable, neutral, and mount families documented below have dedicated gameplay
 implementations. Other catalog-backed actors remain baseline entity admission,
 not a claim of complete vanilla behavior. See
-[RFC 0031](https://github.com/Bedriox/RFCs/blob/main/rfcs/0031-land-mob-expansion.md)
+[roadmap](roadmap.md)
 for the broader proposed roster and acceptance gates.
 
 The coordinated public API for this development slice uses
@@ -95,6 +95,41 @@ change always clear the relationship and cannot be cancelled.
 
 Mount links are transient. Restarting the server does not restore a player or
 entity as a passenger.
+
+Horse, donkey, mule, camel, llama, trader-llama, skeleton-horse, and
+zombie-horse actors use the same mount registry. Their durable entity state
+retains ownership, temper, saddle state, and age or breeding state where the
+species supports it. Camels expose two seats. Llamas may carry a rider after
+taming but are not directly steered; controllable mounts require a saddle.
+Mounted movement, jumping, collision, dismounting, visibility, and late-join
+actor links remain authoritative.
+
+## Tameable and neutral families
+
+Wolves and cats expose `Tameable` and `Sittable`; wolves additionally expose
+`Angerable`. Ownership is stored as the authenticated player's canonical UUID.
+Bones tame wolves, raw cod or salmon tame cats, and one interaction performs at
+most one action or item consumption. Owners can toggle sitting with an empty
+hand. Sitting suppresses AI movement, while a standing companion follows its
+online owner. A wolf damaged by a non-owner remembers and attacks that player
+for a bounded duration.
+
+`EntityTameEvent` is the cancellable validated intent and `EntityTamedEvent`
+observes the committed owner. `TameableAnimalController` provides bounded
+owner and sitting mutation; `WolfController` also provides anger-target
+mutation. The read-only species contracts and controllers remain independent
+of protocol actor IDs and packet metadata.
+
+Ocelots, foxes, goats, pandas, polar bears, armadillos, mooshrooms, and
+sniffers have dedicated classes, exact identities, durable typed state,
+projection, loot, explicit spawning, and natural spawning where the current
+world can satisfy their rules. Goats and mooshrooms can be milked; mooshrooms
+also fill bowls with stew. Village-, trader-, structure-, and event-owned
+spawns are not guessed by the ordinary natural-spawn table.
+
+Advanced species actions such as fox pouncing and item carrying, goat ramming,
+panda activities, armadillo scute production, mooshroom shearing, sniffer
+digging, and complete mount inventory screens remain later qualified behavior.
 
 The plugin API separates responsibilities explicitly:
 
@@ -327,6 +362,8 @@ The entity event surface includes:
   player, entity, tool, and drops;
 - `EntityBreedEvent` and `EntityBredEvent`: cancellable breeding with bounded
   experience followed by the committed parents and child;
+- `EntityTameEvent` and `EntityTamedEvent`: cancellable ownership intent
+  followed by the committed tameable entity and owner;
 - `EntityExplosionPrimeEvent` and `EntityExplodedEvent`: cancellable and
   adjustable bounded explosion intent followed by the committed radius,
   block policy, fire chance, up to 4,096 unique affected blocks, and up to 256
@@ -390,6 +427,6 @@ continues.
 
 Entity state remains part of world persistence, separate from player profiles.
 Graceful shutdown flushes loaded entity ownership with world data. Complete
-species-specific behavior, bosses, breeding and taming, and the remaining
-projectile families remain later gameplay work; catalog admission or a rendered
-vanilla appearance does not imply those mechanics are complete.
+advanced species behavior, bosses, and the remaining projectile families
+remain later gameplay work; catalog admission or a rendered vanilla appearance
+does not imply those mechanics are complete.

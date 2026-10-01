@@ -137,9 +137,9 @@ handles, lifecycle service, and owner-scoped plugin generator registrar are
 part of API 0.3; cross-world retail qualification remains a release gate and
 the implementation is not a retail compatibility claim.
 
-This is private-alpha behavior and does not establish retail compatibility.
+This is beta behavior and does not establish retail compatibility by itself.
 The cross-repository decision is tracked in
-[RFC 0011](https://github.com/Bedriox/RFCs/blob/main/rfcs/0011-flat-world-configuration-and-streaming.md).
+the [roadmap](roadmap.md).
 
 See the [repository map](repository-map.md) for layer ownership, the
 [change-safety policy](change-safety.md) for preservation rules, and the

@@ -1,6 +1,6 @@
 # Configuration
 
-The private-alpha executable accepts configuration through
+The beta executable accepts configuration through
 `bedriox.settings` and `serve` command options.
 
 ```shell

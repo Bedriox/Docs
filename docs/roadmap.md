@@ -383,7 +383,7 @@ the boundary for later mechanics that invoke them. Tameable, neutral, mount,
 villager, illager, golem, piglin, Nether-ground, and special land families
 remain later cumulative checkpoints. The complete proposed land roster and
 acceptance matrix are tracked by
-[RFC 0031](https://github.com/Bedriox/RFCs/blob/main/rfcs/0031-land-mob-expansion.md).
+[entity and custom-mob guide](entities.md).
 
 Core physics, collision, damage, fire, air, persistence, and network projection
 remain separate from intelligence. The advanced `entities.ai.enabled` setting
@@ -423,7 +423,7 @@ hardening and performance gates above with published reproducible evidence.
 ## Applying the roadmap
 
 Milestone scope or gates may change through the
-[RFC process](https://github.com/Bedriox/RFCs/blob/main/PROCESS.md).
+[contribution process](../CONTRIBUTING.md).
 When that happens, update this roadmap, the relevant testing and compatibility
 pages, and the owning implementation documentation together. The
 [testing guide](testing.md) contains the shared client-journey and performance

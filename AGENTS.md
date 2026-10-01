@@ -16,10 +16,9 @@ every change in this repository.
 - Root policy files cover contribution, governance, conduct, security,
   licensing, notices, and release history.
 
-Do not put architectural proposals or decision records here. Those belong in
-the [Bedriox RFC repository](https://github.com/Bedriox/RFCs). This
-repository describes supported behavior, operational guidance, and clearly
-labelled future direction.
+Do not put internal decision records here. This repository describes supported
+behavior, operational guidance, public architecture, and clearly labelled
+future direction.
 
 ## Writing standards
 
