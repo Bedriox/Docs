@@ -5,6 +5,9 @@ All notable documentation changes will be recorded here.
 
 ## Unreleased
 
+- Document the authoritative aquatic capability, initial water-mob roster,
+  three-dimensional movement, breathing and stranding, bounded natural
+  populations, bucket interactions, persistence, loot, and plugin boundaries.
 - Document dedicated common hostile species, climbing, ranged status attacks,
   creeper explosions, slime-family sizes and splitting, typed hostile events,
   and their bounded spawning and persistence behavior.

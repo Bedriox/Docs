@@ -141,6 +141,48 @@ provide their required context. Nether-only, structure-only,
 infestation-created, and transformation-created mobs remain explicit spawns
 until those systems can supply that context.
 
+## Aquatic mobs
+
+Cod, salmon, tropical fish, pufferfish, squid, glow squid, dolphins, turtles,
+axolotls, drowned, and guardians use registered built-in definitions rather
+than packet-only actors. Their movement is three-dimensional in loaded water,
+while the ordinary swept collision resolver prevents movement through solid
+terrain. Missing chunks stop movement and never trigger synchronous terrain
+generation.
+
+Swim headings are retained and revalidated against the loaded water volume.
+Surface swimmers steer back into navigable water, water-only mobs stop their
+own propulsion when displaced onto land, and amphibious mobs use horizontal
+ground navigation outside water. Ordinary land-mob AI treats nearby water as
+undesirable terrain, while mobs pushed or dropped underwater still consume
+their bounded air supply and take cancellable drowning damage after it expires.
+
+The public `Aquatic` capability exposes whether an entity breathes underwater,
+whether it depends on water, and its current and maximum air supply. Air loss,
+recovery, dry time, drowning or stranding damage, death, drops, and removal are
+owned by the simulation. Damage remains visible to the ordinary cancellable
+entity-damage event before it commits.
+
+Passive water mobs use a separate bounded `WATER` population category.
+Drowned and guardians remain monsters, so peaceful difficulty and hostile
+population rules continue to apply. Natural water spawning requires a loaded,
+stable, collision-free water position and remains constrained by world and
+local caps, player distance, attempt count, and elapsed-time budgets.
+
+Supported fish and axolotls can be captured with a water bucket and released
+from their filled bucket. Capture first passes through the ordinary
+`EntityInteractEvent`; release uses `SpawnCause::BUCKET` and the normal spawn
+event, persistence, visibility, and capacity boundaries. Spawn eggs,
+`/summon`, plugin spawning, natural spawning, and chunk restoration use the
+same definitions and controllers.
+
+Turtles accept seagrass and axolotls accept tropical-fish buckets through the
+shared breeding lifecycle. Species drops use the same once-evaluated,
+catalog-validated loot pipeline and remain adjustable through
+`EntityDeathEvent`. Species-specific variants, turtle nesting, dolphin
+treasure guidance, and the guardian beam presentation are not claimed as
+complete vanilla parity in this slice.
+
 ## Register a custom mob
 
 Register custom definitions while the plugin is enabled. Identifiers must be

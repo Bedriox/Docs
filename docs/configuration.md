@@ -180,6 +180,10 @@ spawning only. Spawn eggs, `/summon`, and plugin-created entities remain
 available when a category is disabled. `difficulty=peaceful` prevents natural
 monster spawning regardless of `spawn-monsters`.
 
+`spawn-animals` also controls passive water populations. Aquatic animals use a
+separate bounded water cap and local-density limit internally; drowned and
+guardians remain controlled by `spawn-monsters` and difficulty.
+
 The advanced `bedriox.settings` file contains:
 
 ```properties
