@@ -4,6 +4,9 @@ All notable documentation changes will be recorded here.
 
 ## Unreleased
 
+- Document dedicated common hostile species, climbing, ranged status attacks,
+  creeper explosions, slime-family sizes and splitting, typed hostile events,
+  and their bounded spawning and persistence behavior.
 - Document common cow, sheep, pig, chicken, and rabbit breeding, interactions,
   persistence, natural spawning, plugin events, and organized entity API
   namespaces.

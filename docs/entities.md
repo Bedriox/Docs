@@ -42,20 +42,10 @@ queues.
 ## Land-mob qualification
 
 Canonical catalog identity and client rendering do not by themselves establish
-species support. Cow and zombie are the currently specialized reference animal
-and monster. The next land-mob slice is sheep and skeleton: sheep qualifies
-durable animal variants and authoritative shearing, while skeleton qualifies
-ranged hostile decisions through the existing projectile runtime. Until the
-owning implementation, tests, and release notes identify that slice as
-complete, plugins must treat other catalog-backed actors as baseline entity
-admission rather than complete vanilla behavior.
-
-The planned sheep gate covers adult and baby state, wool color, sheared state,
-dyeing, shearing, wool drops, grazing and regrowth, temptation, breeding,
-persistence, metadata, and natural spawning. The planned skeleton gate covers
-targeting, line of sight, pursuit, bow equipment, authoritative arrows, attack
-cadence, daylight combustion, helmet wear, drops, persistence, multiplayer
-projection, and natural spawning. See
+species support. Cow, sheep, pig, chicken, rabbit, zombie, skeleton, and the
+common-hostile roster documented below have dedicated gameplay
+implementations. Other catalog-backed actors remain baseline entity admission,
+not a claim of complete vanilla behavior. See
 [RFC 0031](https://github.com/Bedriox/RFCs/blob/main/rfcs/0031-land-mob-expansion.md)
 for the broader proposed roster and acceptance gates.
 
@@ -66,8 +56,7 @@ The coordinated public API for this development slice uses
 `isBaby()`, `isSheared()`, and `getWoolColor()`; `SheepController` provides
 bounded `setBaby()`, `setSheared()`, and `setWoolColor()` intents using the
 typed `WoolColor` enum. Skeleton implements `Monster`, `Undead`, and
-`RangedMob` and uses the ordinary mob controller. These names do not establish
-release support until the implementation and qualification gates above pass.
+`RangedMob` and uses the ordinary mob controller.
 
 ## Common passive animals
 
@@ -98,6 +87,40 @@ The plugin API separates responsibilities explicitly:
 Spawn eggs, `/summon`, natural spawning, chunk unload/reload, and restart all
 use the same exact definitions and persistence codecs. Catalog presence alone
 still does not qualify any other species.
+
+## Common hostile mobs
+
+The dedicated common-hostile roster is husk, zombie villager, stray, bogged,
+parched, wither skeleton, spider, cave spider, creeper, slime, magma cube,
+enderman, endermite, silverfish, and witch. Each has an exact
+`VanillaEntityType` case, read-only species contract, built-in implementation,
+dimensions, health, spawn-egg identity, multiplayer projection, persistence
+path, and loot behavior.
+
+Spiders and cave spiders implement `Climbing`; other living entities do not
+advertise climbing. Slimes and magma cubes expose the finite `SlimeSize`
+values `SMALL`, `MEDIUM`, and `LARGE`. Their dimensions, health, network
+variant, persistence, and bounded death splitting follow that value. Creepers
+expose charged, ignited, and fuse state and use a loaded-terrain-only bounded
+explosion planner. Endermen take water damage. Magma cubes are fire-immune.
+
+`CreeperController` extends ordinary mob control with `setCharged()` and
+`setIgnited()`. It remains bounded, availability-checked, and owner-attributed
+like the rest of the entity API. Enderman carried-block mutation remains
+withheld until its canonical state can be projected exactly to the client.
+
+Ranged special attacks use the existing authoritative projectile runtime:
+strays and bogged launch their supported tipped arrows, witches launch splash
+potions, and cave-spider melee applies difficulty-sensitive poison. Daylight,
+equipment, damage, effects, drops, death, and removal still pass through the
+ordinary entity authority and event boundaries.
+
+Natural hostile spawning retains the shared regional cap, local-density limit,
+cadence, loaded-terrain checks, fair budget, and distance-despawn ownership.
+The natural table includes only species whose current world and environment
+provide their required context. Nether-only, structure-only,
+infestation-created, and transformation-created mobs remain explicit spawns
+until those systems can supply that context.
 
 ## Register a custom mob
 
@@ -243,6 +266,18 @@ The entity event surface includes:
   player, entity, tool, and drops;
 - `EntityBreedEvent` and `EntityBredEvent`: cancellable breeding with bounded
   experience followed by the committed parents and child;
+- `EntityExplosionPrimeEvent` and `EntityExplodedEvent`: cancellable and
+  adjustable bounded explosion intent followed by the committed radius,
+  block policy, fire chance, up to 4,096 unique affected blocks, and up to 256
+  affected actors; the adjustable radius cannot exceed 16 blocks;
+- `EntitySplitEvent`: cancellable size-family splitting with an adjustable
+  child count bounded from 1 through 16;
+- `EntityTransformEvent` and `EntityTransformedEvent`: cancellable and
+  adjustable canonical replacement intent followed by the committed original,
+  replacement, and typed reason;
+- `EntityBlockChangeEvent` and `EntityBlockChangedEvent`: cancellable and
+  adjustable same-position block replacement intent followed by the committed
+  blocks and typed reason;
 - `EntityDeathEvent`: non-cancellable death observation with the last damage
   event and a bounded, replaceable drop list;
 - `ProjectileLaunchEvent` and `ProjectileLaunchedEvent`: cancellable launch
@@ -254,6 +289,11 @@ The entity event surface includes:
 Cancellation rejects the requested mutation through the authoritative path; it
 does not bypass validation or grant direct access to actor packets. Post-events
 are observational, and `MONITOR` listeners remain read-only.
+
+The common-hostile runtime currently emits the explosion and split events.
+The transform and entity-owned block-change pairs establish the public boundary
+for mechanics that invoke them; their presence does not by itself claim zombie
+curing, enderman block movement, or another unimplemented transformation.
 
 ```php
 use Bedriox\Api\Event\Entity\EntityInteractEvent;

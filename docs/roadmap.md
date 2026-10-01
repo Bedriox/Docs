@@ -372,16 +372,17 @@ Mob behavior is divided into six cumulative gates:
    golems, aquatic and flying mobs, Nether families, bosses, and other
    current-version exceptions.
 
-The first land-mob expansion slice pairs sheep with skeleton. Sheep proves
-typed age, breeding, shearing, wool-color state, persistence, interaction, and
-passive spawning. Skeleton proves target-reason changes, ranged decisions,
-entity-owned projectile launch, daylight equipment wear, persistence, and
-hostile spawning. Public names are fixed through `Ageable`, `Breedable`,
-`Shearable`, `RangedMob`, `WoolColor`, `SheepController`, the dedicated sheep
-and skeleton views, and the typed target and shear event pairs. Broader
-breeding, transformation, block-change, explosion, and mount APIs remain
-deferred until their owning mechanics exist. The complete proposed land roster
-and cumulative acceptance matrix are tracked by
+The first land-mob expansion checkpoints qualify sheep and skeleton, common
+passive animals, and the common hostile families. The hostile checkpoint adds
+dedicated zombie and skeleton variants, spiders, creepers, slimes, magma cubes,
+endermen, endermites, silverfish, and witches with bounded explosions,
+climbing, ranged status attacks, size splitting, natural spawning, loot,
+projection, and persistence. Typed explosion and split events are connected to
+their built-in mechanics; transform and entity-owned block-change pairs define
+the boundary for later mechanics that invoke them. Tameable, neutral, mount,
+villager, illager, golem, piglin, Nether-ground, and special land families
+remain later cumulative checkpoints. The complete proposed land roster and
+acceptance matrix are tracked by
 [RFC 0031](https://github.com/Bedriox/RFCs/blob/main/rfcs/0031-land-mob-expansion.md).
 
 Core physics, collision, damage, fire, air, persistence, and network projection
