@@ -77,6 +77,25 @@ wheat, wool, dyeing, shearing, and grazing behavior on the shared lifecycle.
 Adult death drops, baby suppression, burning conversions, saddle returns, and
 species variants are server-owned.
 
+## Riding and passengers
+
+Adult saddled pigs are rideable. Interact with a saddled pig to mount it, hold
+a carrot on a stick to steer, and use the ordinary client dismount control to
+leave it. Movement, collision, seat ownership, and dismount placement remain
+server-authoritative. Nearby players and players who join later receive the
+same vehicle relationship.
+
+Plugins can inspect `Entity::getVehicle()`, `Entity::getPassengers()`,
+`Player::getVehicle()`, and `Player::isRiding()`. A live player can request a
+bounded transition with `Player::mount()` or `Player::dismount()`. The typed
+pre-events `EntityMountEvent` and `EntityDismountEvent` are cancellable for
+ordinary interaction and plugin requests; their past-tense counterparts
+observe successful commits. Death, despawn, disconnect, teleport, and world
+change always clear the relationship and cannot be cancelled.
+
+Mount links are transient. Restarting the server does not restore a player or
+entity as a passenger.
+
 The plugin API separates responsibilities explicitly:
 
 - `Api\Entity\Vanilla` contains read-only species contracts;

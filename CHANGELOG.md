@@ -1,5 +1,6 @@
 # Changelog
 
+- Documented authoritative saddled-pig riding, plugin mount APIs and events, multiplayer passenger synchronization, and lifecycle cleanup.
 All notable documentation changes will be recorded here.
 
 ## Unreleased
