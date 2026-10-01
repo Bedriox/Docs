@@ -69,6 +69,36 @@ typed `WoolColor` enum. Skeleton implements `Monster`, `Undead`, and
 `RangedMob` and uses the ordinary mob controller. These names do not establish
 release support until the implementation and qualification gates above pass.
 
+## Common passive animals
+
+Cow, sheep, pig, chicken, and rabbit now use one authoritative age and
+breeding lifecycle. Adults can be tempted and bred with their species food;
+babies inherit their species identity, grow on a bounded timer, and accept a
+growth boost from the same food. A successful breeding commit creates one
+baby, places both parents on cooldown, and awards a bounded experience result.
+`EntityBreedEvent` may cancel the child or adjust that experience before the
+spawn, while `EntityBredEvent` observes the committed parents and child.
+
+Cows accept wheat and fill a held bucket with milk. Pigs accept carrots,
+potatoes, and beetroot and retain saddle state. Chickens accept the supported
+seed families, fall slowly, and lay eggs on a durable bounded timer. Rabbits
+accept carrots, golden carrots, and dandelions, retain a typed
+`RabbitVariant`, and use hopping ground movement. Sheep keep their existing
+wheat, wool, dyeing, shearing, and grazing behavior on the shared lifecycle.
+Adult death drops, baby suppression, burning conversions, saddle returns, and
+species variants are server-owned.
+
+The plugin API separates responsibilities explicitly:
+
+- `Api\Entity\Vanilla` contains read-only species contracts;
+- `Api\Entity\Capability` contains reusable markers and state contracts;
+- `Api\Entity\Controller` contains staged mutation gateways; and
+- concrete built-in entity classes remain internal under `Server\Entity\Vanilla`.
+
+Spawn eggs, `/summon`, natural spawning, chunk unload/reload, and restart all
+use the same exact definitions and persistence codecs. Catalog presence alone
+still does not qualify any other species.
+
 ## Register a custom mob
 
 Register custom definitions while the plugin is enabled. Identifiers must be
@@ -211,6 +241,8 @@ The entity event surface includes:
 - `EntityShearEvent` and `EntityShearedEvent`: cancellable validated shearing
   with a bounded replaceable drop list, followed by the immutable committed
   player, entity, tool, and drops;
+- `EntityBreedEvent` and `EntityBredEvent`: cancellable breeding with bounded
+  experience followed by the committed parents and child;
 - `EntityDeathEvent`: non-cancellable death observation with the last damage
   event and a bounded, replaceable drop list;
 - `ProjectileLaunchEvent` and `ProjectileLaunchedEvent`: cancellable launch

@@ -4,6 +4,9 @@ All notable documentation changes will be recorded here.
 
 ## Unreleased
 
+- Document common cow, sheep, pig, chicken, and rabbit breeding, interactions,
+  persistence, natural spawning, plugin events, and organized entity API
+  namespaces.
 - Clarified the sheep and skeleton land-mob qualification plan and documented
   the implemented entity equipment, death-drop, and projectile event pairs.
 - Document authoritative processing stations, persistent and transient station
