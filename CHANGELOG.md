@@ -5,6 +5,9 @@ All notable documentation changes will be recorded here.
 
 ## Unreleased
 
+- Expand the public roadmap with the post-beta sequence for stabilization,
+  redstone and automation, richer worlds, settlements, dimensions,
+  transportation, custom content, encounters, and production qualification.
 - Document tameable and neutral animals, horse-family mounts, ownership,
   sitting, anger, passenger behavior, and their public plugin events.
 - Document the authoritative aquatic capability, initial water-mob roster,

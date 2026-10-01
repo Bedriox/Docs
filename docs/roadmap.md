@@ -276,14 +276,48 @@ teleportation, typed entity runtime, persistence, natural spawning, and staged
 mob behavior are also present. Remaining gameplay work follows this dependency
 order:
 
-1. automation and redstone systems that move or process items without an
-   active player;
-2. advanced terrain structures, decoration, and complete environmental
-   movement such as swimming and breathing;
-3. complete species-specific entity behavior and remaining projectile families;
-   and
-4. measurement-driven profiling and scaling after realistic workloads show
-   where additional caching or worker isolation is justified.
+1. stabilize the public beta across installation, upgrades, supported clients,
+   plugins, worlds, and recovery paths;
+2. add redstone and automation that can power blocks, move items, operate
+   processing stations, and build persistent machines;
+3. deepen world generation, structures, decoration, swimming, currents, and
+   environmental block behavior;
+4. complete villagers, professions, trading, settlements, golems, patrols,
+   illagers, and raids;
+5. add Nether and End dimensions with portals, generation, travel, spawning,
+   structures, and dimension-specific rules;
+6. complete boats, minecarts, rail transportation, and remaining projectile
+   gameplay;
+7. support resource packs and plugin-defined client content through stable
+   custom item, block, entity, sound, and particle boundaries;
+8. qualify bosses and other stateful world encounters; and
+9. repeat production profiling and long-running qualification across the
+   completed systems before stable release claims.
+
+### Post-beta development milestones
+
+The public beta is the foundation for these milestones, not a claim that they
+are already available. Their order may adjust when compatibility findings or
+player testing expose a dependency, but each completed milestone must preserve
+existing worlds, multiplayer authority, plugin isolation, and bounded server
+work.
+
+Redstone and automation will make farms, sorting systems, powered builds, and
+automatic processing possible. Advanced world work will focus on more coherent
+structures and decoration alongside natural movement through water and other
+environments. Settlement gameplay will then connect villagers, professions,
+trading, reputation, golems, patrols, and raids into persistent worlds.
+
+Dimension work will introduce complete Nether and End environments and safe
+portal travel. Transportation will add boats, minecarts, rail behavior, and the
+remaining projectile journeys. Custom-content support will let plugins provide
+the resources needed for original blocks, items, entities, sounds, and visual
+effects without depending on internal protocol details.
+
+Bosses and special encounters will build on those worlds, entities, effects,
+and structures. Performance qualification continues throughout development and
+finishes with sustained mixed workloads, upgrade testing, and recovery testing
+before stable compatibility is declared.
 
 The complete block-and-item milestone begins with an accepted, deterministic
 current-version data bundle and full creative-catalog projection. Data admits
