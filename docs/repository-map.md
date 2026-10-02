@@ -12,7 +12,7 @@ in the repository that owns its state and invariants.
 | Data | Immutable admitted artifacts, canonical states, palettes, hashes, and source-neutral indexed views | Runtime downloads or mutable server state |
 | Docs | Supported operator and ecosystem-developer behavior | Unimplemented promises or architectural decisions |
 | RFCs | Decisions, alternatives, consequences, and acceptance criteria | Claims that a feature is already supported |
-| ExamplePlugin | Tested first-party API 0.3 examples | Server internals or unreleased APIs |
+| ExamplePlugin | Tested first-party API 0.4 examples | Server internals or unreleased APIs |
 | PluginTools | Development source discovery and loading, `makeplugin`, and bounded standalone PHAR packaging | Native PHAR admission, plugin lifecycle, or server command dispatch |
 
 The dependency direction is one-way: the Bedriox executable consumes RakNet,

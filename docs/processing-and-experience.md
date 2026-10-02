@@ -56,7 +56,7 @@ cannot create an orb, choose its value, or award itself experience. Collection
 removes or reduces the orb and changes player experience as one authoritative
 transition.
 
-API 0.3 exposes `Player::getExperience()`. Its generation-bound manager returns
+API 0.4 exposes `Player::getExperience()`. Its generation-bound manager returns
 an immutable snapshot with total points, derived level, and progress, and
 accepts bounded `setTotalPoints()`, `addPoints()`, and `removePoints()` requests.
 Retaining a player snapshot does not grant authority over a later connection.
@@ -97,7 +97,7 @@ experience bounds, revision checks, or the all-or-nothing commit.
 The public values use canonical item identifiers, typed station kinds, block
 positions, immutable item stacks, and typed causes. They do not expose numeric
 wire IDs, mutable block entities, window IDs, stack-network IDs, scheduler
-entries, or recipe storage internals. See [plugins and API 0.3](plugins.md) and
+entries, or recipe storage internals. See [plugins and API 0.4](plugins.md) and
 the tested [ExamplePlugin](https://github.com/Bedriox/ExamplePlugin).
 
 ## Data boundary

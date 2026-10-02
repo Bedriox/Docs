@@ -1,4 +1,4 @@
-# Plugins and API 0.3
+# Plugins and API 0.4
 
 Bedriox loads trusted in-process PHP plugins from strongly signed PHAR files.
 Bedriox itself discovers only files named `*.phar` directly inside `plugins/`.
@@ -108,7 +108,7 @@ Every archive root contains `plugin.json` and `src/`:
   "schema": 1,
   "name": "ExamplePlugin",
   "version": "0.1.0",
-  "api": "^0.3",
+  "api": "^0.4",
   "main": "Bedriox\\ExamplePlugin\\Main",
   "namespace": "Bedriox\\ExamplePlugin",
   "authors": ["Bedriox Team"],
@@ -122,6 +122,32 @@ Names and dependency names begin with an uppercase ASCII letter and contain
 only letters, digits, or underscores. `main` must belong to `namespace`.
 `load` is `STARTUP` or `WORLD_READY`. Required dependencies must be present and
 enable first; present soft dependencies influence ordering but are optional.
+
+## Resources, configuration, and logging
+
+Place packaged defaults under `resources/`. PHAR plugins and source projects
+loaded by PluginTools receive the same bounded, read-only resource catalog.
+Plugin data is stored under the plugin's own `plugin_data/<PluginName>/`
+directory:
+
+```php
+$data = $this->context()->data();
+$data->saveResource('config.yml');
+$config = $data->config();
+
+$enabled = $config->getBool('join.enabled', true);
+$config->set('join.enabled', false);
+$config->save();
+```
+
+`saveResource()` preserves an existing administrator-edited file unless
+`replace: true` is supplied. `saveResources()` copies every admitted default.
+`config()` accepts YAML, YML, and JSON files and provides dot-separated lookup,
+typed getters, bounded mutation, save, and reload. `path()` exposes the
+canonical plugin-owned directory for plugins that manage another format.
+
+The plugin logger labels every line with the plugin name and supports debug,
+info, notice, warning, error, and critical levels.
 
 ## Lifecycle
 
@@ -145,9 +171,14 @@ returns `void`:
 #[EventHandler]
 public function onJoin(PlayerJoinEvent $event): void
 {
-    $event->player->sendMessage('Welcome');
+    $event->setJoinMessage($event->player->name . ' joined this server');
 }
 ```
+
+The join event is a non-cancellable presentation boundary after admission has
+committed. Its message may be replaced with raw or translated text, or set to
+`null` to suppress the public announcement. Changing worlds does not publish a
+new server-join announcement.
 
 No priority argument means `EventPriority::NORMAL`. Dispatch order is
 `LOWEST`, `LOW`, `NORMAL`, `HIGH`, `HIGHEST`, then `MONITOR`; registration
@@ -292,9 +323,9 @@ boundary.
 
 ## Safe public API
 
-API 0.3 provides immutable `Player`, `World`, `Position`, `BlockPosition`,
+API 0.4 provides immutable `Player`, `World`, `Position`, `BlockPosition`,
 `Block`, `Inventory`, and `ItemStack` values. `PluginContext::server()` is the
-global discovery surface: `getWorldManager()`, `getOnlinePlayers()`,
+global discovery surface: `broadcastMessage()`, `getWorldManager()`, `getOnlinePlayers()`,
 `getPlayerByUuid()`, and exact case-insensitive `getPlayerByName()`.
 Authoritative behavior belongs to the object it affects:
 
@@ -304,6 +335,7 @@ use Bedriox\Api\World\BlockPosition;
 use Bedriox\Api\World\Position;
 
 $server = $this->context()->server();
+$server->broadcastMessage('Server restart soon');
 $player = $server->getPlayerByName('ExamplePlayer');
 if ($player !== null) {
     $player->sendMessage('Welcome');
@@ -425,11 +457,11 @@ failure follows normal plugin failure isolation. See
 Plugins do not receive sockets, packets, encryption state, mutable registries,
 internal queues, protocol stack IDs, or process-local block IDs. Mutations are
 revalidated and staged while a listener runs. Marketplace distribution and a
-security sandbox are not part of API 0.3.
+security sandbox are not part of API 0.4.
 
 ## World lifecycle and generators
 
-`Server::getWorldManager()` returns the API 0.3 `WorldManager`. It provides
+`Server::getWorldManager()` returns the API 0.4 `WorldManager`. It provides
 constant-time loaded-world lookup plus queued create, load, save, and unload
 operations through lightweight world handles. It does not expose the heavy
 world runtime, LevelDB provider, mutable chunks, or internal queues.

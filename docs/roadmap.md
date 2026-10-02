@@ -256,7 +256,7 @@ performance improvement.
 Core does not add a `/world` command; plugins own administration and access
 policy. See [worlds and teleportation](worlds-and-teleportation.md) and
 [plugin world generators](plugin-world-generators.md). The public lifecycle
-surface and plugin registrar are implemented in API 0.3; this section does not
+surface and plugin registrar are implemented in API 0.4; this section does not
 claim qualified retail support.
 
 ### Remaining milestone order

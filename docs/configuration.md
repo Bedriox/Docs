@@ -156,7 +156,7 @@ loaded before any missing coordinate is generated.
 
 These `level.*` keys select the one startup default world. They are not a
 global template for plugin-created worlds. Additional worlds created through
-API 0.3 receive their generator, seed, display name, difficulty, time, and
+API 0.4 receive their generator, seed, display name, difficulty, time, and
 optional spawn through creation options described in
 [worlds and teleportation](worlds-and-teleportation.md). Cross-world retail
 qualification remains open.

@@ -184,6 +184,6 @@ A command must return promptly. Bounded external work may implement
 cooperatively and cancels them when their owner disables, but the plugin still
 owns task-specific timeouts, process cleanup, and output limits.
 
-See [plugins and API 0.3](plugins.md) for lifecycle and PluginTools packaging.
+See [plugins and API 0.4](plugins.md) for lifecycle and PluginTools packaging.
 The [ExamplePlugin](https://github.com/Bedriox/ExamplePlugin) demonstrates safe
 console/player sender discrimination without mutating gameplay state.

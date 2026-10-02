@@ -1,5 +1,8 @@
 # Changelog
 
+- Documented plugin API 0.4 resources, YAML and JSON configuration, named
+  logging, join announcements, and global broadcasts.
+
 - Documented authoritative saddled-pig riding, plugin mount APIs and events, multiplayer passenger synchronization, and lifecycle cleanup.
 All notable documentation changes will be recorded here.
 

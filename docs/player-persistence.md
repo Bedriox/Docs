@@ -47,7 +47,7 @@ The multi-world lifecycle retains the same stored world ID, position,
 and rotation. A saved non-default destination will be restored only when a
 plugin has already loaded that world. Login will not block while implicitly
 opening a world from a player record. See
-[worlds and teleportation](worlds-and-teleportation.md). This API 0.3 behavior
+[worlds and teleportation](worlds-and-teleportation.md). This API 0.4 behavior
 is implemented, while cross-world retail and restart qualification remains
 open.
 

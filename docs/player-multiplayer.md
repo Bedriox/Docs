@@ -169,8 +169,8 @@ behavior, automation system, or item-specific vanilla behavior. Crafting is
 documented in [crafting](crafting.md), processing in
 [processing stations and experience](processing-and-experience.md), and storage
 in [storage containers](storage-containers.md). Commands are documented separately in
-[commands](commands.md). Experimental plugin API 0.3 is documented in
-[plugins and API 0.3](plugins.md). The server owns persistent LevelDB worlds
+[commands](commands.md). Experimental plugin API 0.4 is documented in
+[plugins and API 0.4](plugins.md). The server owns persistent LevelDB worlds
 using the selected deterministic `default` or `flat` generator. See
 [known limitations](known-limitations.md) and [compatibility](compatibility.md)
 for the public support boundary.

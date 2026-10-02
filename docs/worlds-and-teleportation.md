@@ -1,6 +1,6 @@
 # Worlds and teleportation
 
-> **Experimental API 0.3:** These interfaces exist in the current development
+> **Experimental API 0.4:** These interfaces exist in the current development
 > implementation, but Bedriox has not completed cross-world retail
 > qualification. This page describes the public API contract, not a retail
 > compatibility claim.
@@ -100,7 +100,7 @@ Bedriox command or a compatibility promise.
 
 ## Lifecycle events
 
-API 0.3 exposes validated pre-events and committed post-events:
+API 0.4 exposes validated pre-events and committed post-events:
 
 - `WorldCreateEvent` and `WorldCreatedEvent`;
 - `WorldLoadEvent` and `WorldLoadedEvent`;
@@ -197,7 +197,7 @@ looked up through another world's runtime or cache.
 
 ## Qualification boundary
 
-API 0.3 and the current implementation include multi-world lifecycle,
+API 0.4 and the current implementation include multi-world lifecycle,
 world-aware positions, and cross-world teleportation. The public compatibility
 arrays remain empty, and repeatable cross-world retail, restart, loss, soak,
 and scale qualification remains outstanding. See

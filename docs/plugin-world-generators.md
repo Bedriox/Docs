@@ -1,6 +1,6 @@
 # Plugin world generators
 
-> **Experimental API 0.3:** The owner-scoped generator registrar exists in the
+> **Experimental API 0.4:** The owner-scoped generator registrar exists in the
 > current development implementation. Generator and cross-world retail
 > qualification remains open, so this contract is not a retail compatibility
 > claim.
@@ -142,7 +142,7 @@ chunk. Qualification covers:
 - multiplayer chunk visibility and block persistence; and
 - sustained generation without violating the established 20 TPS budget.
 
-Until those gates pass, this API 0.3 surface is not a retail support claim.
+Until those gates pass, this API 0.4 surface is not a retail support claim.
 Operators should continue using the
 built-in `default` or `flat` setting documented in
 [configuration](configuration.md) for production-like qualification.

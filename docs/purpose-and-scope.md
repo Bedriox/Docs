@@ -34,9 +34,9 @@ This scope is a development boundary, not a retail compatibility claim. The auth
 Additional dimensions, additional projectile families,
 complete species-specific mob behavior, and broad version compatibility remain
 later capabilities.
-Experimental plugin API 0.3
+Experimental plugin API 0.4
 provides the bounded plugin, event, scheduler, item-behavior, and command
-surfaces documented in [plugins and API 0.3](plugins.md) and
+surfaces documented in [plugins and API 0.4](plugins.md) and
 [commands](commands.md). Future capabilities should be added
 behind owned interfaces and measured needs rather than coupled to transport
 callbacks or unchecked packet data.

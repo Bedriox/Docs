@@ -80,7 +80,7 @@ The cancellable `PlayerCraftItemEvent` runs only after the request, active
 container, recipe, stack lineage, inputs, outputs, repetitions, and capacity
 have passed core validation. Cancelling it leaves every authoritative slot
 unchanged. `PlayerCraftedItemEvent` observes a committed craft and cannot change
-the result. See [plugins and API 0.3](plugins.md) and the tested
+the result. See [plugins and API 0.4](plugins.md) and the tested
 [ExamplePlugin](https://github.com/Bedriox/ExamplePlugin) for the concrete API.
 
 ## Retail test checklist

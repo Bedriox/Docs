@@ -134,7 +134,7 @@ lifecycle validation before installation. See
 [worlds and teleportation](worlds-and-teleportation.md) and
 [plugin world generators](plugin-world-generators.md). The public world
 handles, lifecycle service, and owner-scoped plugin generator registrar are
-part of API 0.3; cross-world retail qualification remains a release gate and
+part of API 0.4; cross-world retail qualification remains a release gate and
 the implementation is not a retail compatibility claim.
 
 This is beta behavior and does not establish retail compatibility by itself.

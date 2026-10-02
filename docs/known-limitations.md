@@ -46,12 +46,11 @@ The current executable is a narrow experimental server foundation, not a general
   explicit spawning, entity persistence, bounded natural populations, staged
   mob decisions, and owner-scoped custom mobs. Complete species-specific
   vanilla behavior, breeding and taming, bosses, remaining projectile families,
-  and persistent arbitrary plugin data remain
-  unavailable. Typed effect state, events, synchronization, persistence, and
+  remain unavailable. Typed effect state, events, synchronization, persistence, and
   the currently implemented mechanics are described in
   [effects and particles](effects-and-particles.md). See also
   [entities and custom mobs](entities.md) and
-  [plugins and API 0.3](plugins.md).
+  [plugins and API 0.4](plugins.md).
 - Multiplayer actor join, movement, posture, chat, departure, and reconnect
   have automated coverage, but the repeatable two-client retail checklist,
   longer soak, loss, scale, and memory-recovery gates remain open.
